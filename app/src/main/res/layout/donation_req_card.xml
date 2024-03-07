@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="18dp"
+    android:layout_margin="5dp"
     app:cardCornerRadius="8dp"
     app:cardElevation="4dp">
 
@@ -21,6 +21,7 @@
             android:textColor="#000000"
             android:text="User ID"
             android:textStyle="bold"
+            android:layout_marginBottom="5dp"
             android:textSize="16sp" />
 
         <TextView
@@ -50,28 +51,37 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/donatedButton"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_height="40dp"
+                android:layout_weight="0.8"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/round_theme"
+                android:textSize="13sp"
                 android:text="Donated!" />
 
             <Button
                 android:id="@+id/absentButton"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_height="40dp"
+                android:layout_weight="0.8"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/round_theme_grey"
                 android:gravity="center"
+                android:textSize="13sp"
                 android:text="Absent" />
 
             <Button
                 android:id="@+id/deleteRequestButton"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_height="40dp"
+                android:background="@drawable/round_theme_red"
+                android:layout_weight="0.8"
+                android:textSize="13sp"
                 android:text="Delete " />
         </LinearLayout>
 

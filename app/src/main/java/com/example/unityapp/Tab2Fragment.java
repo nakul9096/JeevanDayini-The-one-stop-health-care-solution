@@ -20,17 +20,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class Tab2Fragment extends Fragment {
-    Button bt1, bt2, bt3, bt4, bt5, bt6, btnew, btnotify;
+    Button bt2, bt3, bt4, bt5, bt6, btnew, btnotify;
     private String retrievedFullName;
     private CustomLoadingBar loadingBar;
     private static final String PREFS_NAME2 = "ProfileData";
     public Tab2Fragment() {
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_tab2, container, false);
-        bt1 = rootView.findViewById(R.id.btn1);
         bt2 = rootView.findViewById(R.id.btn2);
         bt3 = rootView.findViewById(R.id.btn3);
         bt5 = rootView.findViewById(R.id.btn5);
@@ -39,13 +37,6 @@ public class Tab2Fragment extends Fragment {
         bt4 = rootView.findViewById(R.id.btn4);
         loadingBar = new CustomLoadingBar(getActivity());
         btnotify = rootView.findViewById(R.id.btnNotify);
-        bt1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), PaymentPage.class);
-                startActivity(intent);
-            }
-        });
         btnotify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -181,7 +172,6 @@ public class Tab2Fragment extends Fragment {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Handle error
                 hideLoadingIndicator();
                 Toast.makeText(getActivity(), "Error checking data in the database", Toast.LENGTH_SHORT).show();
             }

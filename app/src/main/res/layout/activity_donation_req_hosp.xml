@@ -23,7 +23,7 @@
             android:textStyle="bold" />
 
         <ImageView
-            android:id="@+id/refreshImageView8"
+            android:id="@+id/refreshImageView80"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentTop="true"
@@ -34,37 +34,34 @@
 
         <!-- Progress Bar -->
         <ProgressBar
-            android:id="@+id/loadingProgressBar8"
+            android:id="@+id/loadingProgressBar80"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/refreshImageView8"
+            android:layout_below="@id/refreshImageView80"
             android:layout_centerInParent="true"
             android:visibility="visible" />
-
-
         <!-- User Cards (Dynamically added here) -->
         <LinearLayout
             android:id="@+id/namesLayout80"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/refreshImageView8"
+            android:layout_below="@id/refreshImageView80"
             android:orientation="vertical">
             <!-- User cards will be dynamically added here -->
         </LinearLayout>
         <!-- Add this TextView below the ProgressBar in your RelativeLayout -->
         <TextView
-            android:id="@+id/noRequestsTextView"
+            android:id="@+id/noRequestsTextView80"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/loadingProgressBar8"
+            android:layout_below="@id/loadingProgressBar80"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
-            android:text="No approval requests available right now!"
+            android:text="No requests available right now!"
             android:textColor="@android:color/white"
             android:textSize="18sp"
             android:textStyle="bold"
             android:visibility="gone" />
     </RelativeLayout>
-
 </ScrollView>

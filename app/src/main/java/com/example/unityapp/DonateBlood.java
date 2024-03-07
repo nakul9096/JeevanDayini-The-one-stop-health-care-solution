@@ -62,7 +62,7 @@ public class DonateBlood extends AppCompatActivity {
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 100;
     private static final String PREFS_NAME = "MyPrefs";
     private static final String PREFS_NAME2 = "ProfileData";
-    private static final String IMAGE_URL_KEY = "imageUrl";
+    private static final String IMAGE_URL_KEY = "imageUrl"; //this is nakul
     private static final String DOCUMENT_URL_KEY = "documentUrl";
     public Spinner statespinner, cityspinner;
     private TextView textViewRelationType;
@@ -543,4 +543,4 @@ public class DonateBlood extends AppCompatActivity {
     {
         Toast.makeText(DonateBlood.this, message,Toast.LENGTH_SHORT).show();
     }
-}//this is Tanniiiiiii
+}

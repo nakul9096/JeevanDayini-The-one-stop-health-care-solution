@@ -89,7 +89,6 @@ public class ApplicationStatus extends AppCompatActivity {
                     }
                 }
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }

@@ -34,7 +34,7 @@ public class RequestBlood extends AppCompatActivity {
     Spinner citySpinner, stateSpinner, bloodGroupSpinner, deliveryTimeSpinner, mlSpinner;
     private Button chooseLocationButton;
     private TextView locationTextView;
-
+    private CityUtils cityUtils;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,11 +69,17 @@ public class RequestBlood extends AppCompatActivity {
         stateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         stateSpinner.setAdapter(stateAdapter);
         stateSpinner.setSelection(0);
-        updateCitySpinner(0);
+        cityUtils = new CityUtils(); // Create an instance of CityUtils
+
         stateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                updateCitySpinner(position);
+                // Call updateCitySpinner from CityUtils
+                String[] cityOptions = cityUtils.updateCitySpinner(RequestBlood.this, position);
+                // Update citySpinner adapter
+                ArrayAdapter<String> cityAdapter = new ArrayAdapter<>(RequestBlood.this, android.R.layout.simple_spinner_item, cityOptions);
+                cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                citySpinner.setAdapter(cityAdapter);
             }
 
             @Override
@@ -88,127 +94,6 @@ public class RequestBlood extends AppCompatActivity {
             }
         });
     }
-
-    private void updateCitySpinner(int statePosition) {
-        String[] cityOptions;
-        switch (statePosition) {
-            case 0:
-                cityOptions = getResources().getStringArray(R.array.selectoptions);
-                break;
-            case 1:
-                cityOptions = getResources().getStringArray(R.array.AndamanNicobar);
-                break;
-            case 2:
-                cityOptions = getResources().getStringArray(R.array.Andhrapradesh);
-                break;
-            case 3:
-                cityOptions = getResources().getStringArray(R.array.Arunachalpradesh);
-                break;
-            case 4:
-                cityOptions = getResources().getStringArray(R.array.Assam);
-                break;
-            case 5:
-                cityOptions = getResources().getStringArray(R.array.Bihar);
-                break;
-            case 6:
-                cityOptions = getResources().getStringArray(R.array.Chandigarh);
-                break;
-            case 7:
-                cityOptions = getResources().getStringArray(R.array.Chattisgarh);
-                break;
-            case 8:
-                cityOptions = getResources().getStringArray(R.array.Dadra_Nagar_Haveli_Daman_Diu);
-                break;
-            case 9:
-                cityOptions = getResources().getStringArray(R.array.Delhi_NCR);
-                break;
-            case 10:
-                cityOptions = getResources().getStringArray(R.array.Goa);
-                break;
-            case 11:
-                cityOptions = getResources().getStringArray(R.array.Gujarat);
-                break;
-            case 12:
-                cityOptions = getResources().getStringArray(R.array.Haryana);
-                break;
-            case 13:
-                cityOptions = getResources().getStringArray(R.array.Himachal_Pradesh);
-                break;
-            case 14:
-                cityOptions = getResources().getStringArray(R.array.Jammu_and_Kashmir);
-                break;
-            case 15:
-                cityOptions = getResources().getStringArray(R.array.Jharkhand);
-                break;
-            case 16:
-                cityOptions = getResources().getStringArray(R.array.Karnataka);
-                break;
-            case 17:
-                cityOptions = getResources().getStringArray(R.array.Kerala);
-                break;
-            case 18:
-                cityOptions = getResources().getStringArray(R.array.Ladakh);
-                break;
-            case 19:
-                cityOptions = getResources().getStringArray(R.array.Madhya_Pradesh);
-                break;
-            case 20:
-                cityOptions = getResources().getStringArray(R.array.Maharashtra);
-                break;
-            case 21:
-                cityOptions = getResources().getStringArray(R.array.Manipur);
-                break;
-            case 22:
-                cityOptions = getResources().getStringArray(R.array.Meghalaya);
-                break;
-            case 23:
-                cityOptions = getResources().getStringArray(R.array.Mizoram);
-                break;
-            case 24:
-                cityOptions = getResources().getStringArray(R.array.Nagaland);
-                break;
-            case 25:
-                cityOptions = getResources().getStringArray(R.array.Odisha);
-                break;
-            case 26:
-                cityOptions = getResources().getStringArray(R.array.Puducherry);
-                break;
-            case 27:
-                cityOptions = getResources().getStringArray(R.array.Punjab);
-                break;
-            case 28:
-                cityOptions = getResources().getStringArray(R.array.Rajasthan);
-                break;
-            case 29:
-                cityOptions = getResources().getStringArray(R.array.Sikkim);
-                break;
-            case 30:
-                cityOptions = getResources().getStringArray(R.array.Tamil_Nadu);
-                break;
-            case 31:
-                cityOptions = getResources().getStringArray(R.array.Telangana);
-                break;
-            case 32:
-                cityOptions = getResources().getStringArray(R.array.Tripura);
-                break;
-            case 33:
-                cityOptions = getResources().getStringArray(R.array.Uttar_Pradesh);
-                break;
-            case 34:
-                cityOptions = getResources().getStringArray(R.array.Uttarakhand);
-                break;
-            case 35:
-                cityOptions = getResources().getStringArray(R.array.West_Bengal);
-                break;
-            default:
-                cityOptions = new String[0];
-                break;
-        }
-        ArrayAdapter<String> cityAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, cityOptions);
-        cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        citySpinner.setAdapter(cityAdapter);
-    }
-
     private void getLocation() {
         chooseLocationButton.setVisibility(View.GONE);
         locationTextView.setVisibility(View.VISIBLE);
