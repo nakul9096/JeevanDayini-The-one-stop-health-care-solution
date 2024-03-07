@@ -56,8 +56,8 @@ import java.util.Locale;
 import java.util.UUID;
 
 public class DonateBlood extends AppCompatActivity {
-    ProgressBar progressBarnew;
-    private static final int REQUEST_IMAGE_CAPTURE = 1;
+    ProgressBar progressBarnew; //Hi this is tanisha
+    private static final int REQUEST_IMAGE_CAPTURE = 1; // ruk mai mere isme ek bar check kar ta ki change hua kya to
     private static final int REQUEST_UPLOAD_AADHAAR = 2;
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 100;
     private static final String PREFS_NAME = "MyPrefs";
