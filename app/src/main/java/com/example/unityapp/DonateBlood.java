@@ -539,4 +539,8 @@ public class DonateBlood extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         return preferences.getString(key, "");
     }
+    private void showToast(String message)
+    {
+        Toast.makeText(DonateBlood.this, message,Toast.LENGTH_SHORT).show();
+    }
 }
