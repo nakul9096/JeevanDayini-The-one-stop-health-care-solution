@@ -543,4 +543,5 @@ public class DonateBlood extends AppCompatActivity {
     {
         Toast.makeText(DonateBlood.this, message,Toast.LENGTH_SHORT).show();
     }
+    //pushed
 }
