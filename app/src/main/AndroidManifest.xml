@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <permission
+        android:name="com.example.unityapp.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-feature android:name="android.hardware.camera" />
+
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+    <uses-permission
+        android:name="android.permission.POST_NOTIFICATIONS"
+        tools:node="remove" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <application
+        android:name=".MyApplication"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="Jeevandayini"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="31">
+        <activity
+            android:name=".Donation_req_hosp"
+            android:exported="false" />
+        <activity
+            android:name=".LoginDevices"
+            android:exported="false" />
+        <activity
+            android:name=".ApplyNow"
+            android:exported="false" />
+        <activity
+            android:name=".SuccessDialog2"
+            android:exported="false" />
+        <activity
+            android:name=".OrgImagePreview"
+            android:exported="false" />
+        <activity
+            android:name=".BookingHistory"
+            android:exported="false" />
+        <activity
+            android:name=".PaymentSuccess"
+            android:exported="false" />
+        <activity
+            android:name=".PaymentPage"
+            android:exported="false" />
+        <activity
+            android:name=".ContactUs"
+            android:exported="false" />
+        <activity
+            android:name=".RequestBlood"
+            android:exported="false"
+            android:theme="@style/Theme.MaterialComponents" />
+
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <activity
+            android:name=".UploadTestReport"
+            android:exported="false" />
+        <activity
+            android:name=".ListOnline"
+            android:exported="false" />
+        <activity
+            android:name=".HospDashboard"
+            android:exported="false" />
+        <activity
+            android:name=".Badge"
+            android:exported="false" />
+        <activity
+            android:name=".Premium"
+            android:exported="false" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.unityapp.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <activity
+            android:name=".Book"
+            android:exported="false"
+            android:theme="@style/Theme.MaterialComponents" />
+        <activity
+            android:name=".DonarType"
+            android:exported="false" />
+        <activity
+            android:name=".Ratings"
+            android:exported="false" />
+        <activity
+            android:name=".BloodBankSearch"
+            android:exported="false" />
+        <activity
+            android:name=".DocumentRequest"
+            android:exported="false" />
+        <activity
+            android:name=".ApplicationStatus"
+            android:exported="false" />
+        <activity
+            android:name=".MedicineReminder"
+            android:exported="false" />
+        <activity
+            android:name=".FirebaseMessagingSender"
+            android:exported="false" />
+        <activity
+            android:name=".Terms"
+            android:exported="false" />
+        <activity
+            android:name=".ChatBotData"
+            android:exported="false" />
+        <activity
+            android:name=".Assistant"
+            android:exported="false" />
+        <activity
+            android:name=".FAQ"
+            android:exported="false" />
+        <activity
+            android:name=".Tutorial_links"
+            android:exported="false" />
+        <activity
+            android:name=".User_details"
+            android:exported="false" />
+        <activity
+            android:name=".Manage"
+            android:exported="false" />
+        <activity
+            android:name=".Requests"
+            android:exported="false" />
+        <activity
+            android:name=".Management"
+            android:exported="false" />
+        <activity
+            android:name=".Privacy"
+            android:exported="false" />
+
+        <service
+            android:name=".CustomMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <activity
+            android:name=".DonateBlood"
+            android:exported="false"
+            android:theme="@style/Theme.MaterialComponents" />
+        <activity
+            android:name=".Tutorial"
+            android:exported="false" />
+        <activity
+            android:name=".ViewMore"
+            android:exported="false" />
+        <activity
+            android:name=".TestReport"
+            android:exported="false" />
+        <activity
+            android:name=".FindClinics"
+            android:exported="false" />
+        <activity
+            android:name=".Booking"
+            android:exported="false"
+            android:theme="@style/Theme.MaterialComponents" />
+        <activity
+            android:name=".Session"
+            android:exported="false" />
+        <activity
+            android:name=".Login"
+            android:exported="false" />
+        <activity
+            android:name=".ImagePreview"
+            android:exported="false" />
+        <activity
+            android:name=".RegisterAdmin"
+            android:exported="false"
+            android:theme="@style/Theme.Material3.Light.Dialog.Alert" />
+        <activity
+            android:name=".Register"
+            android:exported="false"
+            android:theme="@style/Theme.Material3.Light.Dialog.Alert" />
+        <activity
+            android:name=".HomeDashboard"
+            android:exported="false" /> <!-- Razorpay Checkout Activity -->
+        <activity
+            android:name="com.razorpay.CheckoutActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:theme="@style/CheckoutTheme"
+            tools:replace="android:exported">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <data
+                    android:host="rzp.io"
+                    android:scheme="io.rzp" />
+            </intent-filter>
+        </activity> <!-- Razorpay Token Receiver -->
+        <receiver
+            android:name="com.razorpay.RzpTokenReceiver"
+            android:exported="false"
+            tools:replace="android:exported">
+            <intent-filter>
+                <action android:name="rzp.device_token.share" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-1166821612575626~1186268166" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/notification" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_notification_channelid" />
+        <meta-data
+            android:name="com.phonepe.android.sdk.isUAT"
+            android:value="true" />
+        <meta-data
+            android:name="com.phonepe.android.sdk.isSimulator"
+            android:value="true" />
+        <meta-data
+            android:name="sqip.SQUARE_APPLICATION_ID"
+            android:value="sandbox-sq0idb-lnTDlOufsuYTs9hbtOESCg" />
+        <meta-data
+            android:name="com.phonepe.android.sdk.MerchantId"
+            android:value="ATMOSTUAT" />
+        <meta-data
+            android:name="com.google.firebase.messaging.12345"
+            android:value="12345" />
+
+        <receiver
+            android:name=".NotificationReceiver"
+            android:enabled="true"
+            android:exported="false" />
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/notification" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDYET3tC0xF7DuR5DU659ZlaxfJQktZNj8" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent" />
+        <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="rzp_test_FY7GOm27Z0Zc8P" />
+    </application>
+
+</manifest>

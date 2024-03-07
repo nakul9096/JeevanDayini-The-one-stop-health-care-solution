@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_blue_900">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="15dp"
+        android:elevation="4dp"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="16dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="28dp">
+
+            <TextView
+                android:id="@+id/nameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name: "
+                android:textColor="#000000"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/phoneTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/nameTextView"
+                android:layout_marginTop="8dp"
+                android:text="Phone: "
+                android:textColor="#000000"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/emailTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/phoneTextView"
+                android:layout_marginTop="8dp"
+                android:text="Email: "
+                android:textColor="#000000"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/DateTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/emailTextView"
+                android:layout_marginTop="8dp"
+                android:text="Date: "
+                android:textColor="#000000"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/transactionIdTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/DateTextView"
+                android:layout_marginTop="8dp"
+                android:text="Transaction ID: "
+                android:textColor="#000000"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tokenNumberTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/transactionIdTextView"
+                android:layout_marginTop="8dp"
+                android:text="Token Number: "
+                android:textColor="#000000"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/viewReceiptButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tokenNumberTextView"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/button_background2"
+                android:text="View Receipt"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/downloadReceiptButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/viewReceiptButton"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/button_background2"
+                android:text="Download Receipt"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/goToHomeButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/downloadReceiptButton"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/button_background2"
+                android:text="Go to Home"
+                android:textColor="@android:color/white" />
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</ScrollView>

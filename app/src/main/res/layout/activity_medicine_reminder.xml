@@ -1,0 +1,75 @@
+<!-- res/layout/activity_main.xml -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/textViewDuration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select duration for medicine intake (in days):" />
+
+    <!-- Use an EditText for entering the duration -->
+    <EditText
+        android:id="@+id/editTextDuration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewDuration"
+        android:layout_marginTop="8dp"
+        android:inputType="number" />
+
+    <TextView
+        android:id="@+id/textViewFrequency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editTextDuration"
+        android:layout_marginTop="16dp"
+        android:text="Select frequency:" />
+
+    <!-- Use a Spinner for frequency selection -->
+    <Spinner
+        android:id="@+id/spinnerFrequency"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewFrequency"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/textViewFoodIntake"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/spinnerFrequency"
+        android:layout_marginTop="16dp"
+        android:text="Select before/after food intake:" />
+
+    <!-- Use RadioButtons for before/after food intake -->
+    <RadioGroup
+        android:id="@+id/radioGroupFoodIntake"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewFoodIntake"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Before" />
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="After" />
+    </RadioGroup>
+
+    <!-- Checkboxes, Spinners, or other widgets for vibration, ringtone, etc. -->
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/radioGroupFoodIntake"
+        android:layout_marginTop="16dp"
+        android:text="Save" />
+
+</RelativeLayout>

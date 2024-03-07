@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <corners android:radius="10dp" /> <!-- Adjust the radius as needed for the desired curvature -->
+    <!-- No solid color specified, allowing the background to be transparent or inherit from the theme -->
+    <stroke
+        android:width="2dp"
+        android:color="?attr/colorAccent" /> <!-- Border color (you can adjust or remove this line) -->
+</shape>

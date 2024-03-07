@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="light_blue_900">#FF01579B</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="blue">#6200EA</color>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="red">#FF0000</color>
+    <color name="green">#00B100</color>
+    <color name="light_blue_A400">#FF00B0FF</color>
+    <color name="red_theme">#FF5722</color>
+    <color name="selected_color">#AB00B300</color>
+    <color name="button_background_color">#FF5722</color>
+</resources>

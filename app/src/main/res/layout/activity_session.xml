@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/noInternetTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#B2FF3D00"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:visibility="gone"
+        android:text="No internet connection"
+        android:textSize="16sp" />
+    <!-- ViewPager2 for Tab Content -->
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/noInternetTextView"
+        android:layout_above="@id/tab_layout1"
+        android:contentDescription="ViewPager for Tab Content" />
+    <!-- TabLayout -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#7A000000"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="#FF5722"
+        app:tabIndicatorHeight="4dp"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="#FF5722"
+        app:tabTextAppearance="@style/MyTabTextAppearance"
+        app:tabTextColor="#FFFFFF" />
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:visibility="gone"> <!-- Set visibility to gone initially -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/circular_profile_image_layout"
+            android:gravity="center"
+            android:paddingStart="8dp"
+            android:paddingTop="4dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="4dp"
+            android:text="Hello!"
+            android:textColor="@android:color/white"
+            android:textSize="12sp" />
+    </FrameLayout>
+</RelativeLayout>

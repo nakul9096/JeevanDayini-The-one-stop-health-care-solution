@@ -1,0 +1,20 @@
+<!-- res/drawable/bg_with_tick.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Background shape -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#0077C2" />
+            <corners android:radius="10dp" />
+        </shape>
+    </item>
+
+    <!-- Tick mark -->
+    <item
+        android:width="12dp"
+        android:height="12dp"
+        android:bottom="8dp"
+        android:drawable="@drawable/tick"
+        android:gravity="bottom|end"
+        android:right="8dp" />
+</layer-list>

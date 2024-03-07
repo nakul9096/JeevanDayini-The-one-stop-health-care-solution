@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_blue_900">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:elevation="4dp"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="16dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp">
+
+            <!-- Payment page title -->
+            <TextView
+                android:id="@+id/titleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="32dp"
+                android:text="Payment Options"
+                android:textColor="@android:color/black"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
+            <!-- Receipt section with icon -->
+            <LinearLayout
+                android:id="@+id/receiptLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/titleTextView"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/download" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="To download receipt go to bookings section on app"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <!-- Notification information -->
+            <TextView
+                android:id="@+id/notificationTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/receiptLayout"
+                android:layout_marginTop="16dp"
+                android:drawableStart="@drawable/alerts"
+                android:drawablePadding="8dp"
+                android:text="Frequent SMS and notifications are sent to get notified about your turn"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+
+            <!-- Radio Group for payment options -->
+            <RadioGroup
+                android:id="@+id/paymentRadioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/notificationTextView"
+                android:layout_marginTop="30dp"
+                android:orientation="vertical">
+
+                <!-- Pay on clinic -->
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/radio_button_selector"
+                    android:padding="8dp"
+                    android:text="Pay on Clinic"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp" />
+
+                <!-- Pay now (online) -->
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/radio_button_selector"
+                    android:padding="8dp"
+                    android:text="Pay Now (Online)"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/paymentModePromptTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/paymentRadioGroup"
+                android:layout_marginTop="16dp"
+                android:text="Please! select payment mode"
+                android:textColor="#FF0000"
+                android:textSize="18sp" />
+            <!-- Base amount -->
+            <TextView
+                android:id="@+id/baseAmountTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/paymentRadioGroup"
+                android:layout_marginTop="20dp"
+                android:text="Base Amount: "
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:visibility="gone" />
+
+            <!-- Base amount value -->
+            <TextView
+                android:id="@+id/baseAmountValueTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/paymentRadioGroup"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="20dp"
+                android:text=""
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+
+            <!-- GST breakdown -->
+            <TextView
+                android:id="@+id/gstBreakdownTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/convenienceFeeTextView"
+                android:layout_marginTop="16dp"
+                android:text="GST (18%):"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:visibility="gone" />
+
+            <!-- GST value -->
+            <TextView
+                android:id="@+id/gstValueTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/convenienceFeeTextView"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="16dp"
+                android:text=""
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+
+            <!-- CGST -->
+            <TextView
+                android:id="@+id/cgstTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/gstBreakdownTextView"
+                android:layout_marginLeft="32dp"
+                android:text="CGST (9%): "
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+            <!-- CGST value -->
+            <TextView
+                android:id="@+id/cgstValueTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/gstBreakdownTextView"
+                android:layout_alignParentEnd="true"
+                android:layout_marginLeft="32dp"
+                android:text=""
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+
+            <!-- SGST -->
+            <TextView
+                android:id="@+id/sgstTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/cgstTextView"
+                android:layout_marginLeft="32dp"
+                android:text="SGST (9%): "
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+            <!-- SGST value -->
+            <TextView
+                android:id="@+id/sgstValueTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/cgstTextView"
+                android:layout_alignParentEnd="true"
+                android:layout_marginLeft="32dp"
+                android:text=""
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+
+            <!-- Convenience fee -->
+            <TextView
+                android:id="@+id/convenienceFeeTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/baseAmountTextView"
+                android:layout_marginTop="16dp"
+                android:text="Convenience Fee: "
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:visibility="gone" />
+
+            <!-- Convenience fee value -->
+            <TextView
+                android:id="@+id/convenienceFeeValueTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/baseAmountTextView"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="16dp"
+                android:text=""
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+            <!-- Title for amount payable at clinic -->
+            <TextView
+                android:id="@+id/amountAtClinicTitleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/sgstTextView"
+                android:layout_marginTop="16dp"
+                android:text="Amount payable at clinic:"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:visibility="gone" />
+
+            <!-- Value for amount payable at clinic -->
+            <TextView
+                android:id="@+id/amountAtClinicValueTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/sgstTextView"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="16dp"
+                android:text=""
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+
+            <!-- Total payable amount -->
+            <TextView
+                android:id="@+id/totalAmountTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/amountAtClinicTitleTextView"
+                android:layout_marginTop="28dp"
+                android:text="Total Payable Amount: "
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <!-- Total payable amount value -->
+            <TextView
+                android:id="@+id/totalAmountValueTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/amountAtClinicTitleTextView"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="28dp"
+                android:text=""
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <CheckBox
+                android:id="@+id/termsCheckBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/amountAtClinicTitleTextView"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="82dp"
+                android:button="@drawable/checkbox_background"
+                android:text="Please accept terms of use and privacy policy"
+                android:textColor="#000000"
+                android:textColorLink="@color/blue" />
+
+            <Button
+                android:id="@+id/payAndBookButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/termsCheckBox"
+                android:layout_marginTop="9dp"
+                android:background="@drawable/button_background"
+                android:enabled="false"
+                android:text="Pay and Book"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</ScrollView>

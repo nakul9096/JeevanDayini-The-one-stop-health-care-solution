@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#004D40"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Title -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:text="Blood Donation"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <!-- Donation Options -->
+    <RadioGroup
+        android:id="@+id/radioGroupDonationOptions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Donate for Myself -->
+        <RadioButton
+            android:id="@+id/radioMyself"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Register as Myself" />
+
+        <!-- Donate for Family Member -->
+        <RadioButton
+            android:id="@+id/radioFamilyMember"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Register as Family Member" />
+        <!-- Inside your LinearLayout or RelativeLayout -->
+        <Spinner
+            android:id="@+id/familyMemberSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:entries="@array/family_members"
+            android:visibility="gone" />
+
+        <!-- Donate for Friend -->
+        <RadioButton
+            android:id="@+id/radioFriend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Register as Friend" />
+    </RadioGroup>
+
+    <!-- Button to Proceed -->
+    <Button
+        android:id="@+id/btnProceed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Proceed" />
+</LinearLayout>

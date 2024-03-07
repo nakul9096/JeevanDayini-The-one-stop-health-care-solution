@@ -1,0 +1,129 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- Title: Account Requests -->
+        <TextView
+            android:id="@+id/overallRatingTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Overall Rating:"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <!-- Refresh Logo (Assuming it's an ImageView with a refresh icon) -->
+        <ImageView
+            android:id="@+id/refreshImageView7"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/refresh" />
+
+        <ProgressBar
+            android:id="@+id/loadingProgressBar7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/refreshImageView7"
+            android:layout_centerInParent="true"
+            android:visibility="visible" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/loadingProgressBar7"
+            android:layout_marginTop="17dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:text="No requests available at this moment! \n Try refreshing page"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/ratingButtonsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/overallRatingTextView"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+
+            <!-- 1* Button -->
+            <Button
+                android:id="@+id/ratebtn1"
+                android:layout_width="10dp"
+                android:layout_height="45dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_background"
+                android:text="1*"
+                android:textColor="@android:color/white" />
+
+            <!-- 2* Button -->
+            <Button
+                android:id="@+id/ratebtn2"
+                android:layout_width="10dp"
+                android:layout_height="45dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_background"
+                android:text="2*"
+                android:textColor="@android:color/white" />
+
+            <!-- 3* Button -->
+            <Button
+                android:id="@+id/ratebtn3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_background"
+                android:text="3*"
+                android:textColor="@android:color/white" />
+
+            <!-- 4* Button -->
+            <Button
+                android:id="@+id/ratebtn4"
+                android:layout_width="10dp"
+                android:layout_height="45dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_background"
+                android:text="4*"
+                android:textColor="@android:color/white" />
+
+            <!-- 5* Button -->
+            <Button
+                android:id="@+id/ratebtn5"
+                android:layout_width="10dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_background"
+                android:text="5*"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/namesLayout7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ratingButtonsLayout"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+            <!-- Name cards will be dynamically added here -->
+        </LinearLayout>
+    </RelativeLayout>
+</ScrollView>

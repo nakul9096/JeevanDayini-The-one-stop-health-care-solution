@@ -1,0 +1,137 @@
+<!-- hospital_card.xml -->
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:elevation="4dp"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Hospital Name -->
+        <TextView
+            android:id="@+id/hospitalNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="4dp"
+            android:text="Hospital Name"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- RatingBar -->
+
+            <!-- ImageView -->
+            <ImageView
+                android:id="@+id/previewCircularFrame"
+                android:layout_width="134dp"
+                android:layout_height="125dp"
+                android:layout_gravity="end" /> <!-- Initially set to gone -->
+            <ImageView
+                android:id="@+id/previewCircularFrame2"
+                android:layout_width="134dp"
+                android:layout_height="125dp"
+                android:layout_gravity="end" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+2"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <!-- Hospital Type -->
+        <TextView
+            android:id="@+id/hospitalTypeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingBottom="4dp"
+            android:text="Hospital Type"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="14sp" />
+
+        <!-- Hospital Address -->
+        <TextView
+            android:id="@+id/hospitalAddressTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="4dp"
+            android:text="Hospital Address"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/hospitalLocationTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:text="State, City"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="14sp" />
+
+        <!-- Button Layout -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- Book Appointment Button -->
+            <Button
+                android:id="@+id/bookAppointmentButton"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:backgroundTint="#039BE5"
+                android:elevation="4dp"
+                android:gravity="center"
+                android:padding="8dp"
+                android:stateListAnimator="@null"
+                android:text="View more"
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
+
+            <!-- Bookmark Button -->
+            <Button
+                android:id="@+id/bookmarkButton"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:backgroundTint="#D50000"
+                android:elevation="4dp"
+                android:gravity="center"
+                android:padding="8dp"
+                android:stateListAnimator="@null"
+                android:text="Bookmark"
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
+
+            <!-- Map Button -->
+            <Button
+                android:id="@+id/mapButton"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:backgroundTint="#388E3C"
+                android:elevation="4dp"
+                android:gravity="center"
+                android:padding="8dp"
+                android:stateListAnimator="@null"
+                android:text="Map"
+                android:textColor="@android:color/white"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

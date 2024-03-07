@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    android:padding="16dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Title: Trusted Users -->
+        <TextView
+            android:id="@+id/titleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="serif"
+            android:text="Trusted Users"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <!-- Refresh Button -->
+        <ImageView
+            android:id="@+id/refreshImageView2"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/refresh" />
+
+        <!-- Progress Bar -->
+        <ProgressBar
+            android:id="@+id/loadingProgressBar2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/refreshImageView2"
+            android:layout_centerInParent="true"
+            android:visibility="visible" />
+
+        <!-- Placeholder Message (No users available) -->
+        <TextView
+            android:id="@+id/loadingMessage2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/loadingProgressBar2"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="17dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:text="No users available at this moment! \n Try refreshing page"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <!-- User Cards (Dynamically added here) -->
+        <LinearLayout
+            android:id="@+id/namesLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/refreshImageView2"
+            android:orientation="vertical">
+            <!-- User cards will be dynamically added here -->
+        </LinearLayout>
+    </RelativeLayout>
+</ScrollView>

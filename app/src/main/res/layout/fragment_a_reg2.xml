@@ -1,0 +1,158 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/tvtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Upload organization images"
+            android:textSize="20sp" />
+
+        <!-- Upload Vertical Photo Section -->
+        <ImageView
+            android:id="@+id/selectedImageVertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/vertical" />
+
+        <Button
+            android:id="@+id/uploadVerticalButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Upload Vertical Photo" />
+
+        <TextView
+            android:id="@+id/selectedFileNameVertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:text=""
+            android:textSize="16sp" />
+
+        <!-- Upload Horizontal Photo Sections -->
+        <!-- Photo 1 -->
+        <ImageView
+            android:id="@+id/selectedImageHorizontal1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/horizontal" />
+
+        <Button
+            android:id="@+id/uploadHorizontalButton1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Upload Horizontal Photo 1" />
+
+        <TextView
+            android:id="@+id/selectedFileNameHorizontal1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:text=""
+            android:textSize="16sp" />
+
+        <!-- Progress Bar -->
+        <ProgressBar
+            android:id="@+id/progressbar99"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+        <!-- Photo 2 -->
+        <ImageView
+            android:id="@+id/selectedImageHorizontal2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/horizontal" />
+
+        <Button
+            android:id="@+id/uploadHorizontalButton2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Upload Horizontal Photo 2" />
+
+        <TextView
+            android:id="@+id/selectedFileNameHorizontal2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:text=""
+            android:textSize="16sp" />
+
+        <!-- Photo 3 -->
+        <ImageView
+            android:id="@+id/selectedImageHorizontal3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/horizontal" />
+
+        <Button
+            android:id="@+id/uploadHorizontalButton3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Upload Horizontal Photo 3" />
+
+        <TextView
+            android:id="@+id/selectedFileNameHorizontal3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:text=""
+            android:textSize="16sp" />
+
+        <!-- Admin ID and Note -->
+        <TextView
+            android:id="@+id/adminIdTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="24dp"
+            android:text="Admin Id: "
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:text="Note: Keep this ID saved for future references. You can also retrieve this ID from your login."
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="14sp" />
+
+        <!-- Submit Button -->
+        <Button
+            android:id="@+id/submitButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="24dp"
+            android:text="Submit request"
+            android:textSize="18sp" />
+    </LinearLayout>
+</ScrollView>

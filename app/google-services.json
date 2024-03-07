@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "272390494709",
+    "project_id": "unity-app-9096",
+    "storage_bucket": "unity-app-9096.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:272390494709:android:fbf2a96a50128b050fe8bc",
+        "android_client_info": {
+          "package_name": "com.example.unityapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKCTntldjBg0ggHpxLK6cPB5WU4qrEAfs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

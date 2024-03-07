@@ -1,0 +1,12 @@
+<!-- button_pressed.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Dark curved line on top -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#000000" />
+            <corners android:radius="20dp" />
+        </shape>
+    </item>
+    <!-- Original button background -->
+    <item android:drawable="@drawable/button_background" />
+</layer-list>

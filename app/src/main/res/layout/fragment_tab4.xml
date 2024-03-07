@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#293859">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:paddingBottom="15dp"
+        android:layout_height="wrap_content">
+
+        <ProgressBar
+            android:id="@+id/progressBar1"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/profilePhoto"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="16dp"
+            android:indeterminate="true"
+            android:visibility="visible" />
+        <!-- Circular Profile Photo -->
+        <ImageView
+            android:id="@+id/profilePhoto"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="32dp"
+            android:src="@drawable/phi1" />
+
+        <!-- Button to view earned badges -->
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/profilePhoto"
+            android:layout_marginStart="179dp"
+            android:layout_marginTop="-145dp"
+            android:layout_toEndOf="@id/profilePhoto"
+            android:src="@drawable/star" />
+
+        <Button
+            android:id="@+id/btnEarnedBadges"
+            android:layout_width="165dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_toEndOf="@id/profilePhoto"
+            android:background="@drawable/button"
+            android:text="View Earned Badges"
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
+        <!-- Profile Information Fields -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/namecard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/progressBar1"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:elevation="4dp"
+            app:cardCornerRadius="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="13dp">
+
+                <!-- Your Name -->
+                <TextView
+                    android:id="@+id/nameTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Your Name"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        <!-- Add User ID Label -->
+        <TextView
+            android:id="@+id/userIdLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/namecard"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="16dp"
+            android:text="User ID:"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <!-- Add User ID TextView -->
+        <TextView
+            android:id="@+id/userIdTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/namecard"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="16dp"
+            android:layout_toEndOf="@id/userIdLabel"
+            android:text=" "
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <!-- Email -->
+        <TextView
+            android:id="@+id/emailLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/userIdLabel"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="16dp"
+            android:text="Email:"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/emailTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/userIdLabel"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_toEndOf="@id/emailLabel"
+            android:text=" "
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <!-- Gender -->
+        <TextView
+            android:id="@+id/genderLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/emailLabel"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="16dp"
+            android:text="Gender:"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/genderTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/emailTextView"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_toEndOf="@id/genderLabel"
+            android:text=" "
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <!-- State -->
+        <TextView
+            android:id="@+id/stateLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/genderLabel"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="16dp"
+            android:text="State:"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <ProgressBar
+            android:id="@+id/progressBar2"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/stateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/genderTextView"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_toEndOf="@id/stateLabel"
+            android:text=" "
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <!-- City -->
+        <TextView
+            android:id="@+id/cityLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/stateLabel"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="16dp"
+            android:text="City:"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/cityTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/stateTextView"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_toEndOf="@id/cityLabel"
+            android:text=" "
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <!-- Phone Number -->
+        <TextView
+            android:id="@+id/phoneLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cityLabel"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="16dp"
+            android:text="Phone Number:"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/phoneTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cityTextView"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_toEndOf="@id/phoneLabel"
+            android:text=" "
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <!-- Blood Group -->
+        <TextView
+            android:id="@+id/bloodGroupLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/phoneLabel"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="16dp"
+            android:text="Blood Group:"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/bloodGroupTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/phoneTextView"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_toEndOf="@id/bloodGroupLabel"
+            android:text=" "
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <!-- Aadhar Number -->
+        <TextView
+            android:id="@+id/aadharNumberLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bloodGroupLabel"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="16dp"
+            android:text="Aadhar Number:"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/aadharNumberTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bloodGroupTextView"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_toEndOf="@id/aadharNumberLabel"
+            android:text=" "
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/changePasswordButton"
+            android:layout_width="135dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/aadharNumberTextView"
+            android:layout_marginLeft="200dp"
+            android:layout_marginTop="34dp"
+            android:background="@drawable/button"
+            android:text="Change Password"
+            android:textColor="#FFFFFF"
+            android:textSize="13dp" />
+
+        <Button
+            android:id="@+id/EditProfileButton"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/aadharNumberTextView"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="34dp"
+            android:background="@drawable/button"
+            android:text="Logged-in devices"
+            android:textColor="#ffffff"
+            android:textSize="13dp" />
+
+        <FrameLayout
+            android:id="@+id/fragment_container7"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/logoutButton"
+            android:layout_marginTop="2dp" />
+
+        <Button
+            android:id="@+id/logoutButton"
+            android:layout_width="135dp"
+            android:layout_height="45dp"
+            android:layout_below="@+id/EditProfileButton"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rounded_background"
+            android:text="Logout"
+            android:textColor="#FFFFFF"
+            android:textSize="13dp" />
+
+    </RelativeLayout>
+</ScrollView>

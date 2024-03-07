@@ -1,0 +1,8 @@
+<!-- res/drawable/cool_button_background.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:angle="45"
+        android:endColor="#FF824A"
+        android:startColor="#FF5733" />
+    <corners android:radius="8dp" />
+</shape>

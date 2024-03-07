@@ -1,0 +1,29 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_home"
+        android:icon="@drawable/home"
+        android:title="Home" />
+    <item
+        android:id="@+id/menu_donation_requests"
+        android:icon="@drawable/tests"
+        android:title="Donation Requests" />
+    <item
+        android:id="@+id/menu_upload_test_report"
+        android:icon="@drawable/upload"
+        android:title="Upload Test Report" />
+    <item
+        android:id="@+id/requestbloodbtn"
+        android:icon="@drawable/request"
+        android:title="Request blood" />
+    <item
+        android:id="@+id/menu_lco"
+        android:icon="@drawable/lco"
+        android:title="List clinic online" />
+    <item
+        android:id="@+id/menu_logout"
+        android:icon="@drawable/logout"
+        android:title="Logout" />
+    <item
+        android:icon="@drawable/menu_close"
+        android:title="Close" />
+</menu>
