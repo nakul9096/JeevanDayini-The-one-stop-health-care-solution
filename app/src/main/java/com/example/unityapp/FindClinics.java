@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,10 +38,9 @@ public class FindClinics extends AppCompatActivity {
     private Spinner stateSpinner, citySpinner;
     private TextView t1;
     private Button viewmore;
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onStart() {
+        super.onStart();
         setContentView(R.layout.activity_find_clinics);
         namesLayout2 = findViewById(R.id.namesLayout2);
         progressBar = findViewById(R.id.loadingProgressBar);

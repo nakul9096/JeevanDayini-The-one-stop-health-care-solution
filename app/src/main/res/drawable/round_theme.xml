@@ -1,6 +1,15 @@
-<!-- res/drawable/button_background.xml -->
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
-    <corners android:radius="5dp" /> <!-- Adjust the radius as per your preference -->
-    <solid android:color="#4caf50" /> <!-- Change the color as per your preference -->
-</shape>
+<!-- res/drawable/button_background_pressed.xml -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="5dp" />
+            <solid android:color="#000000" /> <!-- Change to black color -->
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="5dp" />
+            <solid android:color="#4caf50" /> <!-- Default color when not pressed -->
+        </shape>
+    </item>
+</selector>

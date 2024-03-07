@@ -56,20 +56,18 @@
 
             <Button
                 android:id="@+id/donatedButton"
-                android:layout_width="0dp"
+                android:layout_width="90dp"
                 android:layout_height="40dp"
-                android:layout_weight="0.8"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="5dp"
                 android:background="@drawable/round_theme"
                 android:textSize="13sp"
                 android:text="Donated!" />
 
             <Button
                 android:id="@+id/absentButton"
-                android:layout_width="0dp"
+                android:layout_width="90dp"
                 android:layout_height="40dp"
-                android:layout_weight="0.8"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="5dp"
                 android:background="@drawable/round_theme_grey"
                 android:gravity="center"
                 android:textSize="13sp"
@@ -77,10 +75,9 @@
 
             <Button
                 android:id="@+id/deleteRequestButton"
-                android:layout_width="0dp"
+                android:layout_width="90dp"
                 android:layout_height="40dp"
                 android:background="@drawable/round_theme_red"
-                android:layout_weight="0.8"
                 android:textSize="13sp"
                 android:text="Delete " />
         </LinearLayout>

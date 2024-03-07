@@ -111,7 +111,6 @@ public class RequestBlood extends AppCompatActivity {
             }
         }
     }
-
     private void showBroadcastAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Warning!")

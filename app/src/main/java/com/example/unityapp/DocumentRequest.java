@@ -1,7 +1,4 @@
 package com.example.unityapp;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 import android.content.Context;
 import android.content.Intent;
@@ -28,6 +25,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DocumentRequest extends AppCompatActivity {
     private static final String TAG = "ManageActivity";

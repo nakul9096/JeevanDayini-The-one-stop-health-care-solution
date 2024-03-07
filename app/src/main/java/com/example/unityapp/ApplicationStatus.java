@@ -1,23 +1,17 @@
 package com.example.unityapp;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,7 +20,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 public class ApplicationStatus extends AppCompatActivity {
     private Button registerAsDonorButton;
     LottieAnimationView fireworkAnimationView;
@@ -49,10 +42,8 @@ public class ApplicationStatus extends AppCompatActivity {
             }
 
         });
-        // Replace "email" with the actual field in your data structure
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
-            // User is signed in, get their email
             String userEmail = user.getEmail();
             generateCardFromDatabase(userEmail);
         } else {
@@ -122,30 +113,42 @@ public class ApplicationStatus extends AppCompatActivity {
                         for (DataSnapshot donationLocationSnapshot : donationRequestsSnapshot.getChildren()) {
                             for (DataSnapshot donationLocationSnapshot2 : donationLocationSnapshot.getChildren()) {
                                 String donationLocation = donationLocationSnapshot.getKey();
+                                Log.d("DataFinding", "donation loc1 user id"+donationLocation);
                                 String donationLocation2 = donationLocationSnapshot2.getKey();
+                                Log.d("DataFinding", "donation loc2 aadhar"+donationLocation2);
+                                Log.d("DataFinding", "user id "+userId);
+                                Log.d("DataFinding", "aadhar number "+aadhaarNumber);
                                 if (donationLocation.equals(userId) && donationLocation2.equals(aadhaarNumber)) {
+                                    Log.d("DataFinding", "Matching user ID and Aadhaar number found");
                                     donationlocTextView.setText("Donation location: ELECTED");
-                                    String donationStatus = donationLocationSnapshot.child("donation_status").getValue(String.class);
-                                    if ("donated".equals(donationStatus)) {
-                                        statusTextView2.setText("Donation Status: Donated!");
+                                    String donationStatus = donationLocationSnapshot2.child("donation_status").getValue(String.class);
+                                    Log.d("DataFinding", "Donation status: found "+donationStatus);
+                                    if (donationStatus.equals("DONATED")) {
+                                        statusTextView2.setText("Donation Status: DONATED!");
                                         fireworkAnimationView.setVisibility(View.VISIBLE);
                                         textEarnedSomething.setVisibility(View.VISIBLE);
                                         fireworkAnimationView.playAnimation();
                                         viewEarnedBadgesButton.setVisibility(View.VISIBLE);
-                                    } else {
+                                        break;
+                                    } else if ("ABSENT".equals(donationStatus)) {
+                                        statusTextView2.setText("Donation Status: ABSENT!");
+                                        break;
+                                    }else if("DELETED".equals(donationStatus))
+                                    {
+                                        statusTextView2.setText("REQ DELETED CONTACT SUPPORT!");
+                                        statusTextView2.setTextColor(Color.parseColor("#FF0000"));
+                                        break;
+                                    }else {
                                         statusTextView2.setText("Donation Status: Awaiting approval!");
                                     }
                                     findBloodBanksButton.setVisibility(View.GONE);
                                     return;
                                 } else {
-                                    donationlocTextView.setText("Donation location: NOT ELECTED!");
-                                    statusTextView2.setText("Donation Status: SELECT BD FIRST!");
+                                    Log.e("DataFinding", "Donation status is null");
                                 }
                             }
                         }
                     }
-                    findBloodBanksButton.setVisibility(View.VISIBLE);
-                   Log.e("Test","no data found");
                 }
                 @Override
                 public void onCancelled(DatabaseError databaseError) {

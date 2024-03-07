@@ -1,9 +1,7 @@
 package com.example.unityapp;
-import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +13,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,13 +26,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
 public class Donation_req_hosp extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private LinearLayout cardContainer;
     ProgressBar progressBar;
-    TextView noRequestsTextView80;
+    TextView noRequestsTextView80, infoTv;
     ImageView refreshImageView80;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +39,7 @@ public class Donation_req_hosp extends AppCompatActivity {
         progressBar = findViewById(R.id.loadingProgressBar80);
         noRequestsTextView80 = findViewById(R.id.noRequestsTextView80);
         refreshImageView80 = findViewById(R.id.refreshImageView80);
+        infoTv = findViewById(R.id.infoTV);
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser == null) {
             return;
@@ -49,32 +49,46 @@ public class Donation_req_hosp extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference()
                 .child("hospitals").child(sanitizedEmail).child("donation_requests");
         cardContainer = findViewById(R.id.namesLayout80);
+        fetchDonationRequestsFromDatabase();
         refreshImageView80.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recreate();
+                Intent intent = new Intent(Donation_req_hosp.this, Donation_req_hosp.class);
+                finish(); // Finish the current activity
+                startActivity(intent);
             }
         });
+    }
+    private void fetchDonationRequestsFromDatabase() {
+        noRequestsTextView80.setVisibility(View.GONE);
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 cardContainer.removeAllViews();
+                boolean requestsFound = false;
                 for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
                     for (DataSnapshot snapshot2 : childSnapshot.getChildren()) {
                         String userId = childSnapshot.getKey();
                         String donorName = snapshot2.child("userName").getValue(String.class);
                         String donationType = snapshot2.child("relationType").getValue(String.class);
                         String aadharNumber = snapshot2.child("aadharNumber").getValue(String.class);
-                        if (!childSnapshot.hasChild("donation_status")) {
+                        if (!snapshot2.hasChild("donation_status")) {
                             createCard(userId, donorName, donationType, aadharNumber, snapshot2);
+                            requestsFound = true;
                         }
                     }
                 }
-                noRequestsTextView80.setText("No request available right now!");
-                noRequestsTextView80.setVisibility(View.VISIBLE);
-                progressBar.setVisibility(View.GONE);
+                if (!requestsFound) {
+                    noRequestsTextView80.setText("No requests available at this moment!");
+                    noRequestsTextView80.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
+                } else {
+                    // Otherwise, hide the message
+                    noRequestsTextView80.setVisibility(View.GONE);
+                    progressBar.setVisibility(View.GONE);
+                }
             }
-            @Override
+        @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 progressBar.setVisibility(View.GONE);
             }
@@ -94,22 +108,23 @@ public class Donation_req_hosp extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         // Update donation_status to "donated" in Firebase
-                        childSnapshot.getRef().child("donation_status").setValue("donated")
+                        childSnapshot.getRef().child("donation_status").setValue("DONATED")
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         Toast.makeText(Donation_req_hosp.this, "Preference updated successfully!", Toast.LENGTH_SHORT).show();
-                                        noRequestsTextView80.setText("Refreshing in 3 seconds");
-                                        noRequestsTextView80.setVisibility(View.VISIBLE);
+                                        infoTv.setText("Refreshing in 3 seconds");
+                                        infoTv.setVisibility(View.VISIBLE);
                                         new CountDownTimer(3000, 1000) {
                                             public void onTick(long millisUntilFinished) {
                                                 // Update the TextView with the remaining time
-                                                noRequestsTextView80.setText("Refreshing in " + millisUntilFinished / 1000 + " seconds");
+                                                infoTv.setText("Refreshing in " + millisUntilFinished / 1000 + " seconds");
                                             }
 
                                             public void onFinish() {
-                                                // Refresh the page when the countdown finishes
-                                                recreate();
+                                                Intent intent = new Intent(Donation_req_hosp.this, Donation_req_hosp.class);
+                                                finish();
+                                                startActivity(intent);
                                             }
                                         }.start();
                                     }
@@ -118,7 +133,6 @@ public class Donation_req_hosp extends AppCompatActivity {
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-                                        // Handle error
                                         Toast.makeText(Donation_req_hosp.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
                                         Log.e("Donation_req_hosp", "Error updating donation status: " + e.getMessage());
                                     }
@@ -126,6 +140,78 @@ public class Donation_req_hosp extends AppCompatActivity {
                     }
                 });
 
+            }
+        });
+        Button absentButton = cardView.findViewById(R.id.absentButton);
+        absentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Update donation_status to "donated" in Firebase
+                childSnapshot.getRef().child("donation_status").setValue("ABSENT")
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(Donation_req_hosp.this, "Preference updated successfully!", Toast.LENGTH_SHORT).show();
+                                infoTv.setText("Refreshing in 3 seconds");
+                                infoTv.setVisibility(View.VISIBLE);
+                                new CountDownTimer(3000, 1000) {
+                                    public void onTick(long millisUntilFinished) {
+                                        // Update the TextView with the remaining time
+                                        infoTv.setText("Refreshing in " + millisUntilFinished / 1000 + " seconds");
+                                    }
+
+                                    public void onFinish() {
+                                        Intent intent = new Intent(Donation_req_hosp.this, Donation_req_hosp.class);
+                                        finish();
+                                        startActivity(intent);
+                                    }
+                                }.start();
+                            }
+
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(Donation_req_hosp.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+                                Log.e("Donation_req_hosp", "Error updating donation status: " + e.getMessage());
+                            }
+                        });
+            }
+        });
+        Button declineButton = cardView.findViewById(R.id.deleteRequestButton);
+        declineButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Update donation_status to "donated" in Firebase
+                childSnapshot.getRef().child("donation_status").setValue("DELETED")
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(Donation_req_hosp.this, "Preference updated successfully!", Toast.LENGTH_SHORT).show();
+                                infoTv.setText("Refreshing in 3 seconds");
+                                infoTv.setVisibility(View.VISIBLE);
+                                new CountDownTimer(3000, 1000) {
+                                    public void onTick(long millisUntilFinished) {
+                                        // Update the TextView with the remaining time
+                                        infoTv.setText("Refreshing in " + millisUntilFinished / 1000 + " seconds");
+                                    }
+
+                                    public void onFinish() {
+                                        Intent intent = new Intent(Donation_req_hosp.this, Donation_req_hosp.class);
+                                        finish();
+                                        startActivity(intent);
+                                    }
+                                }.start();
+                            }
+
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(Donation_req_hosp.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+                                Log.e("Donation_req_hosp", "Error updating donation status: " + e.getMessage());
+                            }
+                        });
             }
         });
         requestIdTextView.setText("Request ID: " + userId);

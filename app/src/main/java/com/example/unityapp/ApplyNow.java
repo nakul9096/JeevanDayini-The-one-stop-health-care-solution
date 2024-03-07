@@ -1,5 +1,4 @@
 package com.example.unityapp;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,41 +10,33 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
 import java.util.HashMap;
 import java.util.Map;
-
 public class ApplyNow extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_apply_now);
-
         TextView hospitalNameTextView = findViewById(R.id.hospitalNameTextView);
         TextView userIdTextView = findViewById(R.id.userIdTextView);
         TextView aadharNumberTextView = findViewById(R.id.aadharNumberTextView);
         TextView relationTypeTextView = findViewById(R.id.relationTypeTextView);
         Button applyButton = findViewById(R.id.applyButton);
         Button goBackButton = findViewById(R.id.goBackButton);
-
         String hospitalName = getIntent().getStringExtra("hospitalName");
         String hospitalEmail = getIntent().getStringExtra("hospEmail");
         SharedPreferences sharedPreferences = getSharedPreferences("DonationData", Context.MODE_PRIVATE);
         String userId = sharedPreferences.getString("userid","");
         String aadhaarNumber = sharedPreferences.getString("aadhaarNumber","");
         String relationType = sharedPreferences.getString("relationType","");
-
         hospitalNameTextView.setText(hospitalName);
         userIdTextView.setText("User ID: "+userId);
         aadharNumberTextView.setText("Aadhaar Number: "+aadhaarNumber);
         relationTypeTextView.setText("Relation Type: "+relationType);
-
         applyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,12 +84,9 @@ public class ApplyNow extends AppCompatActivity {
                         .show();
             }
         });
-
-
         goBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle go back button click
             }
         });
     }
