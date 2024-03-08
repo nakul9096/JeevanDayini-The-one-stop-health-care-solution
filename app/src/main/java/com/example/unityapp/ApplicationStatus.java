@@ -101,12 +101,10 @@ public class ApplicationStatus extends AppCompatActivity {
         timestampTextView.setText("Timestamp: " + timestamp);
         statusTextView.setText("Form status: " + status.toUpperCase());
         relationTypeTextView.setText("Relation Type: " + relationType);
-
         if ("approved".equals(status)) {
             statusTextView.setTextColor(getResources().getColor(R.color.green));
             donationlocTextView.setVisibility(View.VISIBLE);
             statusTextView2.setVisibility(View.VISIBLE);
-
             Log.d("DataFinding", "Matching user ID and Aadhaar number found");
             String donationLocation = donationSnapshot.child("donation_location").getValue(String.class);
             String donationStatus = donationSnapshot.child("donation_status").getValue(String.class);
@@ -117,7 +115,7 @@ public class ApplicationStatus extends AppCompatActivity {
                     badges++;
                     statusTextView2.setText("Donation Status: DONATED!");
                     fireworkAnimationView.setVisibility(View.VISIBLE);
-                    textEarnedSomething.setText("You have earned " + badges + " badges!");
+                    textEarnedSomething.setText("You have earned " + badges + " badge!");
                     textEarnedSomething.setVisibility(View.VISIBLE);
                     fireworkAnimationView.playAnimation();
                     viewEarnedBadgesButton.setVisibility(View.VISIBLE);
@@ -134,6 +132,7 @@ public class ApplicationStatus extends AppCompatActivity {
             }else {
                 findBloodBanksButton.setVisibility(View.VISIBLE);
                 donationlocTextView.setText("Donation location: NOT ELECTED");
+                statusTextView2.setVisibility(View.GONE);
             }
         }
 

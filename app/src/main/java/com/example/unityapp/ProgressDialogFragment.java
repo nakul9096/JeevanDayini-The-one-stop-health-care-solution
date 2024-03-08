@@ -20,7 +20,6 @@ public class ProgressDialogFragment extends DialogFragment {
         progressBar = view.findViewById(R.id.progressBar); // Initialize progressBar
         Dialog dialog = new Dialog(requireContext(), getTheme());
         dialog.setContentView(view);
-
         return dialog;
     }
 

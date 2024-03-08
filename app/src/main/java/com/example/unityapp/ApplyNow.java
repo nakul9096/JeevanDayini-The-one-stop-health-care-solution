@@ -17,6 +17,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.HashMap;
 import java.util.Map;
 public class ApplyNow extends AppCompatActivity {
+    String hospitalEmail;
+    String hospitalName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,8 +29,8 @@ public class ApplyNow extends AppCompatActivity {
         TextView relationTypeTextView = findViewById(R.id.relationTypeTextView);
         Button applyButton = findViewById(R.id.applyButton);
         Button goBackButton = findViewById(R.id.goBackButton);
-        String hospitalName = getIntent().getStringExtra("hospitalName");
-        String hospitalEmail = getIntent().getStringExtra("hospEmail");
+        hospitalName = getIntent().getStringExtra("hospitalName");
+        hospitalEmail = getIntent().getStringExtra("hospEmail");
         SharedPreferences sharedPreferences = getSharedPreferences("DonationData", Context.MODE_PRIVATE);
         String userId = sharedPreferences.getString("userid","");
         String aadhaarNumber = sharedPreferences.getString("aadhaarNumber","");
@@ -52,19 +54,13 @@ public class ApplyNow extends AppCompatActivity {
                                     SharedPreferences sharedPreferences = getSharedPreferences("DonationData", Context.MODE_PRIVATE);
                                     String userId = sharedPreferences.getString("userid", "");
                                     String aadharNumber = sharedPreferences.getString("aadhaarNumber","");
-                                    String userName = sharedPreferences.getString("userName", "");
-                                    String relationType = sharedPreferences.getString("relationType","");
                                     FirebaseDatabase database = FirebaseDatabase.getInstance();
-                                    DatabaseReference hospitalsRef = database.getReference().child("hospitals");
-                                    String sanitizedHospEmail = hospitalEmail.replace("@","").replace(".","");
-                                    DatabaseReference hospEmailRef = hospitalsRef.child(sanitizedHospEmail);
-                                    DatabaseReference donationRequestsRef = hospEmailRef.child("donation_requests");
-                                    DatabaseReference userRef = donationRequestsRef.child(userId).child(aadharNumber);
+                                    DatabaseReference hospitalsRef = database.getReference().child("blooddonation");
+                                    DatabaseReference hospRef = hospitalsRef.child(userId).child(aadharNumber);
+                                    DatabaseReference userRef = hospRef.child(userId).child(aadharNumber);
                                     Map<String, Object> donationRequest = new HashMap<>();
-                                    donationRequest.put("userId", userId);
-                                    donationRequest.put("aadharNumber", aadharNumber);
-                                    donationRequest.put("userName", userName);
-                                    donationRequest.put("relationType", relationType);
+                                    donationRequest.put("donation_location", hospitalEmail);
+                                    donationRequest.put("hospital_name",hospitalName);
                                     userRef.setValue(donationRequest);
                                     Toast.makeText(ApplyNow.this, "Donation request submitted successfuly!",Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(ApplyNow.this, Session.class);
@@ -78,7 +74,7 @@ public class ApplyNow extends AppCompatActivity {
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss(); // Dismiss the dialog if canceled
+                                dialog.dismiss();
                             }
                         })
                         .show();

@@ -3,6 +3,8 @@ package com.example.unityapp;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -98,6 +100,10 @@ public class Login extends AppCompatActivity {
     }
 
     private void loginUser() {
+        if (!isNetworkConnected()) {
+            showToast("No internet connection. Please check your network settings.");
+            return;
+        }
         progressBar.setVisibility(View.VISIBLE);
         String email = editTextEmail.getText().toString();
         String password = editTextPassword.getText().toString();
@@ -302,5 +308,10 @@ public class Login extends AppCompatActivity {
                         }
                     }
                 });
+    }
+    private boolean isNetworkConnected() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
     }
 }

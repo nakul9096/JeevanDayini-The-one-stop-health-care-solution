@@ -60,6 +60,7 @@ public class Session extends AppCompatActivity {
         noInternetTextView = findViewById(R.id.noInternetTextView);
         MyPagerAdapter pagerAdapter = new MyPagerAdapter(this);
         viewPager.setAdapter(pagerAdapter);
+        viewPager.setUserInputEnabled(false);
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
             tab.setText(tabTitles[position]);
             tab.setIcon(tabIcons[position]);

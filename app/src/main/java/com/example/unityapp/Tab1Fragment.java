@@ -41,7 +41,6 @@ import java.util.TimerTask;
 public class Tab1Fragment extends Fragment {
     private TextView userDetailsTextView;
     private Button logoutButton, btnPremium;
-    private ImageView chatIcon;
     private ViewPager viewPager;
     private int[] banners = {R.drawable.banner1, R.drawable.banner2, R.drawable.banner3};
     private int currentPage = 0;
@@ -60,7 +59,6 @@ public class Tab1Fragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tab1, container, false);
         checkAndUpdatePlanType();
-        chatIcon = view.findViewById(R.id.chatIcon);
         viewPager = view.findViewById(R.id.viewPager);
         userDetailsTextView = view.findViewById(R.id.user_details);
         btnPremium = view.findViewById(R.id.btnPremium);
@@ -83,18 +81,6 @@ public class Tab1Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 showPopupMenu(v);
-            }
-        });
-        chatIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (currentUserEmail != null) {
-                    Intent intent = new Intent(getActivity(), Assistant.class);
-                    intent.putExtra("userEmail", currentUserEmail);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(getActivity(), "User email is null", Toast.LENGTH_SHORT).show();
-                }
             }
         });
         btnPremium.setOnClickListener(new View.OnClickListener() {
