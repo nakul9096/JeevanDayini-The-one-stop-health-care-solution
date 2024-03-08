@@ -10,8 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +22,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -28,6 +32,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Tab4Fragment extends Fragment {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabaseReference;
@@ -35,12 +42,14 @@ public class Tab4Fragment extends Fragment {
     private Button logoutButton;
     private Button EditProfileButton;
     Button btnEarnedBadges;
+    Switch profilePrivacySwitch;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tab4, container, false);
         btnEarnedBadges = view.findViewById(R.id.btnEarnedBadges);
         ImageView imageView = view.findViewById(R.id.profilePhoto);
+        profilePrivacySwitch = view.findViewById(R.id.profilePrivacySwitch);
         TextView textViewFullName = view.findViewById(R.id.nameTextView);
         TextView textViewGender = view.findViewById(R.id.genderTextView);
         TextView textViewPhone = view.findViewById(R.id.phoneTextView);
@@ -59,6 +68,7 @@ public class Tab4Fragment extends Fragment {
         progressBar1.setVisibility(View.VISIBLE);
         progressBar2.setVisibility(View.VISIBLE);
         mAuth = FirebaseAuth.getInstance();
+
         EditProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,6 +85,23 @@ public class Tab4Fragment extends Fragment {
         });
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
         FirebaseUser currentUser = mAuth.getCurrentUser();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference usersRef = database.getReference("users");
+        profilePrivacySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                String visibility = isChecked ? "private" : "public";
+                String email = currentUser.getEmail();
+                String sanitizedEmail = email.replace("@", "").replace(".", "");
+                DatabaseReference userRef = database.getReference().child("users");
+                userRef.child(sanitizedEmail);
+                Map<String, Object> donationRequest = new HashMap<>();
+                donationRequest.put("visibility", visibility);
+                userRef.setValue(donationRequest);
+                Toast.makeText(getContext(), "Preferences updated successfully!",Toast.LENGTH_SHORT).show();
+            }
+        });
+
         if (currentUser != null) {
             String userUid = currentUser.getUid();
             Log.d("UserData1", "useruid: " + userUid);

@@ -67,15 +67,14 @@ public class Tab2Fragment extends Fragment {
                 checkDataInDatabase(userEmail, userId);
             }
         });
-
         bt3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), FindClinics.class);
+                intent.putExtra("requesttype","findclinics");
                 startActivity(intent);
             }
         });
-
         bt4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,7 +89,6 @@ public class Tab2Fragment extends Fragment {
                 Suggestion.showSuggestionDialog(getActivity());
             }
         });
-
         bt6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,7 +99,6 @@ public class Tab2Fragment extends Fragment {
 
         return rootView;
     }
-
     private String getCurrentUserEmail() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         return user != null ? user.getEmail() : "";

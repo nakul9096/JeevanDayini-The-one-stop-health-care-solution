@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
@@ -104,13 +105,13 @@ public class FindClinics extends AppCompatActivity {
                                         String img2 = userSnapshot.child("imageUrlHorizontal2").getValue(String.class);
                                         String bloodDonationField = userSnapshot.child("bdf").getValue(String.class);
                                         Intent intent = getIntent();
-                                        if(intent.getStringExtra("requestType").equals("blooddonation"))
+                                        if(intent!=null && intent.getStringExtra("requesttype").equals("findclinics"))
                                         {
+                                            createNameCard(name, email, type, address, state, city, img1, img2, mapUrl);
+                                        }else if(intent != null && intent.getStringExtra("requestType").equals("blooddonation")) {
                                             if(bloodDonationField != null && bloodDonationField.equals("Yes")) {
                                                 createNameCard2(name, email, type, address, state, city, img1, img2, mapUrl);
                                             }
-                                        }else {
-                                            createNameCard(name, email, type, address, state, city, img1, img2, mapUrl);
                                         }
                                         dataFound = true;
                                     }

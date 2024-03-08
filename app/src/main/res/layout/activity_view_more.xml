@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5">
+    android:background="#D2FFFFFF">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,7 +13,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:padding="7dp">
 
             <ProgressBar
                 android:id="@+id/progressBar"
@@ -23,54 +23,80 @@
                 android:visibility="visible" />
 
             <!-- Clinic card content -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardClinic"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardClinic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/android_fade"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/textClinicName1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Clinic Name"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <!-- Add borders between sections -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#CCCCCC" />
+
+            <!-- Clinic Type -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#FFFFFF"
-                app:cardCornerRadius="8dp">
+                android:orientation="horizontal"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <ImageView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                    android:src="@drawable/clinic" />
 
-                    <TextView
-                        android:id="@+id/textClinicName1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Clinic Name"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/textClinictype"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Clinic Type"
+                    android:textColor="#757575"
+                    android:textSize="18sp" />
+            </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/textClinictype"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="8dp"
-                        android:text="Clinic Type"
-                        android:textColor="#757575"
-                        android:textSize="18sp" />
+            <!-- Add borders between sections -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#CCCCCC" />
 
-                    <!-- Horizontal ScrollView for preview images -->
-                    <HorizontalScrollView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp">
+            <!-- Preview Images -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="16dp">
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <!-- Four ImageView elements for preview images -->
-                            <ImageView
-                                android:id="@+id/imagePreview1"
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
-                                android:layout_marginRight="8dp"
-                                android:scaleType="centerCrop" />
+                <!-- Four preview images with rounded corners -->
+                <ImageView
+                    android:id="@+id/imagePreview1"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/imageviewnew"
+                    android:scaleType="centerCrop" />
 
                             <ImageView
                                 android:id="@+id/imagePreview2"
@@ -92,56 +118,59 @@
                                 android:layout_height="100dp"
                                 android:scaleType="centerCrop" />
                         </LinearLayout>
-                    </HorizontalScrollView>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#CCCCCC" />
 
-                    <RatingBar
-                        style="?android:attr/ratingBarStyleSmall"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:numStars="5"
-                        android:rating="4.5"
-                        android:stepSize="0.1" />
+        <!-- Rating -->
+        <RatingBar
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:numStars="5"
+            android:rating="4.5"
+            android:stepSize="0.1" />
 
-                    <TextView
-                        android:id="@+id/textClinicAddress1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="Clinic Address"
-                        android:textColor="#757575"
-                        android:textSize="18sp" />
+        <!-- Clinic Address -->
+        <TextView
+            android:id="@+id/textClinicAddress1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Clinic Address"
+            android:textColor="#CDCDCD"
+            android:textSize="18sp" />
 
-                    <TextView
-                        android:id="@+id/textCliniclocation"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="Clinic Location"
-                        android:textColor="#757575"
-                        android:textSize="18sp" />
+        <!-- Clinic Location -->
+        <TextView
+            android:id="@+id/textCliniclocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Clinic Location"
+            android:textColor="#CDCDCD"
+            android:textSize="18sp" />
 
-                    <Button
-                        android:id="@+id/buttonBookAppointment"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
-                        android:background="@drawable/bg_blue_button"
-                        android:text="Book Appointment Slot"
-                        android:textColor="#FFFFFF" />
+        <!-- Book Appointment Button -->
+        <Button
+            android:id="@+id/buttonBookAppointment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/bg_blue_button"
+            android:text="Book Appointment Slot"
+            android:textColor="#FFFFFF" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </RelativeLayout>
-
         <TableLayout
             android:id="@+id/tableLayoutSchedule"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#FFFFFF">
-
-            <!-- Table header -->
+            android:padding="10dp"
+            android:layout_height="wrap_content">
             <TableRow android:background="@drawable/table_border">
-
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -160,7 +189,6 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
             </TableRow>
-
             <!-- Days and timings rows -->
             <TableRow>
 
@@ -362,7 +390,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="8dp"
-                android:background="@drawable/rounded_button"
+                android:background="@drawable/bg_blue_button"
                 android:text="View on Map"
                 android:textColor="#FFFFFF" />
         </FrameLayout>
