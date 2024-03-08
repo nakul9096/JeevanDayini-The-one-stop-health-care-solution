@@ -41,7 +41,8 @@
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_gravity="center"
-                android:contentDescription="Photo Proof"
+                android:contentDescription="Profile Picture"
+                android:scaleType="centerCrop"
                 android:src="@drawable/profile" />
 
             <ProgressBar
@@ -192,7 +193,6 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:gravity="center_vertical"
-                android:onClick="onChooseDateClick"
                 android:text="Choose date"
                 android:textColor="#ffffff" />
 
@@ -488,7 +488,23 @@
                         android:textSize="10dp" />
                 </RadioGroup>
             </LinearLayout>
+            <TextView
+                android:id="@+id/textViewDescribeDonation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:text="Describe when you donated blood recently"
+                android:textColor="#ffffff"
+                android:textSize="12dp" />
 
+            <Button
+                android:id="@+id/buttonChooseDate"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:text="Choose Date" />
             <!-- Disease History Section -->
             <LinearLayout
                 android:layout_width="match_parent"

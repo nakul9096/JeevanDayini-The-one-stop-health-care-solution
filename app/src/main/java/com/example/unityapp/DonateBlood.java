@@ -1,12 +1,14 @@
 package com.example.unityapp;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -34,6 +36,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -51,6 +56,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
@@ -89,7 +95,6 @@ public class DonateBlood extends AppCompatActivity {
     private String documentUrl, imageUrl;
     private EditText editTextAdditionalInfo, etoccupation, etemail, etaddress;
     private TextView textViewAgeWarning;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,6 +105,8 @@ public class DonateBlood extends AppCompatActivity {
         textViewUploadStatus = findViewById(R.id.textViewUploadStatus);
         textViewUploadStatusaadhar = findViewById(R.id.textViewUploadStatus2);
         etFullname = findViewById(R.id.etFullname);
+        TextView textViewDescribeDonation = findViewById(R.id.textViewDescribeDonation);
+        Button buttonChooseDate = findViewById(R.id.buttonChooseDate);
         etemail = findViewById(R.id.eEmail);
         if (user != null) {
             String userEmail = user.getEmail();
@@ -171,8 +178,42 @@ public class DonateBlood extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parentView) {
             }
         });
-
-
+        RadioGroup radioGroupDiseaseHistory = findViewById(R.id.radioGroupDiseaseHistory);
+        TextView tvAdditionalInfo = findViewById(R.id.tvadditionalinfo);
+        EditText editTextAdditionalInfo = findViewById(R.id.editTextAdditionalInfo);
+        radioGroupDiseaseHistory.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.radioButtonDiseaseHistoryYes) {
+                    tvAdditionalInfo.setVisibility(View.VISIBLE);
+                    editTextAdditionalInfo.setVisibility(View.VISIBLE);
+                } else if (checkedId == R.id.radioButtonDiseaseHistoryNo) {
+                    tvAdditionalInfo.setVisibility(View.GONE);
+                    editTextAdditionalInfo.setVisibility(View.GONE);
+                }
+            }
+        });
+        radioGroupBloodDonation.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.radioButtonBloodDonationYes) {
+                    // If Yes is selected, make the TextView and Button visible
+                    textViewDescribeDonation.setVisibility(View.VISIBLE);
+                    buttonChooseDate.setVisibility(View.VISIBLE);
+                    buttonChooseDate.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // Call the showDatePicker() method when the button is clicked
+                            showUnrestrictedDatePicker(buttonChooseDate);
+                        }
+                    });
+                } else if (checkedId == R.id.radioButtonBloodDonationNo) {
+                    // If No is selected, hide the TextView and Button
+                    textViewDescribeDonation.setVisibility(View.GONE);
+                    buttonChooseDate.setVisibility(View.GONE);
+                }
+            }
+        });
         Intent intent = getIntent();
         if (intent != null) {
             String relationType = intent.getStringExtra("relationType");
@@ -203,7 +244,7 @@ public class DonateBlood extends AppCompatActivity {
         textViewChooseDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDatePicker();
+                showDatePicker(textViewChooseDate);
             }
         });
         uploadAadhaarButton = findViewById(R.id.buttonUploadAadhaarCard);
@@ -214,9 +255,21 @@ public class DonateBlood extends AppCompatActivity {
             }
         });
     }
+    private void showUnrestrictedDatePicker(final Button textViewChooseDate) {
+        Calendar today = Calendar.getInstance();
+        int currentYear = today.get(Calendar.YEAR);
+        int currentMonth = today.get(Calendar.MONTH);
+        int currentDay = today.get(Calendar.DAY_OF_MONTH);
 
-    public void onChooseDateClick(View view) {
-        showDatePicker();
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                String selectedDate = String.format(Locale.getDefault(), "%04d-%02d-%02d", year, monthOfYear + 1, dayOfMonth);
+                textViewChooseDate.setText(selectedDate);
+            }
+        }, currentYear, currentMonth, currentDay);
+
+        datePickerDialog.show();
     }
 
     public boolean validateForm() {
@@ -239,7 +292,6 @@ public class DonateBlood extends AppCompatActivity {
     private String getSpinnerSelectedItem(Spinner spinner) {
         return spinner.getSelectedItem().toString().trim();
     }
-
     public void onSubmitButtonClick() {
         if (validateForm()) {
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -346,49 +398,34 @@ public class DonateBlood extends AppCompatActivity {
             Toast.makeText(this, "Aadhar number is required", Toast.LENGTH_SHORT).show();
         }
     }
+    private void showDatePicker(final TextView textViewChooseDate) {
+        Calendar today = Calendar.getInstance();
+        today.add(Calendar.YEAR, -18);
+        int currentYear = today.get(Calendar.YEAR);
+        int currentMonth = today.get(Calendar.MONTH);
+        int currentDay = today.get(Calendar.DAY_OF_MONTH);
 
-    private void showDatePicker() {
-        DatePicker datePicker = new DatePicker(this);
-        datePicker.setCalendarViewShown(false);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setView(datePicker);
-        builder.setTitle("Choose date");
-
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                int year = datePicker.getYear();
-                int month = datePicker.getMonth();
-                int day = datePicker.getDayOfMonth();
-
-                // Do something with the selected date (e.g., update a TextView)
-                // For example, you can format the date and display it in a TextView
-                String selectedDate = String.format(Locale.getDefault(), "%04d-%02d-%02d", year, month + 1, day);
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                String selectedDate = String.format(Locale.getDefault(), "%04d-%02d-%02d", year, monthOfYear + 1, dayOfMonth);
                 textViewChooseDate.setText(selectedDate);
-
-                // You can perform any additional actions needed with the selected date
             }
-        });
+        }, currentYear, currentMonth, currentDay);
+        datePickerDialog.getDatePicker().setMaxDate(today.getTimeInMillis());
 
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Handle cancellation if needed
-            }
-        });
-
-        builder.show();
+        datePickerDialog.show();
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // CAMERA permission granted, proceed with your operation
+                dispatchTakePictureIntent();
             } else {
-                Toast.makeText(this, "Permission denied! go to appinfo to enable it", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Permission denied! Go to app settings to enable it", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -467,7 +504,21 @@ public class DonateBlood extends AppCompatActivity {
                         saveToSharedPreferences(IMAGE_URL_KEY, imageUrl);
                         Toast.makeText(getApplicationContext(), "Image upload successful", Toast.LENGTH_SHORT).show();
                         progressBarnew.setVisibility(View.GONE);
-                        imageViewUploadedPhoto.setImageBitmap(photoBitmap);
+                        Glide.with(getApplicationContext())
+                                .asBitmap()
+                                .load(photoBitmap)
+                                .circleCrop()
+                                .into(new CustomTarget<Bitmap>() {
+                                    @Override
+                                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                        imageViewUploadedPhoto.setImageBitmap(resource);
+                                    }
+
+                                    @Override
+                                    public void onLoadCleared(@Nullable Drawable placeholder) {
+                                        // Handle the placeholder if needed
+                                    }
+                                });
                         uploadButton.setVisibility(View.GONE);
                         textViewUploadStatus.setVisibility(View.VISIBLE);
                         textViewUploadStatus.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
