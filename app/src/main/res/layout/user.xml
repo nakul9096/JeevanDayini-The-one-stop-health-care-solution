@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="10dp">
 
             <!-- User Name -->
             <TextView
@@ -27,6 +27,8 @@
                 android:layout_height="wrap_content"
                 android:text="User's Name"
                 android:textColor="#000"
+                android:textStyle="bold"
+                android:layout_gravity="center"
                 android:textSize="18sp" />
 
             <!-- Buttons -->
@@ -39,20 +41,20 @@
                 <!-- View Data Button -->
                 <Button
                     android:id="@+id/viewDataButton"
-                    android:layout_width="0dp"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:backgroundTint="#007bff"
                     android:text="View Data"
+                    android:textSize="10dp"
                     android:textColor="#fff" />
 
                 <!-- Disable Account Button -->
                 <Button
                     android:id="@+id/disableAccountButton"
-                    android:layout_width="0dp"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_weight="1"
+                    android:textSize="10dp"
                     android:backgroundTint="#ff5722"
                     android:text="Disable Account"
                     android:textColor="#fff" />
