@@ -47,7 +47,6 @@
                     android:text="View Data"
                     android:textSize="10dp"
                     android:textColor="#fff" />
-
                 <!-- Disable Account Button -->
                 <Button
                     android:id="@+id/disableAccountButton"
