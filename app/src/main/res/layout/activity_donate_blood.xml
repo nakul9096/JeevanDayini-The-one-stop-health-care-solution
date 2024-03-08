@@ -58,7 +58,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Upload Photo Proof"
-                android:textColor="@color/white"
                 android:layout_gravity="center"
                 android:textSize="12sp" />
 
@@ -183,18 +182,16 @@
                 android:text="Birth date *"
                 android:textColor="#ffffff" />
 
-            <TextView
+            <Button
                 android:id="@+id/textViewChooseDate"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="70dp"
                 android:layout_marginBottom="4dp"
-                android:layout_weight="1"
                 android:clickable="true"
                 android:focusable="true"
-                android:gravity="center_vertical"
-                android:text="Choose date"
-                android:textColor="#ffffff" />
+                android:gravity="center"
+                android:text="Choose date" />
 
             <DatePicker
                 android:layout_width="wrap_content"
@@ -435,20 +432,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Upload"
-                    android:textColor="@color/white"
+                    android:layout_marginLeft="80dp"
                     android:textSize="10sp" />
-
-                <TextView
-                    android:id="@+id/textViewUploadStatus2"
-                    android:layout_width="match_parent"
+                <ProgressBar
+                    android:id="@+id/progressBarAadhar"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:gravity="center_horizontal"
-                    android:text="Upload successful!"
-                    android:textColor="@android:color/holo_green_dark"
-                    android:visibility="gone" />
+                    android:layout_below="@id/buttonUploadAadhaarCard"
+                    android:visibility="gone"
+                   />
             </LinearLayout>
-
             <!-- Blood Donation Section -->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -493,7 +486,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                android:text="Describe when you donated blood recently"
+                android:text="Describe when you donated blood recently *"
                 android:textColor="#ffffff"
                 android:textSize="12dp" />
 
@@ -556,7 +549,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
                     android:gravity="center_horizontal"
-                    android:text="Describe illness"
+                    android:text="Describe illness *"
                     android:textColor="#ffffff"
                     android:visibility="gone" />
 

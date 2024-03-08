@@ -126,10 +126,12 @@ public class Tab1Fragment extends Fragment {
                 for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                     String userName = userSnapshot.child("fullName").getValue(String.class);
                     String userid = userSnapshot.child("userid").getValue(String.class);
+                    String aadharNumber = userSnapshot.child("aadharNumber").getValue(String.class);
                     Log.e("UserID", "User ID retrieved: " + userid);
                     SharedPreferences sharedPreferences = getActivity().getSharedPreferences("ProfileData", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("userid", userid);
+                    editor.putString("aadharNumber",aadharNumber);
                     editor.apply();
                     userDetailsTextView.setText("Hello, \n" + userName);
                     loadingBar.dismiss();

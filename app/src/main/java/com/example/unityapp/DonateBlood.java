@@ -2,19 +2,24 @@ package com.example.unityapp;
 
 import android.Manifest;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -78,8 +83,7 @@ public class DonateBlood extends AppCompatActivity {
     private String currentPhotoPath;
     private Button uploadButton;
     private Button uploadAadhaarButton;
-    private TextView textViewChooseDate;
-    private TextView textViewUploadStatusaadhar;
+    private Button textViewChooseDate;
     private Button submitButton;
     private EditText etFullname;
     private EditText etPostalCode;
@@ -95,6 +99,7 @@ public class DonateBlood extends AppCompatActivity {
     private String documentUrl, imageUrl;
     private EditText editTextAdditionalInfo, etoccupation, etemail, etaddress;
     private TextView textViewAgeWarning;
+    private ProgressBar progressBaraadhar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,8 +107,9 @@ public class DonateBlood extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         textViewRelationType = findViewById(R.id.textViewRelationType);
         imageViewUploadedPhoto = findViewById(R.id.imageViewPhotoProof);
+        progressBaraadhar = findViewById(R.id.progressBarAadhar);
         textViewUploadStatus = findViewById(R.id.textViewUploadStatus);
-        textViewUploadStatusaadhar = findViewById(R.id.textViewUploadStatus2);
+        uploadAadhaarButton = findViewById(R.id.buttonUploadAadhaarCard);
         etFullname = findViewById(R.id.etFullname);
         TextView textViewDescribeDonation = findViewById(R.id.textViewDescribeDonation);
         Button buttonChooseDate = findViewById(R.id.buttonChooseDate);
@@ -169,7 +175,7 @@ public class DonateBlood extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 String[] cityOptions = cityUtils.updateCitySpinner(DonateBlood.this, position);
-                ArrayAdapter<String> cityAdapter = new ArrayAdapter<>(DonateBlood.this, R.layout.city_spinner_item_layout, cityOptions);
+                ArrayAdapter<String> cityAdapter = new ArrayAdapter<>(DonateBlood.this,  android.R.layout.simple_spinner_item, cityOptions);
                 cityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 cityspinner.setAdapter(cityAdapter);
             }
@@ -247,7 +253,6 @@ public class DonateBlood extends AppCompatActivity {
                 showDatePicker(textViewChooseDate);
             }
         });
-        uploadAadhaarButton = findViewById(R.id.buttonUploadAadhaarCard);
         uploadAadhaarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -398,7 +403,7 @@ public class DonateBlood extends AppCompatActivity {
             Toast.makeText(this, "Aadhar number is required", Toast.LENGTH_SHORT).show();
         }
     }
-    private void showDatePicker(final TextView textViewChooseDate) {
+    private void showDatePicker(final Button textViewChooseDate) {
         Calendar today = Calendar.getInstance();
         today.add(Calendar.YEAR, -18);
         int currentYear = today.get(Calendar.YEAR);
@@ -537,6 +542,7 @@ public class DonateBlood extends AppCompatActivity {
         });
     }
     private void uploadDocumentToFirebase(Uri documentUri) {
+        progressBaraadhar.setVisibility(View.VISIBLE);
         StorageReference documentRef = storageReference.child("documents/" + UUID.randomUUID().toString());
         UploadTask uploadTask = documentRef.putFile(documentUri);
         uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -549,8 +555,18 @@ public class DonateBlood extends AppCompatActivity {
                         Log.d("UploadSuccess", "Document URL: " + documentUrl);
                         saveToSharedPreferences(DOCUMENT_URL_KEY, documentUrl);
                         Toast.makeText(getApplicationContext(), "Document upload successful", Toast.LENGTH_SHORT).show();
-                        uploadAadhaarButton.setVisibility(View.GONE);
-                        textViewUploadStatusaadhar.setVisibility(View.VISIBLE);
+                        progressBaraadhar.setVisibility(View.GONE);
+                        uploadAadhaarButton.setText("View Document");
+                        uploadAadhaarButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (documentUrl != null && !documentUrl.isEmpty()) {
+                                    displayImageDialog(documentUrl);
+                                } else {
+                                    Toast.makeText(DonateBlood.this, "Aadhar image not available", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
                     }
                 });
             }
@@ -566,7 +582,16 @@ public class DonateBlood extends AppCompatActivity {
             }
         });
     }
-
+    private void displayImageDialog(String imageUrl) {
+        Dialog dialog = new Dialog(DonateBlood.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(true);
+        dialog.setContentView(R.layout.dialog_image_viewer);
+        ImageView imageView = dialog.findViewById(R.id.imageView);
+        Glide.with(this).load(imageUrl).into(imageView);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+    }
     private File createImageFile() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";

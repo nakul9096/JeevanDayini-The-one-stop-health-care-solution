@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:gravity="center"
-        android:text="Blood Donation"
+        android:text="Select Donar-type"
         android:textSize="24sp"
         android:textStyle="bold" />
 
@@ -42,6 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:layout_marginBottom="10dp"
             android:entries="@array/family_members"
             android:visibility="gone" />
 
@@ -57,6 +58,7 @@
     <Button
         android:id="@+id/btnProceed"
         android:layout_width="match_parent"
+        android:background="@drawable/bg_blue_button"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Proceed" />

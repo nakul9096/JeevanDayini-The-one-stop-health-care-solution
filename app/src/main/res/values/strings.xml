@@ -31,12 +31,10 @@ We prioritize user privacy and employ measures to responsibly share data with re
         <item>O-</item>
     </string-array>
     <string-array name="family_members">
-        <item>Select</item>
         <item>Mother</item>
         <item>Father</item>
         <item>Son</item>
         <item>Daughter</item>
-        <item>Other</item>
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="default_notification_channelid">PushNotifications</string>
