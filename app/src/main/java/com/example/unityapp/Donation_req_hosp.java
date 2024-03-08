@@ -1,5 +1,4 @@
 package com.example.unityapp;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -25,13 +24,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 public class Donation_req_hosp extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private LinearLayout cardContainer;
     ProgressBar progressBar;
     TextView noRequestsTextView80, infoTv;
     ImageView refreshImageView80;
+    String hosp_email;
+    String email;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,10 +44,9 @@ public class Donation_req_hosp extends AppCompatActivity {
         if (currentUser == null) {
             return;
         }
-        String email = currentUser.getEmail();
-        String sanitizedEmail = sanitizeEmail(email);
-        databaseReference = FirebaseDatabase.getInstance().getReference()
-                .child("hospitals").child(sanitizedEmail).child("donation_requests");
+        email = currentUser.getEmail();
+        hosp_email = sanitizeEmail(email);
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("blooddonation");
         cardContainer = findViewById(R.id.namesLayout80);
         fetchDonationRequestsFromDatabase();
         refreshImageView80.setOnClickListener(new View.OnClickListener() {
@@ -61,19 +60,30 @@ public class Donation_req_hosp extends AppCompatActivity {
     }
     private void fetchDonationRequestsFromDatabase() {
         noRequestsTextView80.setVisibility(View.GONE);
+        Log.d("fetchDonationRequests", "Fetching donation requests from database...");
+
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Log.d("fetchDonationRequests", "Data received from database.");
                 cardContainer.removeAllViews();
                 boolean requestsFound = false;
+
                 for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                    String userId = childSnapshot.getKey();
+                    Log.e("Testing","userid nretreived: "+userId);
+
                     for (DataSnapshot snapshot2 : childSnapshot.getChildren()) {
-                        String userId = childSnapshot.getKey();
-                        String donorName = snapshot2.child("userName").getValue(String.class);
+                        String aadharNumber = snapshot2.getKey();
+                        Log.e("Testing","aadhar nretreived: "+aadharNumber);
+                        String donorName = snapshot2.child("fullName").getValue(String.class);
                         String donationType = snapshot2.child("relationType").getValue(String.class);
-                        String aadharNumber = snapshot2.child("aadharNumber").getValue(String.class);
-                        if (!snapshot2.hasChild("donation_status")) {
-                            createCard(userId, donorName, donationType, aadharNumber, snapshot2);
+                        String donationStatus = snapshot2.child("donation_status").getValue(String.class);
+                        String status = snapshot2.child("status").getValue(String.class);
+                        String donation_location = snapshot2.child("donation_location").getValue(String.class);
+                        Log.e("Testing","DOnation location: "+donation_location);
+                        if (donorName != null && donationType != null && donationStatus == null && status.equals("approved") && donation_location != null && donation_location.equals(email)) {
+                            createCard(userId, donorName, donationType, aadharNumber);
                             requestsFound = true;
                         }
                     }
@@ -81,26 +91,30 @@ public class Donation_req_hosp extends AppCompatActivity {
                 if (!requestsFound) {
                     noRequestsTextView80.setText("No requests available at this moment!");
                     noRequestsTextView80.setVisibility(View.VISIBLE);
-                    progressBar.setVisibility(View.GONE);
-                } else {
-                    // Otherwise, hide the message
-                    noRequestsTextView80.setVisibility(View.GONE);
-                    progressBar.setVisibility(View.GONE);
                 }
+
+                progressBar.setVisibility(View.GONE);
             }
-        @Override
+
+            @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle errors here
+                Log.e("fetchDonationRequests", "Error fetching donation requests: " + databaseError.getMessage());
                 progressBar.setVisibility(View.GONE);
             }
         });
     }
-    private void createCard(String userId, String donorName, String donationType, String aadharNumber, DataSnapshot childSnapshot) {
+    private void createCard(String userId, String donorName, String donationType, String aadharNumber) {
         View cardView = LayoutInflater.from(this).inflate(R.layout.donation_req_card, cardContainer, false);
         TextView requestIdTextView = cardView.findViewById(R.id.userIdTextView);
         TextView donorNameTextView = cardView.findViewById(R.id.nameTextView);
         TextView adharTextView = cardView.findViewById(R.id.adharTextView);
         TextView donationTypeTextView = cardView.findViewById(R.id.relationTypeTextView);
         Button donatedButton = cardView.findViewById(R.id.donatedButton);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference("blooddonation")
+                .child(userId) // Assuming you sanitize your userId
+                .child(aadharNumber);
         donatedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,7 +122,7 @@ public class Donation_req_hosp extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         // Update donation_status to "donated" in Firebase
-                        childSnapshot.getRef().child("donation_status").setValue("DONATED")
+                        ref.child("donation_status").setValue("DONATED")
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
@@ -147,7 +161,7 @@ public class Donation_req_hosp extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Update donation_status to "donated" in Firebase
-                childSnapshot.getRef().child("donation_status").setValue("ABSENT")
+                ref.child("donation_status").setValue("ABSENT")
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
@@ -183,7 +197,7 @@ public class Donation_req_hosp extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Update donation_status to "donated" in Firebase
-                childSnapshot.getRef().child("donation_status").setValue("DELETED")
+                ref.child("donation_status").setValue("DELETED")
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {

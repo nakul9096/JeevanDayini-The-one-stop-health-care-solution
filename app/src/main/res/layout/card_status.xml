@@ -82,5 +82,13 @@
             android:paddingTop="10dp"
             android:text="Find Blood Banks"
             android:visibility="gone" />
+        <Button
+            android:id="@+id/rescheduleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"
+            android:text="Reschedule" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>
