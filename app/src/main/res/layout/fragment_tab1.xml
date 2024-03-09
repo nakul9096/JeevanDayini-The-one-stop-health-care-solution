@@ -113,8 +113,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <!-- Add top artists items here (use a loop or manually add items) -->
-
                 <!-- Example item -->
                 <LinearLayout
                     android:layout_width="wrap_content"

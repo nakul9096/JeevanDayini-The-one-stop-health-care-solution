@@ -19,7 +19,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.unityapp.SendNotificationPack.Client;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
 import java.util.Random;
 
 import retrofit2.Call;
@@ -35,7 +38,7 @@ public class PaymentSuccess extends AppCompatActivity {
     private Button goToHomeButton;
     private Button viewReceiptButton, downloadReceiptButton;
     private ProgressDialog progressDialog;
-
+    String invoiceNumber;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +51,7 @@ public class PaymentSuccess extends AppCompatActivity {
         viewReceiptButton = findViewById(R.id.viewReceiptButton);
         tokenNumberTextView = findViewById(R.id.tokenNumberTextView);
         DateTextView = findViewById(R.id.DateTextView);
-        String invoiceNumber = generateInvoiceNumber();
+        invoiceNumber = generateInvoiceNumber();
         goToHomeButton = findViewById(R.id.goToHomeButton);
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Generating invoice...");
@@ -82,6 +85,7 @@ public class PaymentSuccess extends AppCompatActivity {
         transactionIdTextView.setText("Transaction ID: " + transactionId);
         tokenNumberTextView.setText("Token Number: " + tokenNumber);
         DateTextView.setText("Date: " + date);
+        uploadFileToFirebaseStorage();
         goToHomeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,36 +158,115 @@ public class PaymentSuccess extends AppCompatActivity {
     }
 
     private void openPdfFile(String filename) {
-        String serverUrl = "http://192.168.227.40:4000";
-        String fileUrl = serverUrl + "/" + filename;
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(fileUrl));
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
-        } else {
-            Toast.makeText(this, "No PDF viewer application found", Toast.LENGTH_SHORT).show();
-        }
+        // Create a reference to Firebase Storage
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+
+        // Create a reference to the file in Firebase Storage
+        StorageReference fileRef = storageRef.child("invoice/" + filename);
+
+        // Get the download URL of the file
+        fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
+            // If the file exists, create an intent to view the PDF
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(uri, "application/pdf");
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                // If a PDF viewer application is found, start the activity to view the PDF
+                startActivity(intent);
+            } else {
+                // If no PDF viewer application is found, display a toast
+                Toast.makeText(this, "No PDF viewer application found", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(exception -> {
+            // If the file does not exist, display a toast
+            Toast.makeText(this, "PDF file not found", Toast.LENGTH_SHORT).show();
+        });
+    }
+    private void downloadPdfFile(String filename) {
+        // Create a reference to Firebase Storage
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+
+        // Create a reference to the file in Firebase Storage
+        StorageReference fileRef = storageRef.child("invoice/" + filename);
+
+        // Check if the file exists in Firebase Storage
+        fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
+            // If the file exists, download it
+            DownloadManager.Request request = new DownloadManager.Request(uri);
+            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename);
+            request.setTitle("Downloading " + filename);
+            request.setDescription("Please wait while the file is downloaded.");
+            DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+            long downloadId = downloadManager.enqueue(request);
+            Toast.makeText(this, "Download started", Toast.LENGTH_SHORT).show();
+
+            // Register broadcast receiver to listen for download completion
+            BroadcastReceiver onComplete = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+                    if (id == downloadId) {
+                        Log.d("Download", "Download of " + filename + " successful!");
+                        downloadReceiptButton.setText("Download Again");
+                        Toast.makeText(context, "Download completed!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            };
+            registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        }).addOnFailureListener(exception -> {
+            // If the file does not exist, display a toast
+            Toast.makeText(this, "Invoice generation in progress. Please wait for a minute.", Toast.LENGTH_SHORT).show();
+            // You can also display a second toast here to inform the user not to close the page until done
+        });
     }
 
-    private void downloadPdfFile(String filename) {
+    private void uploadFileToFirebaseStorage() {
+        String filename = "invoice_" + invoiceNumber + ".pdf";
         String serverUrl = "http://192.168.227.40:4000";
-        String fileUrl = serverUrl + "/" + filename;
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(fileUrl));
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename);
+        String fullFileUrl = serverUrl + "/" + filename;
+
+        // Create a reference to Firebase Storage
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+
+        // Create a reference to the file in Firebase Storage
+        StorageReference fileRef = storageRef.child("invoice/" + filename);
+
+        // Fetch the file from the server using the full URL
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(fullFileUrl));
         request.setTitle("Downloading " + filename);
         request.setDescription("Please wait while the file is downloaded.");
+        request.setDestinationInExternalFilesDir(getApplicationContext(), Environment.DIRECTORY_DOWNLOADS, filename);
         DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
         long downloadId = downloadManager.enqueue(request);
-        Toast.makeText(this, "Download started", Toast.LENGTH_SHORT).show();
         BroadcastReceiver onComplete = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
                 if (id == downloadId) {
-                    Log.d("Download", "Download of " + filename + " successfull!");
+                    File downloadedFile = new File(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), filename);
+                    Uri fileUri = Uri.fromFile(downloadedFile);
+                    fileRef.putFile(fileUri)
+                            .addOnSuccessListener(taskSnapshot -> {
+                                // File upload succeeded
+                                Toast.makeText(PaymentSuccess.this, "Invoice uploaded Successfully! click to view", Toast.LENGTH_SHORT).show();
+                            })
+                            .addOnFailureListener(e -> {
+                                // Handle unsuccessful uploads
+                                Toast.makeText(PaymentSuccess.this, "Upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            });
+
+                    // Unregister the broadcast receiver
+                    unregisterReceiver(this);
                 }
             }
         };
+
+        // Register the broadcast receiver for download completion
         registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
+
 }
