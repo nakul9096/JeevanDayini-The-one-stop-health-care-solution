@@ -16,12 +16,13 @@ public class Tab3Fragment extends Fragment {
     private BiometricPrompt.PromptInfo promptInfo;
     private Button tbutton, contactbtn, btneditprof, faqtvi;
     private TextView privacytvi, termstvi;
-
+    private Button btnchangelang;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tab3, container, false);
         tbutton = view.findViewById(R.id.tubutton);
+        btnchangelang = view.findViewById(R.id.btnchangelang);
         contactbtn = view.findViewById(R.id.contactbtn);
         privacytvi = view.findViewById(R.id.privacytv);
         termstvi = view.findViewById(R.id.termstv);
@@ -32,6 +33,12 @@ public class Tab3Fragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), Tutorial.class);
                 startActivity(intent);
+            }
+        });
+        btnchangelang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(),"Only english language is available in this version!",Toast.LENGTH_SHORT).show();
             }
         });
         privacytvi.setOnClickListener(new View.OnClickListener() {
@@ -45,7 +52,6 @@ public class Tab3Fragment extends Fragment {
         termstvi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Intent to start PrivacyActivity
                 Intent intent = new Intent(getActivity(), Terms.class);
                 startActivity(intent);
             }
@@ -79,7 +85,6 @@ public class Tab3Fragment extends Fragment {
         });
         return view;
     }
-
     private void showToast(String message) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
     }

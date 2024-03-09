@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#D2FFFFFF">
+    android:background="#B5FFAB40">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -118,30 +118,41 @@
                                 android:layout_height="100dp"
                                 android:scaleType="centerCrop" />
                         </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#CCCCCC" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#CCCCCC" />
 
-        <!-- Rating -->
-        <RatingBar
-            style="?android:attr/ratingBarStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:numStars="5"
-            android:rating="4.5"
-            android:stepSize="0.1" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp">
 
-        <!-- Clinic Address -->
-        <TextView
-            android:id="@+id/textClinicAddress1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Clinic Address"
-            android:textColor="#CDCDCD"
-            android:textSize="18sp" />
+                <ImageView
+                    android:id="@+id/starIcon"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/staricon" /> <!-- Make sure you have a star icon in your drawables -->
+
+                <TextView
+                    android:id="@+id/textRating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/starIcon"
+                    android:text="4.5/5"
+                    android:textColor="#CDCDCD"
+                    android:textSize="20sp" />
+            </RelativeLayout>
+
+            <!-- Clinic Address -->
+            <TextView
+                android:id="@+id/textClinicAddress1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Clinic Address"
+                android:textColor="#CDCDCD"
+                android:textSize="18sp" />
 
         <!-- Clinic Location -->
         <TextView
@@ -170,11 +181,11 @@
             android:layout_width="match_parent"
             android:padding="10dp"
             android:layout_height="wrap_content">
-            <TableRow android:background="@drawable/table_border">
+            <TableRow  android:background="#000000">
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="0.5"
                     android:gravity="center"
                     android:text="Day"
                     android:textSize="18sp"
@@ -183,7 +194,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="0.5"
                     android:gravity="center"
                     android:text="Timings"
                     android:textSize="18sp"

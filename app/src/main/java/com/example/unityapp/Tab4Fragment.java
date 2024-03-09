@@ -92,13 +92,24 @@ public class Tab4Fragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 String visibility = isChecked ? "private" : "public";
                 String email = currentUser.getEmail();
+                // Assuming currentUser.getEmail() is non-null; otherwise, you should add a null check.
                 String sanitizedEmail = email.replace("@", "").replace(".", "");
-                DatabaseReference userRef = database.getReference().child("users");
-                userRef.child(sanitizedEmail);
-                Map<String, Object> donationRequest = new HashMap<>();
-                donationRequest.put("visibility", visibility);
-                userRef.setValue(donationRequest);
-                Toast.makeText(getContext(), "Preferences updated successfully!",Toast.LENGTH_SHORT).show();
+                DatabaseReference usersRef = database.getReference().child("users");
+                DatabaseReference userRef = usersRef.child(sanitizedEmail); // Correctly reference the specific user
+
+                Map<String, Object> updates = new HashMap<>();
+                updates.put("visibility", visibility);
+
+                userRef.updateChildren(updates, new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                        if (databaseError == null) {
+                            Toast.makeText(getContext(), "Preferences updated successfully!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getContext(), "Failed to update preferences: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         });
 

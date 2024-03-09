@@ -46,6 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
+            android:id="@+id/btnchangelang"
             android:background="@drawable/rounded_button_setting"
             android:text="Change language" />
 
