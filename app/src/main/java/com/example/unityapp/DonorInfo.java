@@ -26,6 +26,7 @@ public class DonorInfo {
     private String status;
     private String relationType;
     private String userId;
+    private String profilePhoto;
     public DonorInfo() {
     }
 
@@ -34,7 +35,7 @@ public class DonorInfo {
                      String occupation, String phoneNumber, String email, String address,
                      String state, String city, String postalCode, String aadhaarNumber,
                      String bloodDonationHistory, String diseaseHistory, String additionalInfo,
-                     String imageUrl, String documentUrl, String relationType, String timestamp, String status, String userId) {
+                     String imageUrl, String documentUrl, String relationType, String timestamp, String status, String userId, String profilePhoto) {
         this.fullName = fullName;
         this.bloodGroup = bloodGroup;
         this.birthDate = birthDate;
@@ -56,6 +57,7 @@ public class DonorInfo {
         this.timestamp = timestamp;
         this.status = status;
         this.userId = userId;
+        this.profilePhoto = profilePhoto;
     }
 
     private String getCurrentTimestamp() {
@@ -198,7 +200,13 @@ public class DonorInfo {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+    public String getProfilePhoto() {
+        return profilePhoto;
+    }
 
+    public void setProfilePhoto(String profilePhoto) {
+        this.profilePhoto = profilePhoto;
+    }
     public String getDocumentUrl() {
         return documentUrl;
     }

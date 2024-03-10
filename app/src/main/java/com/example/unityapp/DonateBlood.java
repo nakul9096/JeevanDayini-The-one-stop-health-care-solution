@@ -319,6 +319,8 @@ public class DonateBlood extends AppCompatActivity {
                 String bloodDonationHistory = getSelectedRadioButtonValue(radioGroupBloodDonation);
                 String diseaseHistory = getSelectedRadioButtonValue(radioGroupDiseaseHistory);
                 String additionalInfo = editTextAdditionalInfo.getText().toString();
+                SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs5", MODE_PRIVATE);
+                String profilePhoto = sharedPreferences.getString("profilePhoto", "");
                 String relationType = textViewRelationType.getText().toString().replace("Relation Type: ", "");
                 String status = "under scrutiny";
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
@@ -329,7 +331,7 @@ public class DonateBlood extends AppCompatActivity {
                         fullName, bloodGroup, birthDate, gender, occupation,
                         phoneNumber, email, address, state, city, postalCode,
                         aadhaarNumber, bloodDonationHistory, diseaseHistory, additionalInfo,
-                        imageUrl, documentUrl, relationType, timestamp, status, userId
+                        imageUrl, documentUrl, relationType, timestamp, status, userId, profilePhoto
                 );
                 saveDonorInfo(userEmail, donorInfo, userId);
             } else {

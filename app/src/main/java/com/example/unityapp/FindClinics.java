@@ -105,7 +105,7 @@ public class FindClinics extends AppCompatActivity {
                                         String img2 = userSnapshot.child("imageUrlHorizontal2").getValue(String.class);
                                         String bloodDonationField = userSnapshot.child("bdf").getValue(String.class);
                                         Intent intent = getIntent();
-                                        if(intent!=null && intent.getStringExtra("requesttype").equals("findclinics"))
+                                        if(intent!=null && intent.getStringExtra("requestType").equals("findclinics"))
                                         {
                                             createNameCard(name, email, type, address, state, city, img1, img2, mapUrl);
                                         }else if(intent != null && intent.getStringExtra("requestType").equals("blooddonation")) {

@@ -4,6 +4,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -12,13 +14,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.HashMap;
 import java.util.Map;
 public class ApplyNow extends AppCompatActivity {
     String hospitalEmail;
     String hospitalName;
+    private DatabaseReference bloodDonationRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +39,7 @@ public class ApplyNow extends AppCompatActivity {
         TextView relationTypeTextView = findViewById(R.id.relationTypeTextView);
         Button applyButton = findViewById(R.id.applyButton);
         Button goBackButton = findViewById(R.id.goBackButton);
+        bloodDonationRef = FirebaseDatabase.getInstance().getReference().child("blooddonation");
         hospitalName = getIntent().getStringExtra("hospitalName");
         hospitalEmail = getIntent().getStringExtra("hospEmail");
         SharedPreferences sharedPreferences = getSharedPreferences("DonationData", Context.MODE_PRIVATE);
@@ -50,25 +61,27 @@ public class ApplyNow extends AppCompatActivity {
                         .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                if (proceedCheckbox.isChecked()) {
-                                    SharedPreferences sharedPreferences = getSharedPreferences("DonationData", Context.MODE_PRIVATE);
-                                    String userId = sharedPreferences.getString("userid", "");
-                                    String aadharNumber = sharedPreferences.getString("aadhaarNumber","");
-                                    FirebaseDatabase database = FirebaseDatabase.getInstance();
-                                    DatabaseReference hospitalsRef = database.getReference().child("blooddonation");
-                                    DatabaseReference hospRef = hospitalsRef.child(userId).child(aadharNumber);
-                                    DatabaseReference userRef = hospRef.child(userId).child(aadharNumber);
-                                    Map<String, Object> donationRequest = new HashMap<>();
-                                    donationRequest.put("donation_location", hospitalEmail);
-                                    donationRequest.put("hospital_name",hospitalName);
-                                    userRef.setValue(donationRequest);
-                                    Toast.makeText(ApplyNow.this, "Donation request submitted successfuly!",Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(ApplyNow.this, Session.class);
-                                    startActivity(intent);
-                                    finishAffinity();
-                                } else {
-                                    Toast.makeText(ApplyNow.this,"Please check the checkbox to proceed!",Toast.LENGTH_SHORT).show();
-                                }
+                                Map<String, Object> userDataUpdates = new HashMap<>();
+                                userDataUpdates.put("donation_location", hospitalEmail);
+                                userDataUpdates.put("hospitalName", hospitalName);
+                                bloodDonationRef.child(userId).child(aadhaarNumber).updateChildren(userDataUpdates)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Toast.makeText(ApplyNow.this, "Apply successfull!", Toast.LENGTH_SHORT).show();
+                                                Intent intent = new Intent(ApplyNow.this,Session.class);
+                                                startActivity(intent);
+                                                finish();
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                // Failed to update data in the database
+                                                Log.e("UserData", "Failed to update data: " + e.getMessage());
+                                                Toast.makeText(ApplyNow.this, "Failed to update data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

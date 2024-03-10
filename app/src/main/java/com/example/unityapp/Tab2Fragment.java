@@ -71,7 +71,7 @@ public class Tab2Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), FindClinics.class);
-                intent.putExtra("requesttype","findclinics");
+                intent.putExtra("requestType","findclinics");
                 startActivity(intent);
             }
         });

@@ -55,7 +55,6 @@ public class DonarType extends AppCompatActivity {
         loadingBar.show();
         checkRecentDonationAndProceed();
         items = new ArrayList<>(Arrays.asList(getResources().getTextArray(R.array.family_members)));
-        items.remove(0);
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, items);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         familyMemberSpinner.setAdapter(adapter);
@@ -67,15 +66,10 @@ public class DonarType extends AppCompatActivity {
                 if (selectedId != -1) {
                     RadioButton selectedRadioButton = findViewById(selectedId);
                     String selectedOption = selectedRadioButton.getText().toString();
-
                     if (selectedOption.equals("Register as Friend")) {
-                        // Open sharing page with the specified link
                         openSharingPage("https://www.mediafire.com/");
                     } else {
-                        // For other options, navigate to DonateBlood
                         Intent donateBloodIntent = new Intent(DonarType.this, DonateBlood.class);
-
-                        // Add extra information based on the selected option
                         if (selectedOption.equals("Register as Myself")) {
                             donateBloodIntent.putExtra("relationType", "myself");
                         } else if (selectedOption.equals("Register as Family Member")) {

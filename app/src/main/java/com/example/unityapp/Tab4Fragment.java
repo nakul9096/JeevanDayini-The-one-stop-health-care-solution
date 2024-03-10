@@ -1,5 +1,7 @@
 package com.example.unityapp;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -185,7 +187,7 @@ public class Tab4Fragment extends Fragment {
                                         if (task.isSuccessful()) {
                                             Toast.makeText(requireContext(), "Password reset email sent to your registered email address.", Toast.LENGTH_SHORT).show();
                                             FirebaseAuth.getInstance().signOut();
-                                            SharedPreferences preferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                                            SharedPreferences preferences = requireContext().getSharedPreferences("MyPrefs", MODE_PRIVATE);
                                             SharedPreferences.Editor editor = preferences.edit();
                                             editor.remove("userUid");
                                             editor.apply();
