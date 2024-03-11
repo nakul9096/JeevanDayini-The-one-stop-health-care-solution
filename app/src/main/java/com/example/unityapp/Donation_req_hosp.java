@@ -53,7 +53,7 @@ public class Donation_req_hosp extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Donation_req_hosp.this, Donation_req_hosp.class);
-                finish(); // Finish the current activity
+                finish();
                 startActivity(intent);
             }
         });
@@ -98,7 +98,6 @@ public class Donation_req_hosp extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Handle errors here
                 Log.e("fetchDonationRequests", "Error fetching donation requests: " + databaseError.getMessage());
                 progressBar.setVisibility(View.GONE);
             }
@@ -113,7 +112,7 @@ public class Donation_req_hosp extends AppCompatActivity {
         Button donatedButton = cardView.findViewById(R.id.donatedButton);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("blooddonation")
-                .child(userId) // Assuming you sanitize your userId
+                .child(userId)
                 .child(aadharNumber);
         donatedButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,17 +120,15 @@ public class Donation_req_hosp extends AppCompatActivity {
                 donatedButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // Update donation_status to "donated" in Firebase
                         ref.child("donation_status").setValue("DONATED")
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
-                                        Toast.makeText(Donation_req_hosp.this, "Preference updated successfully!", Toast.LENGTH_SHORT).show();
+                                        Helper.showToast("Preference updated successfully!")
                                         infoTv.setText("Refreshing in 3 seconds");
                                         infoTv.setVisibility(View.VISIBLE);
                                         new CountDownTimer(3000, 1000) {
                                             public void onTick(long millisUntilFinished) {
-                                                // Update the TextView with the remaining time
                                                 infoTv.setText("Refreshing in " + millisUntilFinished / 1000 + " seconds");
                                             }
 
@@ -147,7 +144,7 @@ public class Donation_req_hosp extends AppCompatActivity {
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(Donation_req_hosp.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+                                        Helper.showToast("Something went wrong!");
                                         Log.e("Donation_req_hosp", "Error updating donation status: " + e.getMessage());
                                     }
                                 });
@@ -160,17 +157,15 @@ public class Donation_req_hosp extends AppCompatActivity {
         absentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Update donation_status to "donated" in Firebase
                 ref.child("donation_status").setValue("ABSENT")
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Toast.makeText(Donation_req_hosp.this, "Preference updated successfully!", Toast.LENGTH_SHORT).show();
+                                Helper.showToast( "Preference updated successfully!");
                                 infoTv.setText("Refreshing in 3 seconds");
                                 infoTv.setVisibility(View.VISIBLE);
                                 new CountDownTimer(3000, 1000) {
                                     public void onTick(long millisUntilFinished) {
-                                        // Update the TextView with the remaining time
                                         infoTv.setText("Refreshing in " + millisUntilFinished / 1000 + " seconds");
                                     }
 
@@ -186,7 +181,7 @@ public class Donation_req_hosp extends AppCompatActivity {
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(Donation_req_hosp.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+                                Helper.showToast("Something went wrong!");
                                 Log.e("Donation_req_hosp", "Error updating donation status: " + e.getMessage());
                             }
                         });
@@ -196,12 +191,11 @@ public class Donation_req_hosp extends AppCompatActivity {
         declineButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Update donation_status to "donated" in Firebase
                 ref.child("donation_status").setValue("DELETED")
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Toast.makeText(Donation_req_hosp.this, "Preference updated successfully!", Toast.LENGTH_SHORT).show();
+                                Helper.showToast
                                 infoTv.setText("Refreshing in 3 seconds");
                                 infoTv.setVisibility(View.VISIBLE);
                                 new CountDownTimer(3000, 1000) {

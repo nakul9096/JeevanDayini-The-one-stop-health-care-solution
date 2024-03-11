@@ -67,13 +67,13 @@ import java.util.Locale;
 import java.util.UUID;
 
 public class DonateBlood extends AppCompatActivity {
-    ProgressBar progressBarnew; //Hi this is tanisha
-    private static final int REQUEST_IMAGE_CAPTURE = 1; // ruk mai mere isme ek bar check kar ta ki change hua kya to
+    ProgressBar progressBarnew;
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_UPLOAD_AADHAAR = 2;
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 100;
     private static final String PREFS_NAME = "MyPrefs";
     private static final String PREFS_NAME2 = "ProfileData";
-    private static final String IMAGE_URL_KEY = "imageUrl"; //this is nakul
+    private static final String IMAGE_URL_KEY = "imageUrl";
     private static final String DOCUMENT_URL_KEY = "documentUrl";
     public Spinner statespinner, cityspinner;
     private TextView textViewRelationType;
@@ -130,15 +130,15 @@ public class DonateBlood extends AppCompatActivity {
                         if (userAadharNumber != null && !userAadharNumber.isEmpty()) {
                             checkBloodDonationData(userAadharNumber, userId);
                         } else {
-                            Toast.makeText(DonateBlood.this, "Aadhar number not found", Toast.LENGTH_SHORT).show();
+                            Helper.showToast( "Aadhar number not found");
                         }
                     } else {
-                        Toast.makeText(DonateBlood.this, "Aadhar number not found in user data", Toast.LENGTH_SHORT).show();
+                        Helper.showToast("Aadhar number not found in user data")''
                     }
                 }
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-                    Toast.makeText(DonateBlood.this, "Error retrieving Aadhar number", Toast.LENGTH_SHORT).show();
+                    Helper.showToast("Error retrieving Aadhar number");
                 }
             });
         }
@@ -203,18 +203,15 @@ public class DonateBlood extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.radioButtonBloodDonationYes) {
-                    // If Yes is selected, make the TextView and Button visible
                     textViewDescribeDonation.setVisibility(View.VISIBLE);
                     buttonChooseDate.setVisibility(View.VISIBLE);
                     buttonChooseDate.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            // Call the showDatePicker() method when the button is clicked
                             showUnrestrictedDatePicker(buttonChooseDate);
                         }
                     });
                 } else if (checkedId == R.id.radioButtonBloodDonationNo) {
-                    // If No is selected, hide the TextView and Button
                     textViewDescribeDonation.setVisibility(View.GONE);
                     buttonChooseDate.setVisibility(View.GONE);
                 }
@@ -335,10 +332,10 @@ public class DonateBlood extends AppCompatActivity {
                 );
                 saveDonorInfo(userEmail, donorInfo, userId);
             } else {
-                Toast.makeText(this, "User not signed in", Toast.LENGTH_SHORT).show();
+                Helper.showToast("User not signed in");
             }
         } else {
-            Toast.makeText(this, "Please fill in all required fields", Toast.LENGTH_SHORT).show();
+            Helper.showToast("Please fill in all required fields");
         }
     }
     public String getSelectedRadioButtonText(RadioGroup radioGroup) {
@@ -365,7 +362,7 @@ public class DonateBlood extends AppCompatActivity {
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(DonateBlood.this, "Error checking blood donation data", Toast.LENGTH_SHORT).show();
+                Helper.showToast("Error checking blood donation data");
             }
         });
     }
@@ -389,7 +386,7 @@ public class DonateBlood extends AppCompatActivity {
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            Toast.makeText(getApplicationContext(), "Details submitted successfully", Toast.LENGTH_SHORT).show();
+                            Helper.showToast("Details submitted successfully");
                             Intent intent = new Intent(DonateBlood.this, Session.class);
                             startActivity(intent);
                             finish();
@@ -398,11 +395,11 @@ public class DonateBlood extends AppCompatActivity {
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getApplicationContext(), "Failed to submit details", Toast.LENGTH_SHORT).show();
+                            Helper.showToast("Failed to submit details");
                         }
                     });
         } else {
-            Toast.makeText(this, "Aadhar number is required", Toast.LENGTH_SHORT).show();
+            Helper.showToast("Aadhar number is required");
         }
     }
     private void showDatePicker(final Button textViewChooseDate) {
@@ -432,7 +429,7 @@ public class DonateBlood extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 dispatchTakePictureIntent();
             } else {
-                Toast.makeText(this, "Permission denied! Go to app settings to enable it", Toast.LENGTH_SHORT).show();
+                Helper.showToast("Permission denied! Go to app settings to enable it");
             }
         }
     }
@@ -448,11 +445,7 @@ public class DonateBlood extends AppCompatActivity {
                     REQUEST_UPLOAD_AADHAAR
             );
         } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(
-                    this,
-                    "Please install a File Manager.",
-                    Toast.LENGTH_SHORT
-            ).show();
+           Helper.showToast( "Please install a File Manager.");
         }
     }
 
@@ -523,7 +516,6 @@ public class DonateBlood extends AppCompatActivity {
 
                                     @Override
                                     public void onLoadCleared(@Nullable Drawable placeholder) {
-                                        // Handle the placeholder if needed
                                     }
                                 });
                         uploadButton.setVisibility(View.GONE);
@@ -565,7 +557,7 @@ public class DonateBlood extends AppCompatActivity {
                                 if (documentUrl != null && !documentUrl.isEmpty()) {
                                     displayImageDialog(documentUrl);
                                 } else {
-                                    Toast.makeText(DonateBlood.this, "Aadhar image not available", Toast.LENGTH_SHORT).show();
+                                    Helper.showToast("Aadhar image not available");
                                 }
                             }
                         });
@@ -576,11 +568,7 @@ public class DonateBlood extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.e("UploadFailure", "Error uploading document", e);
-                Toast.makeText(
-                        getApplicationContext(),
-                        "Document upload failed",
-                        Toast.LENGTH_SHORT
-                ).show();
+                Helper.showToast( "Document upload failed");
             }
         });
     }
@@ -616,9 +604,5 @@ public class DonateBlood extends AppCompatActivity {
     private String getFromSharedPreferences(String key) {
         SharedPreferences preferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         return preferences.getString(key, "");
-    }
-    private void showToast(String message)
-    {
-        Toast.makeText(DonateBlood.this, message,Toast.LENGTH_SHORT).show();
     }
 }

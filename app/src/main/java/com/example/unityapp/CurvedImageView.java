@@ -34,18 +34,16 @@ public class CurvedImageView extends AppCompatImageView {
     protected void onDraw(Canvas canvas) {
         float width = getWidth();
         float height = getHeight();
-        float curveRadius = 40f; // Adjust this value for the desired curvature
+        float curveRadius = 40f;
 
         path.reset();
         path.moveTo(0, height / 2);
 
-        // Adjust control points for less curvature
         float controlX1 = curveRadius;
         float controlY1 = height;
         float controlX2 = width - curveRadius;
         float controlY2 = height;
 
-        // Add curves to the path
         path.lineTo(0, height);
         path.cubicTo(controlX1, controlY1, controlX2, controlY2, width, height);
         path.lineTo(width, height / 2);

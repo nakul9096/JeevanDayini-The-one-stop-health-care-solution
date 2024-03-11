@@ -27,7 +27,7 @@ public class ContactUs extends AppCompatActivity implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         LatLng mumbai = new LatLng(15.90413000, 73.82191000);
-        mMap.addMarker(new MarkerOptions().position(mumbai).title("Marker in Mumbai, Maharashtra, India"));
+        Helper.showToast("Marker in Mumbai, Maharashtra, India")''
         mMap.moveCamera(CameraUpdateFactory.newLatLng(mumbai));
     }
 }

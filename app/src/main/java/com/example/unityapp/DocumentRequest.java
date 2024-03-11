@@ -165,14 +165,14 @@ public class DocumentRequest extends AppCompatActivity {
             user.delete()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
-                            Toast.makeText(DocumentRequest.this, "User account disabled", Toast.LENGTH_SHORT).show();
+                            Helper.showToast( "User account disabled");
                         } else {
-                            Toast.makeText(DocumentRequest.this, "Failed to disable user account", Toast.LENGTH_SHORT).show();
+                            Helper.showToast( "Failed to disable user account");
                             Log.e("Debug2", "Failed to disable user account: " + task.getException().getMessage());
                         }
                     });
         } else {
-            Toast.makeText(DocumentRequest.this, "Failed to get the current user", Toast.LENGTH_SHORT).show();
+            Helper.showToast( "Failed to get the current user");
         }
     }
 
@@ -182,12 +182,12 @@ public class DocumentRequest extends AppCompatActivity {
         userRef.child("approvedBy").setValue(adminId);
         userRef.child("adminName").setValue(adminName)
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(DocumentRequest.this, "Request accepted by " + adminName, Toast.LENGTH_SHORT).show();
+                    Helper.showToast( "Request accepted by " + adminName);
                     finish();
                     startActivity(getIntent());
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(DocumentRequest.this, "Failed to update approval status", Toast.LENGTH_SHORT).show();
+                    Helper.showToast("Failed to update approval status");
                     Log.e(TAG, "Failed to update approval status: " + e.getMessage(), e);
                 });
     }
@@ -196,15 +196,15 @@ public class DocumentRequest extends AppCompatActivity {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(DocumentRequest.this, "Data sent to server successfully", Toast.LENGTH_SHORT).show();
+                    Helper.showToast("Data sent to server successfully");
                 } else {
-                    Toast.makeText(DocumentRequest.this, "Failed to send data to server", Toast.LENGTH_SHORT).show();
+                    Helper.showToast("Failed to send data to server");
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(DocumentRequest.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Helper.showToast("Error: " + t.getMessage());
             }
         });
     }

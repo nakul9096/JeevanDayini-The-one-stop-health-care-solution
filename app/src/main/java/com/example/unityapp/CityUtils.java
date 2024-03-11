@@ -117,7 +117,7 @@ public class CityUtils {
                 cityOptions = resources.getStringArray(R.array.West_Bengal);
                 break;
             default:
-                cityOptions = new String[0]; // Empty array
+                cityOptions = new String[0];
                 break;
         }
         return cityOptions;

@@ -58,7 +58,6 @@ public class BookingHistory extends AppCompatActivity {
                 String totalAmount = totalAmountInput.getText().toString();
                 String description = descriptionInput.getText().toString();
                 String platformfeetv = platformfee.getText().toString();
-                // Create User object with all input values
                 User user = new User(name, phone, email, invoiceNumber, dueBalance, address, productName, transactionId, tokenNumber, baseAmount, gstAmount, totalAmount, description, platformfeetv);
                 sendDataToServer(user);
             }
@@ -66,23 +65,19 @@ public class BookingHistory extends AppCompatActivity {
     }
 
     private void sendDataToServer(User user) {
-        // Make a POST request using Retrofit
         apiService.sendInvoiceDataToServer(user).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    // Handle successful response
-                    Toast.makeText(BookingHistory.this, "Data sent successfully", Toast.LENGTH_SHORT).show();
+                    Helper.showToast("Data sent successfully");
                 } else {
-                    // Handle unsuccessful response
-                    Toast.makeText(BookingHistory.this, "Failed to send data", Toast.LENGTH_SHORT).show();
+                    Helper.showToast("Failed to send data");
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                // Handle failure
-                Toast.makeText(BookingHistory.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Helper.showToast( "Error: " + t.getMessage());
             }
         });
     }

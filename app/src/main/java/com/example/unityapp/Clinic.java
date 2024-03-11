@@ -1,10 +1,9 @@
 package com.example.unityapp;
 
-// Clinic.java
 public class Clinic {
     private String name;
     private String address;
-    private String imageUrl; // For image loading, you can use a URL or resource ID
+    private String imageUrl;
     private float rating;
     private String location;
 

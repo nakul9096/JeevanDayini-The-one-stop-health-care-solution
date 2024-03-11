@@ -279,7 +279,7 @@ public class Book extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 progressDialog.dismiss();
-                Toast.makeText(Book.this, "Failed to retrieve data: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                Helper.showToast("Failed to retrieve data: ");
             }
         });
     }

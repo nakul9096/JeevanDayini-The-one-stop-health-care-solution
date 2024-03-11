@@ -49,11 +49,11 @@ public class Booking extends AppCompatActivity {
         String phone = phoneEditText.getText().toString().trim();
         String email = emailEditText.getText().toString().trim();
         if (TextUtils.isEmpty(fullName) || TextUtils.isEmpty(phone)) {
-            Toast.makeText(this, "Name and phone number are required", Toast.LENGTH_SHORT).show();
+            Helper.showToast("Name and phone number are required");
             return false;
         }
         if (phone.length() != 10) {
-            Toast.makeText(this, "Phone number must be 10 digits", Toast.LENGTH_SHORT).show();
+            Helper.showToast("Phone number must be 10 digits");
             return false;
         }
         if (TextUtils.isEmpty(email)) {

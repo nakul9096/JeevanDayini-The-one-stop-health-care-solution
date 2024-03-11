@@ -79,7 +79,6 @@ public class CustomMessagingService extends FirebaseMessagingService {
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        // For Android Oreo and above, notification channel is needed.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(channelId,
                     "Fcm notifications",
@@ -113,8 +112,6 @@ public class CustomMessagingService extends FirebaseMessagingService {
         NotificationCompat.BigPictureStyle style = new NotificationCompat.BigPictureStyle();
         style.setBigContentTitle(title);
         style.setSummaryText(message);
-        // Load the image using Glide or another method
-        // style.bigPicture(Glide.with(CustomMessagingService.this).asBitmap().load(imageUrl).submit().get());
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
