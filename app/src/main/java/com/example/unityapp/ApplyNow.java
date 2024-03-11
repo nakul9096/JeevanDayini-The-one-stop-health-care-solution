@@ -68,7 +68,7 @@ public class ApplyNow extends AppCompatActivity {
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void aVoid) {
-                                                Toast.makeText(ApplyNow.this, "Apply successfull!", Toast.LENGTH_SHORT).show();
+                                                Helper.showToast("Apply successfull!");
                                                 Intent intent = new Intent(ApplyNow.this,Session.class);
                                                 startActivity(intent);
                                                 finish();
@@ -77,9 +77,8 @@ public class ApplyNow extends AppCompatActivity {
                                         .addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
-                                                // Failed to update data in the database
                                                 Log.e("UserData", "Failed to update data: " + e.getMessage());
-                                                Toast.makeText(ApplyNow.this, "Failed to update data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                Helper.showToast("Failed to update data: ");
                                             }
                                         });
                             }

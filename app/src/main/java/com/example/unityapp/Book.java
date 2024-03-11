@@ -53,18 +53,15 @@ public class Book extends AppCompatActivity {
         email = sharedPreferences.getString("hospital_email", "");
         Log.d("Hospital email", email);
         showDatePicker();
-        // Set click listener for the button to update date
         updateDateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Show date picker dialog
                 showDatePicker();
             }
         });
         paybtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Find the selected token button
                 Button selectedButton = findSelectedButton();
                 if (selectedButton != null) {
                     String buttonText = selectedButton.getText().toString();
@@ -80,10 +77,10 @@ public class Book extends AppCompatActivity {
                         Log.d("TokenNumber", "date: " + date);
                         startActivity(intent);
                     } else {
-                        Toast.makeText(Book.this, "Please select date!", Toast.LENGTH_SHORT).show();
+                        Helper.showToast("Please select date!");
                     }
                 } else {
-                    Toast.makeText(Book.this, "Please select a token to proceed.", Toast.LENGTH_SHORT).show();
+                   Helper.showToast("Please select a token to proceed.");
                 }
             }
         });
@@ -129,7 +126,6 @@ public class Book extends AppCompatActivity {
                 String selectedDate = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
                 selectedDateTextView.setText(selectedDate);
                 updateDateBtn.setText(selectedDate);
-                // Reset disabled buttons list
                 resetAllButtons();
                 checkBookingStatus(email, selectedDate);
             }
@@ -148,7 +144,7 @@ public class Book extends AppCompatActivity {
                     View child = row.getChildAt(j);
                     if (child instanceof Button) {
                         Button button = (Button) child;
-                        button.setEnabled(true); // Enable the button
+                        button.setEnabled(true);
                         button.setBackgroundResource(R.drawable.rounded_button_background);
                         disabledButtonIds.clear();
                         paybtn.setEnabled(false);
@@ -187,11 +183,8 @@ public class Book extends AppCompatActivity {
                     tokenButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            // Show pay and book button
                             paybtn.setEnabled(true);
-                            // Deselect all buttons
                             deselectAllButtons();
-                            // Select the clicked button
                             v.setSelected(true);
                             v.setBackgroundResource(R.drawable.rounded_button_green_background);
                             checkSelectedButtons();

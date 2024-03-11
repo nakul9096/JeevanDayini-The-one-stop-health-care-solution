@@ -93,7 +93,7 @@ public class BloodBankSearch extends AppCompatActivity {
                                         dataFound = true;
                                     }
                                 } else {
-                                    Toast.makeText(BloodBankSearch.this, "Please select a city", Toast.LENGTH_SHORT).show();
+                                    Helper.showToast("Please select a city");
                                     return;
                                 }
                             }
@@ -110,7 +110,7 @@ public class BloodBankSearch extends AppCompatActivity {
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                         Log.e("Debug3", "Database error: " + databaseError.getMessage(), databaseError.toException());
-                        Toast.makeText(BloodBankSearch.this, "Database error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                        Helper.showToast( "Database error: " + databaseError.getMessage());
                         progressBar.setVisibility(View.GONE);
                     }
                 });
@@ -230,7 +230,7 @@ public class BloodBankSearch extends AppCompatActivity {
                 cityOptions = getResources().getStringArray(R.array.West_Bengal);
                 break;
             default:
-                cityOptions = new String[0]; // Empty array
+                cityOptions = new String[0];
                 break;
         }
         ArrayAdapter<String> cityAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, cityOptions);
@@ -246,12 +246,12 @@ public class BloodBankSearch extends AppCompatActivity {
         Glide.with(BloodBankSearch.this)
                 .load(imageUrl)
                 .circleCrop()
-                .placeholder(R.drawable.circle_mask) // Use the circular mask as a placeholder
+                .placeholder(R.drawable.circle_mask)
                 .into(previewImageView);
         Glide.with(BloodBankSearch.this)
                 .load(imageUrl2)
                 .circleCrop()
-                .placeholder(R.drawable.circle_mask) // Use the circular mask as a placeholder
+                .placeholder(R.drawable.circle_mask)
                 .into(previewImageView2);
         TextView nameTextView = nameCard.findViewById(R.id.hospitalNameTextView);
         nameTextView.setText(Name);
@@ -262,7 +262,6 @@ public class BloodBankSearch extends AppCompatActivity {
         mapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle the "Map" button click here
                 String mapUrl = (String) v.getTag();
                 openMap(mapUrl);
             }
@@ -279,9 +278,9 @@ public class BloodBankSearch extends AppCompatActivity {
         viewmore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String selectedUserName = (String) v.getTag(); // Get the user name from the tag
+                String selectedUserName = (String) v.getTag();
                 Intent intent = new Intent(BloodBankSearch.this, ViewMore.class);
-                intent.putExtra("selectedUser", selectedUserName); // Pass the selected user's name as an extra
+                intent.putExtra("selectedUser", selectedUserName);
                 startActivity(intent);
             }
         });
@@ -289,18 +288,15 @@ public class BloodBankSearch extends AppCompatActivity {
 
     private void openMap(String mapUrl) {
         if (mapUrl != null && !mapUrl.isEmpty()) {
-            // Create an Intent with ACTION_VIEW and the map URL
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mapUrl));
 
-            // Check if there's an app available to handle the Intent
             if (intent.resolveActivity(getPackageManager()) != null) {
-                // Open the map URL
                 startActivity(intent);
             } else {
-                Toast.makeText(this, "No app available to handle the map request", Toast.LENGTH_SHORT).show();
+               Helper.showToast("No app available to handle the map request");
             }
         } else {
-            Toast.makeText(this, "Map URL is not available", Toast.LENGTH_SHORT).show();
+            Helper.showToast("Map URL is not available");
         }
     }
 }

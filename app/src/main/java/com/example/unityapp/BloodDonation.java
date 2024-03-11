@@ -196,7 +196,6 @@ public class BloodDonation {
 
     public void setBloodDonationType(String bloodDonationType) {
         this.bloodDonationHistory = bloodDonationType;
-        // Assuming that 'bloodDonationHistory' field is used to store blood donation type
     }
 
     public void setDateOfBirth(String dateOfBirth) {
