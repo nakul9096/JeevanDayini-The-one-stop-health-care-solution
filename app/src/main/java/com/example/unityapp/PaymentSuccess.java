@@ -225,7 +225,7 @@ public class PaymentSuccess extends AppCompatActivity {
 
     private void uploadFileToFirebaseStorage() {
         String filename = "invoice_" + invoiceNumber + ".pdf";
-        String serverUrl = "http://192.168.227.40:4000";
+        String serverUrl = "http://192.168.54.40:4000";
         String fullFileUrl = serverUrl + "/" + filename;
 
         // Create a reference to Firebase Storage

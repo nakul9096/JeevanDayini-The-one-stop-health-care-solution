@@ -301,7 +301,6 @@ public class HospDashboard extends AppCompatActivity {
 
     private void checkAndSetClinicName() {
         String currentUserEmail = getCurrentUserEmail();
-
         if (currentUserEmail != null) {
             DatabaseReference hospitalsRef = FirebaseDatabase.getInstance().getReference("hospitals");
             String childPath = sanitizeEmailForChildPath(currentUserEmail);
@@ -337,6 +336,14 @@ public class HospDashboard extends AppCompatActivity {
                     if (dataSnapshot.hasChild("name")) {
                         String clinicName = dataSnapshot.child("name").getValue(String.class);
                         String htmlText = "<html><body style=\"text-align:center;\">Hello,<br>" + clinicName + "</body></html>";
+                        String currentUserEmail = getCurrentUserEmail();
+                        SharedPreferences preferences = getSharedPreferences("HospData", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putString("hospital_email", currentUserEmail);
+                        editor.putString("hospital_name", clinicName);
+                        Log.d("newdebug","hosp_email"+currentUserEmail);
+                        Log.d("newdebug","hosp_email"+clinicName);
+                        editor.apply();
                         organizationNameTV.setText(Html.fromHtml(htmlText));
                         setClinicName.setVisibility(View.GONE);
                     }
@@ -758,7 +765,6 @@ public class HospDashboard extends AppCompatActivity {
                 });
         builder.create().show();
     }
-
     private boolean isValidUrl(String url) {
         if (URLUtil.isValidUrl(url)) {
             try {

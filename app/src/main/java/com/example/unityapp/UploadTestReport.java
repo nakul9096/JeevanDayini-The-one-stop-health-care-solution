@@ -1,6 +1,8 @@
 package com.example.unityapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -41,7 +43,7 @@ public class UploadTestReport extends AppCompatActivity {
     LinearLayout linearLayout;
     DatabaseReference usersRef;
     private TextView textViewNotFound;
-
+    String email;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +84,7 @@ public class UploadTestReport extends AppCompatActivity {
                             Log.d("UploadTestReport", "Child key: " + bookedUserId);
                             Log.d("UploadTestReport", "Search query: " + userid);
                             if (bookedUserId.equals(userid)) {
+                                Log.d("UploadTestReport","Under if condition");
                                 found = true;
                                 getUserInfoAndAddCard(userid);
                                 break;
@@ -117,6 +120,7 @@ public class UploadTestReport extends AppCompatActivity {
                         String name = userSnapshot.child("fullName").getValue(String.class);
                         String phoneNumber = userSnapshot.child("phoneNumber").getValue(String.class);
                         String profileimg = userSnapshot.child("profilePictureUrl").getValue(String.class);
+                        email = userSnapshot.child("email").getValue(String.class);
                         addCard(name, phoneNumber, profileimg);
                     }
                 } else {
@@ -173,18 +177,44 @@ public class UploadTestReport extends AppCompatActivity {
         // Create a storage reference with a filename including date and timestamp
         String fileName = "filename_" + new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date()) + ".pdf";
         StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("reports").child(fileName);
-
-        // Upload the PDF file
         storageRef.putFile(pdfUri)
                 .addOnSuccessListener(taskSnapshot -> {
-                    // File uploaded successfully
-                    // Handle success, e.g., show a toast
-                    Toast.makeText(getApplicationContext(), "File uploaded successfully", Toast.LENGTH_SHORT).show();
+                    // Get the download URL of the uploaded file
+                    storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                        // Save the download URL to the database
+                        saveDownloadUrlToDatabase(sanitizeEmail(email),uri.toString());
+                        Toast.makeText(getApplicationContext(), "File uploaded successfully", Toast.LENGTH_SHORT).show();
+                    }).addOnFailureListener(e -> {
+                        // Handle failure to get download URL
+                        Toast.makeText(getApplicationContext(), "Failed to get download URL: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
                 })
                 .addOnFailureListener(e -> {
                     // Handle unsuccessful uploads
                     // Display an error message, e.g., show a toast
                     Toast.makeText(getApplicationContext(), "Upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
+    }
+    private void saveDownloadUrlToDatabase(String email, String downloadUrl) {
+        if (email != null) {
+            SharedPreferences preferences = getSharedPreferences("HospData", Context.MODE_PRIVATE);
+            String hospitalEmail = preferences.getString("hospital_email", "");
+            String hospitalName = preferences.getString("hospital_name", "");
+            String sanitizedEmail = sanitizeEmail(email);
+            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users")
+                    .child(sanitizedEmail)
+                    .push();
+            userRef.child("hospitalName").setValue(hospitalName);
+            userRef.child("hospitalEmail").setValue(hospitalEmail);
+            userRef.child("test_report").setValue(downloadUrl)
+                    .addOnSuccessListener(aVoid -> {
+                        Log.d("urldebug","download url updated in database"+downloadUrl);
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(getApplicationContext(), "Failed to save download URL: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+        } else {
+            Log.e("UploadTestReport", "Current user email is null.");
+        }
     }
 }
