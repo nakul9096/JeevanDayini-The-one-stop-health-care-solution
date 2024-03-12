@@ -124,7 +124,7 @@ public class Donation_req_hosp extends AppCompatActivity {
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
-                                        Helper.showToast("Preference updated successfully!")
+                                        Helper.showToast(Donation_req_hosp.this,"Preference updated successfully!");
                                         infoTv.setText("Refreshing in 3 seconds");
                                         infoTv.setVisibility(View.VISIBLE);
                                         new CountDownTimer(3000, 1000) {
@@ -144,7 +144,7 @@ public class Donation_req_hosp extends AppCompatActivity {
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-                                        Helper.showToast("Something went wrong!");
+                                        Helper.showToast(Donation_req_hosp.this,"Something went wrong!");
                                         Log.e("Donation_req_hosp", "Error updating donation status: " + e.getMessage());
                                     }
                                 });
@@ -161,7 +161,7 @@ public class Donation_req_hosp extends AppCompatActivity {
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Helper.showToast( "Preference updated successfully!");
+                                Helper.showToast( Donation_req_hosp.this,"Preference updated successfully!");
                                 infoTv.setText("Refreshing in 3 seconds");
                                 infoTv.setVisibility(View.VISIBLE);
                                 new CountDownTimer(3000, 1000) {
@@ -181,7 +181,7 @@ public class Donation_req_hosp extends AppCompatActivity {
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Helper.showToast("Something went wrong!");
+                                Helper.showToast(Donation_req_hosp.this,"Something went wrong!");
                                 Log.e("Donation_req_hosp", "Error updating donation status: " + e.getMessage());
                             }
                         });
@@ -195,7 +195,6 @@ public class Donation_req_hosp extends AppCompatActivity {
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Helper.showToast
                                 infoTv.setText("Refreshing in 3 seconds");
                                 infoTv.setVisibility(View.VISIBLE);
                                 new CountDownTimer(3000, 1000) {

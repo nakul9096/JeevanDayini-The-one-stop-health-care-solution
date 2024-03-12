@@ -54,7 +54,7 @@ public class Assistant extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (isConversationInProgress) {
-                    Helper.showToast("One conversation at a time, please");
+                    Helper.showToast(Assistant.this,"One conversation at a time, please");
                     return;
                 }
                 updateMessage("Account related information", true);
@@ -81,13 +81,13 @@ public class Assistant extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (isConversationInProgress) {
-                    Helper.showToast("One conversation at a time, please");
+                    Helper.showToast(Assistant.this, "One conversation at a time, please");
                     return;
                 }
                 updateMessage("Payment related information", true);
                 isConversationInProgress = true;
                 if (usersDatabaseRef != null) {
-                    DatabaseReference chatDataR ef = FirebaseDatabase.getInstance().getReference().child("chatdata").child("payment");
+                    DatabaseReference chatDataRef = FirebaseDatabase.getInstance().getReference().child("chatdata").child("payment");
                     chatDataRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -107,7 +107,7 @@ public class Assistant extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (isConversationInProgress) {
-                    Helper.showToast("One conversation at a time, please");
+                    Helper.showToast(Assistant.this,"One conversation at a time, please");
                     return;
                 }
                 updateMessage("Service related Info", true);
@@ -148,7 +148,7 @@ public class Assistant extends AppCompatActivity {
                 });
             }
         } else {
-            Helper.showToast("User email is null");
+            Helper.showToast(Assistant.this,"User email is null");
             finish();
         }
     }
@@ -233,7 +233,6 @@ public class Assistant extends AppCompatActivity {
         }
         if (isConversationInProgress && message.equalsIgnoreCase("Service related information")) {
             int selectedOption = 1;
-            1
             if (selectedOption == 1) {
                 showRefundField();
             }

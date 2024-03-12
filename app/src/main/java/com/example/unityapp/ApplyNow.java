@@ -68,7 +68,7 @@ public class ApplyNow extends AppCompatActivity {
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void aVoid) {
-                                                Helper.showToast("Apply successfull!");
+                                                Helper.showToast(ApplyNow.this,"Apply successfull!");
                                                 Intent intent = new Intent(ApplyNow.this,Session.class);
                                                 startActivity(intent);
                                                 finish();
@@ -78,7 +78,7 @@ public class ApplyNow extends AppCompatActivity {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
                                                 Log.e("UserData", "Failed to update data: " + e.getMessage());
-                                                Helper.showToast("Failed to update data: ");
+                                                Helper.showToast(ApplyNow.this,"Failed to update data: ");
                                             }
                                         });
                             }

@@ -93,7 +93,7 @@ public class BloodBankSearch extends AppCompatActivity {
                                         dataFound = true;
                                     }
                                 } else {
-                                    Helper.showToast("Please select a city");
+                                    Helper.showToast(BloodBankSearch.this,"Please select a city");
                                     return;
                                 }
                             }
@@ -110,7 +110,7 @@ public class BloodBankSearch extends AppCompatActivity {
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                         Log.e("Debug3", "Database error: " + databaseError.getMessage(), databaseError.toException());
-                        Helper.showToast( "Database error: " + databaseError.getMessage());
+                        Helper.showToast( BloodBankSearch.this,"Database error: " + databaseError.getMessage());
                         progressBar.setVisibility(View.GONE);
                     }
                 });
@@ -293,10 +293,10 @@ public class BloodBankSearch extends AppCompatActivity {
             if (intent.resolveActivity(getPackageManager()) != null) {
                 startActivity(intent);
             } else {
-               Helper.showToast("No app available to handle the map request");
+               Helper.showToast(BloodBankSearch.this,"No app available to handle the map request");
             }
         } else {
-            Helper.showToast("Map URL is not available");
+            Helper.showToast(BloodBankSearch.this,"Map URL is not available");
         }
     }
 }

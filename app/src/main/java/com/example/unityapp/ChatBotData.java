@@ -44,7 +44,7 @@ public class ChatBotData extends AppCompatActivity {
         String answer = answerEditText.getText().toString().trim();
 
         if (question.isEmpty() || answer.isEmpty()) {
-            Helper.showToast("Please enter both question and answer");
+            Helper.showToast(ChatBotData.this,"Please enter both question and answer");
             return;
         }
 
@@ -53,11 +53,11 @@ public class ChatBotData extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull DatabaseError error, @NonNull DatabaseReference ref) {
                 if (error == null) {
-                    Helper.showToast("Data stored successfully");
+                    Helper.showToast(ChatBotData.this,"Data stored successfully");
                     questionEditText.setText("");
                     answerEditText.setText("");
                 } else {
-                    Helper.showToast( "Failed to store data");
+                    Helper.showToast( ChatBotData.this,"Failed to store data");
                 }
             }
         });

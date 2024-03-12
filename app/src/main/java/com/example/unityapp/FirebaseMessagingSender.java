@@ -18,7 +18,7 @@ public class FirebaseMessagingSender extends AppCompatActivity {
     EditText tokenInput, titleInput, messageInput;
     Button sendButton;
     APIService apiService;
-    String serverBaseUrl = "http://192.168.227.40:5000";
+    String serverBaseUrl = "http://192.168.54.40:5000";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -130,15 +130,15 @@ public class DonateBlood extends AppCompatActivity {
                         if (userAadharNumber != null && !userAadharNumber.isEmpty()) {
                             checkBloodDonationData(userAadharNumber, userId);
                         } else {
-                            Helper.showToast( "Aadhar number not found");
+                            Helper.showToast( DonateBlood.this,"Aadhar number not found");
                         }
                     } else {
-                        Helper.showToast("Aadhar number not found in user data")''
+                        Helper.showToast(DonateBlood.this,"Aadhar number not found in user data");
                     }
                 }
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-                    Helper.showToast("Error retrieving Aadhar number");
+                    Helper.showToast(DonateBlood.this,"Error retrieving Aadhar number");
                 }
             });
         }
@@ -332,10 +332,10 @@ public class DonateBlood extends AppCompatActivity {
                 );
                 saveDonorInfo(userEmail, donorInfo, userId);
             } else {
-                Helper.showToast("User not signed in");
+                Helper.showToast(DonateBlood.this,"User not signed in");
             }
         } else {
-            Helper.showToast("Please fill in all required fields");
+            Helper.showToast(DonateBlood.this,"Please fill in all required fields");
         }
     }
     public String getSelectedRadioButtonText(RadioGroup radioGroup) {
@@ -362,7 +362,7 @@ public class DonateBlood extends AppCompatActivity {
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Helper.showToast("Error checking blood donation data");
+                Helper.showToast(DonateBlood.this,"Error checking blood donation data");
             }
         });
     }
@@ -386,7 +386,7 @@ public class DonateBlood extends AppCompatActivity {
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            Helper.showToast("Details submitted successfully");
+                            Helper.showToast(DonateBlood.this,"Details submitted successfully");
                             Intent intent = new Intent(DonateBlood.this, Session.class);
                             startActivity(intent);
                             finish();
@@ -395,11 +395,11 @@ public class DonateBlood extends AppCompatActivity {
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Helper.showToast("Failed to submit details");
+                            Helper.showToast(DonateBlood.this,"Failed to submit details");
                         }
                     });
         } else {
-            Helper.showToast("Aadhar number is required");
+            Helper.showToast(DonateBlood.this,"Aadhar number is required");
         }
     }
     private void showDatePicker(final Button textViewChooseDate) {
@@ -429,7 +429,7 @@ public class DonateBlood extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 dispatchTakePictureIntent();
             } else {
-                Helper.showToast("Permission denied! Go to app settings to enable it");
+                Helper.showToast(DonateBlood.this,"Permission denied! Go to app settings to enable it");
             }
         }
     }
@@ -445,7 +445,7 @@ public class DonateBlood extends AppCompatActivity {
                     REQUEST_UPLOAD_AADHAAR
             );
         } catch (android.content.ActivityNotFoundException ex) {
-           Helper.showToast( "Please install a File Manager.");
+           Helper.showToast( DonateBlood.this,"Please install a File Manager.");
         }
     }
 
@@ -557,7 +557,7 @@ public class DonateBlood extends AppCompatActivity {
                                 if (documentUrl != null && !documentUrl.isEmpty()) {
                                     displayImageDialog(documentUrl);
                                 } else {
-                                    Helper.showToast("Aadhar image not available");
+                                    Helper.showToast(DonateBlood.this,"Aadhar image not available");
                                 }
                             }
                         });
@@ -568,7 +568,7 @@ public class DonateBlood extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Log.e("UploadFailure", "Error uploading document", e);
-                Helper.showToast( "Document upload failed");
+                Helper.showToast( DonateBlood.this,"Document upload failed");
             }
         });
     }

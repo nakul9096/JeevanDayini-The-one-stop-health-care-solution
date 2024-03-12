@@ -1,5 +1,4 @@
 package com.example.unityapp;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -27,9 +26,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-
 public class DonarType extends AppCompatActivity {
-
     private RadioGroup radioGroupDonationOptions;
     private RadioButton radioMyself, radioFamilyMember, radioFriend;
     private Spinner familyMemberSpinner;
@@ -123,8 +120,8 @@ public class DonarType extends AppCompatActivity {
                                 if (relationType.equals("myself")) {
                                     Log.d("DonarType", "Recent donation found");
                                     radioMyself.setEnabled(false);
-                                    Helper.showToast("You recently donated! You need to wait for 3 months to donate again");
-                                    Helper.showToast("But, still you can register family members to donate");
+                                    Helper.showToast(DonarType.this,"You recently donated! You need to wait for 3 months to donate again");
+                                    Helper.showToast(DonarType.this,"But, still you can register family members to donate");
                                     return;
                                 }
                                 if (relationType.equals("Mother") || relationType.equals("Father") || relationType.equals("Son") || relationType.equals("Daughter")) {
@@ -141,11 +138,9 @@ public class DonarType extends AppCompatActivity {
                                     if (relationType.equals("Daughter")) {
                                         items.remove("Daughter");
                                     }
-
                                     ArrayAdapter<CharSequence> adapter = new ArrayAdapter<>(DonarType.this, android.R.layout.simple_spinner_item, items);
                                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                     familyMemberSpinner.setAdapter(adapter);
-
                                 }
                         }
                     } else {
@@ -153,7 +148,6 @@ public class DonarType extends AppCompatActivity {
                     }
                     Log.d("DonarType", "Proceeding to donate blood");
                 }
-
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                     Log.e("DonarType", "Database error: " + databaseError.getMessage());

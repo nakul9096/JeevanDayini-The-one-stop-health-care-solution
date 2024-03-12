@@ -38,7 +38,7 @@ public class DocumentRequest extends AppCompatActivity {
     private FirebaseDatabase database;
     private CardView nameCard;
     APIService apiService;
-    String serverBaseUrl = "http://192.168.227.40:5000";
+    String serverBaseUrl = "http://192.168.54.40:5000";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -165,14 +165,14 @@ public class DocumentRequest extends AppCompatActivity {
             user.delete()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
-                            Helper.showToast( "User account disabled");
+                            Helper.showToast( DocumentRequest.this,"User account disabled");
                         } else {
-                            Helper.showToast( "Failed to disable user account");
+                            Helper.showToast( DocumentRequest.this,"Failed to disable user account");
                             Log.e("Debug2", "Failed to disable user account: " + task.getException().getMessage());
                         }
                     });
         } else {
-            Helper.showToast( "Failed to get the current user");
+            Helper.showToast( DocumentRequest.this,"Failed to get the current user");
         }
     }
 
@@ -182,12 +182,12 @@ public class DocumentRequest extends AppCompatActivity {
         userRef.child("approvedBy").setValue(adminId);
         userRef.child("adminName").setValue(adminName)
                 .addOnSuccessListener(aVoid -> {
-                    Helper.showToast( "Request accepted by " + adminName);
+                    Helper.showToast( DocumentRequest.this,"Request accepted by " + adminName);
                     finish();
                     startActivity(getIntent());
                 })
                 .addOnFailureListener(e -> {
-                    Helper.showToast("Failed to update approval status");
+                    Helper.showToast(DocumentRequest.this,"Failed to update approval status");
                     Log.e(TAG, "Failed to update approval status: " + e.getMessage(), e);
                 });
     }
@@ -196,15 +196,15 @@ public class DocumentRequest extends AppCompatActivity {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    Helper.showToast("Data sent to server successfully");
+                    Helper.showToast(DocumentRequest.this,"Data sent to server successfully");
                 } else {
-                    Helper.showToast("Failed to send data to server");
+                    Helper.showToast(DocumentRequest.this,"Failed to send data to server");
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Helper.showToast("Error: " + t.getMessage());
+                Helper.showToast(DocumentRequest.this,"Error: " + t.getMessage());
             }
         });
     }

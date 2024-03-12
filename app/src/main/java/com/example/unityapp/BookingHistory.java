@@ -18,7 +18,7 @@ public class BookingHistory extends AppCompatActivity {
     EditText nameInput, phoneInput, emailInput, invoiceNumberInput, dueBalanceInput, addressInput, productNameInput, transactionIdInput, tokenNumberInput, baseAmountInput, gstAmountInput, totalAmountInput, descriptionInput, platformfee;
     Button sendButton;
     APIService apiService;
-    String serverBaseUrl = "http://192.168.227.40:3000";
+    String serverBaseUrl = "http://192.168.54.40:3000";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,15 +69,15 @@ public class BookingHistory extends AppCompatActivity {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    Helper.showToast("Data sent successfully");
+                    Helper.showToast(BookingHistory.this,"Data sent successfully");
                 } else {
-                    Helper.showToast("Failed to send data");
+                    Helper.showToast(BookingHistory.this,"Failed to send data");
                 }
             }
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Helper.showToast( "Error: " + t.getMessage());
+                Helper.showToast( BookingHistory.this,"Error: " + t.getMessage());
             }
         });
     }

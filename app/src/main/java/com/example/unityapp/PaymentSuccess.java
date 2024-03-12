@@ -31,7 +31,7 @@ import retrofit2.Response;
 
 public class PaymentSuccess extends AppCompatActivity {
     APIService apiService;
-    String serverBaseUrl = "http://192.168.227.40:3000";
+    String serverBaseUrl = "http://192.168.54.40:3000";
     SharedPreferences.Editor editor2;
     private TextView nameTextView, phoneTextView, emailTextView, transactionIdTextView, tokenNumberTextView, DateTextView;
     private SharedPreferences sharedPreferences;

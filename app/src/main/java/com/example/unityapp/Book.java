@@ -77,10 +77,10 @@ public class Book extends AppCompatActivity {
                         Log.d("TokenNumber", "date: " + date);
                         startActivity(intent);
                     } else {
-                        Helper.showToast("Please select date!");
+                        Helper.showToast(Book.this,"Please select date!");
                     }
                 } else {
-                   Helper.showToast("Please select a token to proceed.");
+                   Helper.showToast(Book.this,"Please select a token to proceed.");
                 }
             }
         });
@@ -279,7 +279,7 @@ public class Book extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 progressDialog.dismiss();
-                Helper.showToast("Failed to retrieve data: ");
+                Helper.showToast(Book.this,"Failed to retrieve data: ");
             }
         });
     }
