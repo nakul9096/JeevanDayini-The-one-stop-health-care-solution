@@ -2,6 +2,8 @@ package com.example.unityapp;
 
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,12 +13,17 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.Manifest;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.example.unityapp.SendNotificationPack.Client;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,6 +42,8 @@ public class RequestBlood extends AppCompatActivity {
     private Button chooseLocationButton;
     private TextView locationTextView;
     private CityUtils cityUtils;
+    private FusedLocationProviderClient fusedLocationClient;
+    private LocationCallback locationCallback;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,8 +78,31 @@ public class RequestBlood extends AppCompatActivity {
         stateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         stateSpinner.setAdapter(stateAdapter);
         stateSpinner.setSelection(0);
-        cityUtils = new CityUtils(); // Create an instance of CityUtils
+        cityUtils = new CityUtils();
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
+        Button chooseLocationButton = findViewById(R.id.buttonViewOnMap);
+        chooseLocationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requestLocation();
+            }
+        });
+
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                if (locationResult == null) {
+                    return;
+                }
+                for (Location location : locationResult.getLocations()) {
+                    double latitude = location.getLatitude();
+                    double longitude = location.getLongitude();
+                    // Use latitude and longitude here
+                    Toast.makeText(RequestBlood.this, "Latitude: " + latitude + ", Longitude: " + longitude, Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
         stateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
@@ -93,23 +125,6 @@ public class RequestBlood extends AppCompatActivity {
                 showBroadcastAlertDialog();
             }
         });
-    }
-    private void getLocation() {
-        chooseLocationButton.setVisibility(View.GONE);
-        locationTextView.setVisibility(View.VISIBLE);
-        locationTextView.setText("Location gathered successfully!");
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                getLocation();
-            } else {
-
-            }
-        }
     }
     private void showBroadcastAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -172,13 +187,11 @@ public class RequestBlood extends AppCompatActivity {
                 Toast.makeText(RequestBlood.this, "Notification sent to " + recipients + " recipients", Toast.LENGTH_SHORT).show();
                 Log.d("Notification", "Sent to " + recipients + " recipients");
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
     }
-
     private void sendDataToServer(NotificationData notificationData) {
         apiService.sendDataToServer(notificationData).enqueue(new Callback<Void>() {
             @Override
@@ -189,11 +202,49 @@ public class RequestBlood extends AppCompatActivity {
                     Log.d("Notification", "Failed to send data to server");
                 }
             }
-
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 Toast.makeText(RequestBlood.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    private void requestLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
+        } else {
+            getLocation();
+        }
+    }
+    private void getLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
+        } else {
+            fusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
+                if (location != null) {
+                    double latitude = location.getLatitude();
+                    double longitude = location.getLongitude();
+                    RequestData requestData = new RequestData();
+                    requestData.setLatitude(latitude);
+                    requestData.setLongitude(longitude);
+                    chooseLocationButton.setTextColor(Color.parseColor("#AB00B300"));
+                    chooseLocationButton.setText("Location gather successfull!");
+                    chooseLocationButton.setEnabled(false);
+                    Toast.makeText(RequestBlood.this, "Latitude: " + latitude + ", Longitude: " + longitude, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(RequestBlood.this, "Location is not enabled or available!", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getLocation();
+            } else {
+                Toast.makeText(this, "Location permission denied", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

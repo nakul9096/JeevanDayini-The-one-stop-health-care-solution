@@ -309,10 +309,16 @@ public class Tab1Fragment extends Fragment {
                                 TextView nameTextView = findDonorNameTextViewById(count);
                                 ImageView photoImageView = findProfilePhotoImageViewById(count);
                                 nameTextView.setText(capitalizedFullName);
-                                Glide.with(Tab1Fragment.this)
-                                        .load(profilePhoto)
-                                        .apply(RequestOptions.circleCropTransform())
-                                        .into(photoImageView);
+                                if (!profilePhoto.isEmpty()) {
+                                    // If profile photo exists, load it with Glide
+                                    Glide.with(Tab1Fragment.this)
+                                            .load(profilePhoto)
+                                            .apply(RequestOptions.circleCropTransform())
+                                            .into(photoImageView);
+                                } else {
+                                    // If profile photo doesn't exist, set default image
+                                    photoImageView.setImageResource(R.drawable.profi);
+                                }
                                 Log.d("Firebase", "Donor #" + count + " retrieved: " + capitalizedFullName);
                             }
                         }

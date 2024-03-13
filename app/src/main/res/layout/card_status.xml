@@ -89,6 +89,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
             android:visibility="gone"
+            android:backgroundTint="#B40097A7"
             android:text="Reschedule" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>
