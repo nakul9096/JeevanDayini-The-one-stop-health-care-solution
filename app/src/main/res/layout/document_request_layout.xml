@@ -60,11 +60,13 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Accept"
+                android:backgroundTint="#004D40"
                 android:textSize="12dp" />
 
             <Button
                 android:id="@+id/declineButton"
                 style="?android:attr/buttonStyle"
+                android:backgroundTint="#B71C1C"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -77,9 +79,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:backgroundTint="#3F51B5"
                 android:text="View Data"
                 android:textSize="12dp" />
         </LinearLayout>
-
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

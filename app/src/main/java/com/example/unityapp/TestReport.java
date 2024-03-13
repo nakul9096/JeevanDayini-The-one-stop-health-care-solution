@@ -66,7 +66,6 @@ public class TestReport extends AppCompatActivity {
                                         progressBar.setVisibility(View.GONE);
                                         createHospitalCard(hospitalName, hospitalEmail, testreporturl);
                                         hospitalDataFound = true;
-                                        break;
                                     } }
                                     if (!hospitalDataFound) {
                                         progressBar.setVisibility(View.GONE);
@@ -111,7 +110,7 @@ public class TestReport extends AppCompatActivity {
         buttonDownloadPrescription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                downloadPDF(reporturl);
+                downloadPDF(reporturl, hospitalName);
             }
         });
         // Add the card to your layout
@@ -131,9 +130,9 @@ public class TestReport extends AppCompatActivity {
     }
 
     // Method to download the file with the URL
-    private void downloadPDF(String url) {
+    private void downloadPDF(String url,String hospName) {
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-        request.setTitle("Downloading PDF");
+        request.setTitle(hospName+"_prescription");
         request.setDescription("Downloading PDF file...");
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "file.pdf");

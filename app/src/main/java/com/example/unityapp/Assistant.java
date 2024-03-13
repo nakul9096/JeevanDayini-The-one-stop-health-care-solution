@@ -127,9 +127,10 @@ public class Assistant extends AppCompatActivity {
                 }
             }
         });
-        String userEmail = intent.getStringExtra("userEmail");
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        String userEmail = currentUser.getEmail();
         if (userEmail != null) {
-            FirebaseUser currentUser = mAuth.getCurrentUser();
             Log.d("Assistant", "User Email: " + userEmail);
             if (currentUser != null) {
                 String encodedEmail = userEmail.replace("@", "").replace(".", "");

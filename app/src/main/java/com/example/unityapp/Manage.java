@@ -93,20 +93,8 @@ public class Manage extends AppCompatActivity {
         TextView nameTextView = nameCardView.findViewById(R.id.nameTextView);
         nameTextView.setText(userName);
 
-        Button viewDataButton = nameCardView.findViewById(R.id.viewDataButton);
-        viewDataButton.setTag(userEmail); // Set the email as a tag
-
         Button disableAccountButton = nameCardView.findViewById(R.id.disableAccountButton);
         disableAccountButton.setTag(userUID); // Store the user UID in the button's tag
-
-        viewDataButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String selectedUserEmail = (String) viewDataButton.getTag();
-                // Handle the "View Data" button click here
-                // You can start a new activity to display user details or perform any desired action.
-            }
-        });
 
         disableAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override

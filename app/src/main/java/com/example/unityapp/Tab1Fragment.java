@@ -60,6 +60,7 @@ public class Tab1Fragment extends Fragment {
     int count = 0;
     public ImageView donar1, donar2, donar3, donar4, donar5;
     public TextView donarname1, donarname2, donarname3, donarname4, donarname5;
+    public TextView textViewViewMore;
     public Tab1Fragment() {
     }
     @Override
@@ -82,6 +83,7 @@ public class Tab1Fragment extends Fragment {
         donarname3 = view.findViewById(R.id.donarname3);
         donarname4 = view.findViewById(R.id.donarname4);
         donarname5 = view.findViewById(R.id.donarname5);
+        textViewViewMore = view.findViewById(R.id.textViewViewMore);
         usersRef = FirebaseDatabase.getInstance().getReference().child("users");
         currentUserEmail = getCurrentUserEmail();
         mAuth = FirebaseAuth.getInstance();
@@ -99,6 +101,13 @@ public class Tab1Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 showPopupMenu(v);
+            }
+        });
+        textViewViewMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), DonarListView.class);
+                startActivity(intent);
             }
         });
         btnPremium.setOnClickListener(new View.OnClickListener() {

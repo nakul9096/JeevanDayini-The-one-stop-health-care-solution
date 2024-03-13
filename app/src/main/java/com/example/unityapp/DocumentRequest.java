@@ -136,8 +136,11 @@ public class DocumentRequest extends AppCompatActivity {
                 public void onClick(View v) {
                     AdminData userCredentials = (AdminData) v.getTag();
                     if (userCredentials != null) {
-                        String selectedUserEmail = userCredentials.getEmail2();
-                        String selectedUserPassword = userCredentials.getOrganizationPhone();
+                        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs3", Context.MODE_PRIVATE);
+                        String adminId = sharedPreferences.getString("adminId", "");
+                        String adminName = sharedPreferences.getString("adminName", "");
+                        updateApprovalStatus(aadharNumber, "declined", adminId, adminName, userId);
+                        Toast.makeText(DocumentRequest.this, "Form declined successfully!", Toast.LENGTH_SHORT).show();
                     }
                 }
             });

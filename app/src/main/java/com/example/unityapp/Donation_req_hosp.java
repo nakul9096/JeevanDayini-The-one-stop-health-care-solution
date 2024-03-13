@@ -117,9 +117,6 @@ public class Donation_req_hosp extends AppCompatActivity {
         donatedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                donatedButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
                         ref.child("donation_status").setValue("DONATED")
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
@@ -131,7 +128,6 @@ public class Donation_req_hosp extends AppCompatActivity {
                                             public void onTick(long millisUntilFinished) {
                                                 infoTv.setText("Refreshing in " + millisUntilFinished / 1000 + " seconds");
                                             }
-
                                             public void onFinish() {
                                                 Intent intent = new Intent(Donation_req_hosp.this, Donation_req_hosp.class);
                                                 finish();
@@ -139,7 +135,6 @@ public class Donation_req_hosp extends AppCompatActivity {
                                             }
                                         }.start();
                                     }
-
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
@@ -148,9 +143,6 @@ public class Donation_req_hosp extends AppCompatActivity {
                                         Log.e("Donation_req_hosp", "Error updating donation status: " + e.getMessage());
                                     }
                                 });
-                    }
-                });
-
             }
         });
         Button absentButton = cardView.findViewById(R.id.absentButton);

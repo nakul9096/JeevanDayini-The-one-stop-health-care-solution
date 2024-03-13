@@ -502,6 +502,8 @@ public class DonateBlood extends AppCompatActivity {
                         String imageUrl = downloadUrl.toString();
                         Log.d("UploadSuccess", "Image URL: " + imageUrl);
                         saveToSharedPreferences(IMAGE_URL_KEY, imageUrl);
+                        DonorInfo donarInfo = new DonorInfo();
+                        donarInfo.setImageUrl(imageUrl);
                         Toast.makeText(getApplicationContext(), "Image upload successful", Toast.LENGTH_SHORT).show();
                         progressBarnew.setVisibility(View.GONE);
                         Glide.with(getApplicationContext())
@@ -548,6 +550,8 @@ public class DonateBlood extends AppCompatActivity {
                         String documentUrl = downloadUrl.toString();
                         Log.d("UploadSuccess", "Document URL: " + documentUrl);
                         saveToSharedPreferences(DOCUMENT_URL_KEY, documentUrl);
+                        DonorInfo donarInfo = new DonorInfo();
+                        donarInfo.setDocumentUrl(documentUrl);
                         Toast.makeText(getApplicationContext(), "Document upload successful", Toast.LENGTH_SHORT).show();
                         progressBaraadhar.setVisibility(View.GONE);
                         uploadAadhaarButton.setText("View Document");

@@ -150,6 +150,7 @@ public class Login extends AppCompatActivity {
                                                     updateFCMTokenBroadcastRef(adminType, email);
                                                     Intent intent = new Intent(getApplicationContext(), Management.class);
                                                     startActivity(intent);
+                                                    finish();
                                                     showToast("Admin login successful");
                                                 } else {
                                                     saveUserToDatabase("Hospital", userUid);

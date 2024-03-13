@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,6 +34,7 @@ public class Session extends AppCompatActivity {
     private TabLayout tabLayout;
     private TextView noInternetTextView;
     private BroadcastReceiver connectivityReceiver;
+     FloatingActionButton chatIcon;
     private int[] tabIcons = {
             R.raw.home,
             R.raw.notify,
@@ -57,6 +59,7 @@ public class Session extends AppCompatActivity {
         }
         viewPager = findViewById(R.id.view_pager);
         tabLayout = findViewById(R.id.tab_layout1);
+        chatIcon = findViewById(R.id.chatIcon);
         noInternetTextView = findViewById(R.id.noInternetTextView);
         MyPagerAdapter pagerAdapter = new MyPagerAdapter(this);
         viewPager.setAdapter(pagerAdapter);
@@ -89,8 +92,14 @@ public class Session extends AppCompatActivity {
         } else {
             noInternetTextView.setVisibility(View.GONE);
         }
+        chatIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Session.this, Assistant.class);
+                startActivity(intent);
+            }
+        });
     }
-
     private void updateTabIcon(int index, String profilePictureUrl) {
         tabIcons[index] = R.drawable.placeholder_image;
     }

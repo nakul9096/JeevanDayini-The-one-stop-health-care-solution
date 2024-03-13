@@ -49,6 +49,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ViewData2"
+            android:exported="false" />
+        <activity
+            android:name=".DonarListView"
+            android:exported="false" />
+        <activity
             android:name=".Donation_req_hosp"
             android:exported="false" />
         <activity

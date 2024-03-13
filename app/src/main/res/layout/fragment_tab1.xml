@@ -96,6 +96,7 @@
                 android:layout_height="wrap_content"
                 android:onClick="onViewMoreClick"
                 android:text="View More"
+                android:id="@+id/textViewViewMore"
                 android:textColor="#FFFFFF"
                 android:textSize="12sp" />
         </LinearLayout>

@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -79,7 +80,9 @@ public class Management extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        retrieveUserData(userEmail);
+        if(!isDestroyed()) {
+            retrieveUserData(userEmail);
+        }
         buttonmanageusers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,7 +112,6 @@ public class Management extends AppCompatActivity {
                 clearSession();
                 Intent intent = new Intent(Management.this, Tutorial_links.class);
                 startActivity(intent);
-                finish();
             }
         });
         cbbtn.setOnClickListener(new View.OnClickListener() {
@@ -118,7 +120,6 @@ public class Management extends AppCompatActivity {
                 clearSession();
                 Intent intent = new Intent(Management.this, ChatBotData.class);
                 startActivity(intent);
-                finish();
             }
         });
     }
@@ -189,11 +190,14 @@ public class Management extends AppCompatActivity {
         }
         if (adminImage != null) {
             RequestOptions requestOptions = new RequestOptions()
-                    .placeholder(R.raw.profile1)
-                    .error(R.raw.profile1);
+                    .placeholder(R.drawable.profile1)
+                    .error(R.drawable.profile1);
+            requestOptions.transform(new CircleCrop());
             Glide.with(this)
                     .load(adminImage)
                     .apply(requestOptions)
+                    .centerCrop()
+                    .transform(new CircleCrop())
                     .into(userImageView);
         }
     }
