@@ -33,6 +33,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/editextrequirement"
                 android:hint="Enter blood requirement (ML/L)"
                 android:inputType="number" />
 
@@ -101,15 +102,6 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:hint="Delivery Time" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/locationTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingLeft="20dp"
-            android:text="Location gathered successfully!"
-            android:visibility="gone" />
         <Button
             android:id="@+id/buttonViewOnMap"
             android:backgroundTint="@color/light_blue_900"
@@ -119,6 +111,18 @@
             android:text="Choose location via map"
             android:textColor="#FFFFFF" />
 
+        <TextView
+            android:id="@+id/longTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_margin="10dp"/>
+        <TextView
+            android:id="@+id/latTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_margin="10dp"/>
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/addressEditText"
             android:layout_width="match_parent"

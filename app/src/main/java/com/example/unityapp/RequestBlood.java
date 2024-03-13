@@ -1,5 +1,4 @@
 package com.example.unityapp;
-
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -18,32 +17,35 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-
 import com.example.unityapp.SendNotificationPack.Client;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
 public class RequestBlood extends AppCompatActivity {
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1001;
     APIService apiService;
     String serverBaseUrl = "http://192.168.54.40:5000";
     Spinner citySpinner, stateSpinner, bloodGroupSpinner, deliveryTimeSpinner, mlSpinner;
     private Button chooseLocationButton;
-    private TextView locationTextView;
     private CityUtils cityUtils;
     private FusedLocationProviderClient fusedLocationClient;
     private LocationCallback locationCallback;
+    private TextInputEditText bloodRequirementEditText;
+    private TextInputEditText addressEditText;
+    public RequestData requestData;
+    private TextView latTV, longTV;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +57,10 @@ public class RequestBlood extends AppCompatActivity {
         mlSpinner = findViewById(R.id.mlSpinner);
         apiService = Client.getClient(serverBaseUrl).create(APIService.class);
         chooseLocationButton = findViewById(R.id.buttonViewOnMap);
-        locationTextView = findViewById(R.id.locationTextView);
+        bloodRequirementEditText = findViewById(R.id.editextrequirement);
+        addressEditText = findViewById(R.id.addressEditText);
+        latTV = findViewById(R.id.latTV);
+        longTV = findViewById(R.id.longTV);
         String[] deliveryTimeValues = {"Emergency (Now)", "Within 30 min", "Within 1 hr",
                 "Within 3 hr", "Within 6 hr", "Within 12 hr",
                 "Within 24 hr"};
@@ -96,8 +101,10 @@ public class RequestBlood extends AppCompatActivity {
                     return;
                 }
                 for (Location location : locationResult.getLocations()) {
-                    double latitude = location.getLatitude();
-                    double longitude = location.getLongitude();
+                    String latitude = String.valueOf(location.getLatitude());
+                    String longitude = String.valueOf(location.getLongitude());
+                    requestData.setLatitude(latitude);
+                    requestData.setLongitude(longitude);
                     // Use latitude and longitude here
                     Toast.makeText(RequestBlood.this, "Latitude: " + latitude + ", Longitude: " + longitude, Toast.LENGTH_SHORT).show();
                 }
@@ -146,7 +153,6 @@ public class RequestBlood extends AppCompatActivity {
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
-
     private void showConfirmationDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Confirmation!!")
@@ -155,6 +161,7 @@ public class RequestBlood extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         sendBroadcastNotification();
+                        saveDataToFirebase();
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -166,7 +173,6 @@ public class RequestBlood extends AppCompatActivity {
         AlertDialog confirmationDialog = builder.create();
         confirmationDialog.show();
     }
-
     private void sendBroadcastNotification() {
         DatabaseReference broadcastRef = FirebaseDatabase.getInstance().getReference("broadcast");
         broadcastRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -215,27 +221,34 @@ public class RequestBlood extends AppCompatActivity {
             getLocation();
         }
     }
-    private void getLocation() {
+    public void getLocation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
         } else {
-            fusedLocationClient.getLastLocation().addOnSuccessListener(this, location -> {
-                if (location != null) {
-                    double latitude = location.getLatitude();
-                    double longitude = location.getLongitude();
-                    RequestData requestData = new RequestData();
-                    requestData.setLatitude(latitude);
-                    requestData.setLongitude(longitude);
-                    chooseLocationButton.setTextColor(Color.parseColor("#AB00B300"));
-                    chooseLocationButton.setText("Location gather successfull!");
-                    chooseLocationButton.setEnabled(false);
-                    Toast.makeText(RequestBlood.this, "Latitude: " + latitude + ", Longitude: " + longitude, Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(RequestBlood.this, "Location is not enabled or available!", Toast.LENGTH_SHORT).show();
+            fusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                @Override
+                public void onSuccess(Location location) {
+                    if (location != null) {
+                        double latitude = location.getLatitude();
+                        double longitude = location.getLongitude();
+                        requestData = new RequestData();
+                        requestData.setLatitude(String.valueOf(latitude));
+                        requestData.setLongitude(String.valueOf(longitude));
+                        chooseLocationButton.setTextColor(Color.parseColor("#AB00B300"));
+                        chooseLocationButton.setText("Location gathered successfully!");
+                        chooseLocationButton.setEnabled(false);
+                        latTV.setVisibility(View.VISIBLE);
+                        longTV.setVisibility(View.VISIBLE);
+                        latTV.setText("Latitude: "+String.valueOf(latitude));
+                        longTV.setText("Longitude: "+String.valueOf(longitude));
+                    } else {
+                        Toast.makeText(RequestBlood.this, "Location is not enabled or available!", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
         }
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -245,6 +258,46 @@ public class RequestBlood extends AppCompatActivity {
             } else {
                 Toast.makeText(this, "Location permission denied", Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+    private void saveDataToFirebase() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference bloodRequestsRef = database.getReference("blood_requests");
+        DatabaseReference newBloodRequestRef = bloodRequestsRef.push(); // Generate unique key
+        requestData = new RequestData();
+        requestData.setBloodAmount(bloodRequirementEditText.getText().toString());
+        requestData.setBloodGroup(bloodGroupSpinner.getSelectedItem().toString());
+        requestData.setTime(deliveryTimeSpinner.getSelectedItem().toString());
+        requestData.setUnit(mlSpinner.getSelectedItem().toString());
+        requestData.setState(stateSpinner.getSelectedItem().toString());
+        requestData.setCity(citySpinner.getSelectedItem().toString());
+        requestData.setAddress(addressEditText.getText().toString());
+        String latitude = latTV.getText().toString().replace("Latitude: ","");
+        String longitude = longTV.getText().toString().replace("Longitude: ","");
+        requestData.setLongitude(longitude);
+        requestData.setLatitude(latitude);
+        String requestId = newBloodRequestRef.getKey();
+        if (requestId != null) {
+            bloodRequestsRef.child(requestId).setValue(requestData)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Helper.showToast(RequestBlood.this,"Request broadcasted!");
+                            Log.d("UserData", "Data Upload Successful");
+                            finish();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            String errorMessage = "Data Upload Failed: " + e.getMessage();
+                            Log.e("UserData", errorMessage);
+                            Toast.makeText(RequestBlood.this, errorMessage, Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    });
+        } else {
+            Log.e("UserData", "Generated key is null");
         }
     }
 }
