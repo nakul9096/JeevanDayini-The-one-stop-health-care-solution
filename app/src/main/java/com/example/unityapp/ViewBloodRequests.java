@@ -21,6 +21,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.rpc.Help;
+
 public class ViewBloodRequests extends AppCompatActivity {
     private LinearLayout namesLayout;
     private DatabaseReference bloodRequestsRef;
@@ -58,7 +60,9 @@ public class ViewBloodRequests extends AppCompatActivity {
                         String city = snapshot.child("city").getValue(String.class);
                         String bloodGroup = snapshot.child("bloodGroup").getValue(String.class);
                         String time = snapshot.child("time").getValue(String.class);
-                        createNameCard(bloodAmount, unit, state, city, time, bloodGroup, latitude, longitude, address);
+                        if (!snapshot.hasChild("acceptedBy_name")) {
+                            createNameCard(bloodAmount, unit, state, city, time, bloodGroup, latitude, longitude, address, snapshot);
+                        }
                     }
                 } else {
                     // No requests available
@@ -74,7 +78,7 @@ public class ViewBloodRequests extends AppCompatActivity {
             }
         });
     }
-    public void createNameCard(String bloodAmount, String unit, String state, String city, String time, String bloodGroup, String latitude, String longitude, String address) {
+    public void createNameCard(String bloodAmount, String unit, String state, String city, String time, String bloodGroup, String latitude, String longitude, String address,DataSnapshot snapshot) {
         CardView nameCard = (CardView) LayoutInflater.from(this).inflate(R.layout.view_bloodreq_card, namesLayout, false);
         TextView textViewBloodAmount = nameCard.findViewById(R.id.textViewTitle);
         TextView stateTV = nameCard.findViewById(R.id.textViewStateCity);
@@ -88,7 +92,7 @@ public class ViewBloodRequests extends AppCompatActivity {
         buttonDonate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showBloodDonationDialog("Blood requirement: "+bloodAmount + " " + unit, state, city, bloodGroup );
+                showBloodDonationDialog("Blood requirement: "+bloodAmount + " " + unit, state, city, bloodGroup, snapshot);
             }
         });
         buttonViewOnMap.setOnClickListener(new View.OnClickListener() {
@@ -116,13 +120,17 @@ public class ViewBloodRequests extends AppCompatActivity {
             Toast.makeText(ViewBloodRequests.this, "Error: No map application found!",Toast.LENGTH_SHORT).show();
         }
     }
-    private void showBloodDonationDialog(String requirement, String state, String city, String bloodGroup) {
+    private void showBloodDonationDialog(String requirement, String state, String city, String bloodGroup, DataSnapshot snapshot) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_donate_blood, null);
         builder.setView(dialogView);
 
         EditText editTextName = dialogView.findViewById(R.id.editTextName);
+        EditText editTextPhone = dialogView.findViewById(R.id.editTextPhone);
+        EditText editTextEmail = dialogView.findViewById(R.id.editTextEmail);
+        EditText editTextBloodAmountAvailable = dialogView.findViewById(R.id.editTextBloodAvailable);
+        EditText editTextPickupAddress = dialogView.findViewById(R.id.editTextAddress);
         EditText editTextState = dialogView.findViewById(R.id.editTextState);
         EditText editTextCity = dialogView.findViewById(R.id.editTextCity);
         EditText editTextBloodGroup = dialogView.findViewById(R.id.editTextBloodGroup);
@@ -133,7 +141,29 @@ public class ViewBloodRequests extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String name = editTextName.getText().toString();
+                String phone = editTextPhone.getText().toString();
+                String email = editTextEmail.getText().toString();
+                String bloodAmountAvailable = editTextBloodAmountAvailable.getText().toString();
+                String pickupAddress = editTextPickupAddress.getText().toString();
 
+                // Validate input fields
+                if (name.isEmpty() || phone.isEmpty() || email.isEmpty() || bloodAmountAvailable.isEmpty() || pickupAddress.isEmpty()) {
+                    Toast.makeText(ViewBloodRequests.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Create a new child node under the specific snapshot for donation details
+                DatabaseReference donationRef = snapshot.getRef();
+
+                // Store the entered data under the new child node
+                donationRef.child("acceptedBy_name").setValue(name);
+                donationRef.child("acceptedBy_phone").setValue(phone);
+                donationRef.child("acceptedBy_email").setValue(email);
+                donationRef.child("bloodAmountAvailable").setValue(bloodAmountAvailable);
+                donationRef.child("pickupAddress").setValue(pickupAddress);
+                Helper.showToast(ViewBloodRequests.this, "Donation pickup request submitted!");
+                recreate();
+                dialog.dismiss();
             }
         });
 

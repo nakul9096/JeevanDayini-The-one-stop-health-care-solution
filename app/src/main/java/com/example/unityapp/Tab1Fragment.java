@@ -5,6 +5,7 @@ import static android.content.Context.MODE_PRIVATE;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -89,8 +90,11 @@ public class Tab1Fragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        loadingBar = new CustomLoadingBar(getActivity());
-        loadingBar.show();
+        Activity activity = getActivity();
+        if (activity != null) {
+            loadingBar = new CustomLoadingBar(activity);
+            loadingBar.show();
+        }
         AdRequest adRequest = new AdRequest.Builder().build();
         if (currentUserEmail != null) {
             retrieveUserName(currentUserEmail);
@@ -232,7 +236,6 @@ public class Tab1Fragment extends Fragment {
                 }
             }
         });
-
         popupMenu.show();
     }
     private void logoutUser() {

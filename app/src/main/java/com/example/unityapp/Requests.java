@@ -300,7 +300,6 @@ public class Requests extends AppCompatActivity {
                     Toast.makeText(Requests.this, "Failed to send data to server", Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
                 Toast.makeText(Requests.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();

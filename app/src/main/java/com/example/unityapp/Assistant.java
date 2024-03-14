@@ -1,5 +1,4 @@
 package com.example.unityapp;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -22,7 +21,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 public class Assistant extends AppCompatActivity {
     private TextView greetingTextView;
     private TextView helpPromptTextView;
@@ -34,7 +32,6 @@ public class Assistant extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private boolean isConversationInProgress = false;
     private DatabaseReference usersDatabaseRef;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

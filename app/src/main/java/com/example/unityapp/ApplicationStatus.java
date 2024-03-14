@@ -60,6 +60,13 @@ public class ApplicationStatus extends AppCompatActivity {
                 finish();
             }
         });
+        viewEarnedBadgesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ApplicationStatus.this, Badge.class);
+                startActivity(intent);
+            }
+        });
     }
     private void generateCardFromDatabase(String email) {
         String PREFS_NAME2 = "ProfileData";
