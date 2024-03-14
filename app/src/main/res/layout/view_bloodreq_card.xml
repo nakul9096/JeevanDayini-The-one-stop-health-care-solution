@@ -13,29 +13,60 @@
         android:padding="16dp">
 
         <TextView
-            android:id="@+id/textViewTitle"
+            android:id="@+id/textViewNote"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="TextView Requirement"
+            android:text="Ensure correct information"
+            android:textColor="#FF0000"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
-            android:id="@+id/textViewState"
+            android:id="@+id/textViewTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="State"
+            android:text="TextView Requirement"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/textViewNote"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+        <TextView
+            android:id="@+id/textViewGroup"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Blood group:"
+            android:layout_marginTop="10dp"
             app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+        <TextView
+            android:id="@+id/textViewStateCity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="City, state"
+            app:layout_constraintTop_toBottomOf="@+id/textViewGroup"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
-            android:id="@+id/textViewCity"
+            android:id="@+id/textViewAddress"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="City"
-            app:layout_constraintTop_toBottomOf="@+id/textViewState"
+            android:text="Address"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/textViewStateCity"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Delivery time"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/textViewAddress"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -44,9 +75,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textColor="#000000"
+            android:layout_marginTop="10dp"
             android:text="Donate"
             android:backgroundTint="#ffffff"
-            app:layout_constraintTop_toBottomOf="@+id/textViewCity"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTime"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 

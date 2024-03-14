@@ -20,6 +20,10 @@
         android:icon="@drawable/lco"
         android:title="List clinic online" />
     <item
+        android:id="@+id/menu_viewbr"
+        android:icon="@drawable/alert"
+        android:title="View blood requests"/>
+    <item
         android:id="@+id/menu_logout"
         android:icon="@drawable/logout"
         android:title="Logout" />

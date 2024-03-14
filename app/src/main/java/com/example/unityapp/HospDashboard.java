@@ -154,7 +154,11 @@ public class HospDashboard extends AppCompatActivity {
             } else if (id == R.id.requestbloodbtn) {
                 Intent intent = new Intent(HospDashboard.this, RequestBlood.class);
                 startActivity(intent);
-            } else if (id == R.id.menu_lco) {
+            }
+            else if (id == R.id.menu_viewbr) {
+                Intent intent = new Intent(HospDashboard.this, ViewBloodRequests.class);
+                startActivity(intent);
+            }else if (id == R.id.menu_lco) {
                 Intent intent = new Intent(HospDashboard.this, ListOnline.class);
                 startActivity(intent);
             } else if (id == R.id.menu_logout) {
