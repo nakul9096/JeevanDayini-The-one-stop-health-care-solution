@@ -105,7 +105,6 @@ public class RequestBlood extends AppCompatActivity {
                     String longitude = String.valueOf(location.getLongitude());
                     requestData.setLatitude(latitude);
                     requestData.setLongitude(longitude);
-                    // Use latitude and longitude here
                     Toast.makeText(RequestBlood.this, "Latitude: " + latitude + ", Longitude: " + longitude, Toast.LENGTH_SHORT).show();
                 }
             }
