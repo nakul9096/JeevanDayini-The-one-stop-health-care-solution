@@ -21,8 +21,7 @@ public class ViewData2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_data2); // Replace 'your_layout' with the name of your XML layout file
-
+        setContentView(R.layout.activity_view_data2);
         // Initialize TextViews
         textViewName1 = findViewById(R.id.textViewName1);
         textViewRelation1 = findViewById(R.id.textViewRelation1);
@@ -39,7 +38,6 @@ public class ViewData2 extends AppCompatActivity {
         textViewState1 = findViewById(R.id.textViewState1);
         textViewcity1 = findViewById(R.id.textViewcity1);
 
-        // Retrieve data from the database (example)
         String name = "John Doe";
         String relation = "Friend";
         String address = "123 Main St";
@@ -55,7 +53,6 @@ public class ViewData2 extends AppCompatActivity {
         String state = "California";
         String city = "Los Angeles";
 
-        // Set retrieved data to TextViews
         textViewName1.setText(name);
         textViewRelation1.setText(relation);
         textViewAddress1.setText(address);

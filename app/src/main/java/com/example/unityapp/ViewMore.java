@@ -116,14 +116,14 @@ public class ViewMore extends AppCompatActivity {
                         cardClinic.setVisibility(View.VISIBLE);
                     }
                 } else {
-                    Toast.makeText(ViewMore.this, "error user not exist", Toast.LENGTH_SHORT).show();
+                    Helper.showToast(ViewMore.this, "error user not exist");
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 progressBar.setVisibility(View.GONE);
-                Toast.makeText(ViewMore.this, "Database error: " + databaseError.getMessage(), Toast.LENGTH_LONG).show();
+                Helper.showToast(ViewMore.this, "Database error: " + databaseError.getMessage());
             }
         });
     }
@@ -136,11 +136,9 @@ public class ViewMore extends AppCompatActivity {
         String startTimePeriod = (startHour < 12) ? "AM" : "PM";
         String endTimePeriod = (endHour < 12) ? "AM" : "PM";
 
-        // Convert 24-hour to 12-hour format
         startHour = (startHour > 12) ? startHour - 12 : startHour;
         endHour = (endHour > 12) ? endHour - 12 : endHour;
 
-        // Handle midnight (12:00 AM) and noon (12:00 PM)
         if (startHour == 0) {
             startHour = 12;
         }
@@ -191,17 +189,17 @@ public class ViewMore extends AppCompatActivity {
                         if (mapUrl != null && !mapUrl.isEmpty()) {
                             openMap(mapUrl);
                         } else {
-                            Toast.makeText(ViewMore.this, "Error: 404 Not found", Toast.LENGTH_SHORT).show();
+                            Helper.showToast(ViewMore.this, "Error: 404 Not found");
                         }
                     }
                 } else {
-                    Toast.makeText(ViewMore.this, "Error: Request not exist", Toast.LENGTH_SHORT).show();
+                    Helper.showToast(ViewMore.this, "Error: Request not exist");
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(ViewMore.this, "Database error: " + databaseError.getMessage(), Toast.LENGTH_LONG).show();
+                Helper.showToast(ViewMore.this, "Database error: " + databaseError.getMessage());
             }
         });
     }

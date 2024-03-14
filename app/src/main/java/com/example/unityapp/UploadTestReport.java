@@ -31,6 +31,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.rpc.Help;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -167,32 +168,25 @@ public class UploadTestReport extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_PDF_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            // Get the URI of the selected PDF file
             Uri uri = data.getData();
             uploadPDFToFirebase(uri);
         }
     }
 
     private void uploadPDFToFirebase(Uri pdfUri) {
-        // Create a storage reference with a filename including date and timestamp
         String fileName = "filename_" + new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date()) + ".pdf";
         StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("reports").child(fileName);
         storageRef.putFile(pdfUri)
                 .addOnSuccessListener(taskSnapshot -> {
-                    // Get the download URL of the uploaded file
                     storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                        // Save the download URL to the database
                         saveDownloadUrlToDatabase(sanitizeEmail(email),uri.toString());
-                        Toast.makeText(getApplicationContext(), "File uploaded successfully", Toast.LENGTH_SHORT).show();
+                        Helper.showToast(UploadTestReport.this,"File uploaded successfully");
                     }).addOnFailureListener(e -> {
-                        // Handle failure to get download URL
-                        Toast.makeText(getApplicationContext(), "Failed to get download URL: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Helper.showToast(UploadTestReport.this,"Failed to get download URL: " + e.getMessage());
                     });
                 })
                 .addOnFailureListener(e -> {
-                    // Handle unsuccessful uploads
-                    // Display an error message, e.g., show a toast
-                    Toast.makeText(getApplicationContext(), "Upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Helper.showToast(UploadTestReport.this,"Upload failed: " + e.getMessage());
                 });
     }
     private void saveDownloadUrlToDatabase(String email, String downloadUrl) {
@@ -211,7 +205,7 @@ public class UploadTestReport extends AppCompatActivity {
                         Log.d("urldebug","download url updated in database"+downloadUrl);
                     })
                     .addOnFailureListener(e -> {
-                        Toast.makeText(getApplicationContext(), "Failed to save download URL: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Helper.showToast(UploadTestReport.this,"Failed to save download URL: " + e.getMessage());
                     });
         } else {
             Log.e("UploadTestReport", "Current user email is null.");

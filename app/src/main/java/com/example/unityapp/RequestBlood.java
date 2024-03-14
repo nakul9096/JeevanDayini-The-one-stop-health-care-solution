@@ -190,7 +190,7 @@ public class RequestBlood extends AppCompatActivity {
                         }
                     }
                 }
-                Toast.makeText(RequestBlood.this, "Notification sent to " + recipients + " recipients", Toast.LENGTH_SHORT).show();
+                Helper.showToast(RequestBlood.this, "Notification sent to " );
                 Log.d("Notification", "Sent to " + recipients + " recipients");
             }
             @Override
@@ -210,7 +210,7 @@ public class RequestBlood extends AppCompatActivity {
             }
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(RequestBlood.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Helper.showToast(RequestBlood.this, "Error: " + t.getMessage());
             }
         });
     }
@@ -242,7 +242,7 @@ public class RequestBlood extends AppCompatActivity {
                         latTV.setText("Latitude: "+String.valueOf(latitude));
                         longTV.setText("Longitude: "+String.valueOf(longitude));
                     } else {
-                        Toast.makeText(RequestBlood.this, "Location is not enabled or available!", Toast.LENGTH_SHORT).show();
+                        Helper.showToast(RequestBlood.this, "Location is not enabled or available!");
                     }
                 }
             });
@@ -256,7 +256,7 @@ public class RequestBlood extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 getLocation();
             } else {
-                Toast.makeText(this, "Location permission denied", Toast.LENGTH_SHORT).show();
+                 Helper.showToast(RequestBlood.this, "Location permission denied");
             }
         }
     }
@@ -292,7 +292,7 @@ public class RequestBlood extends AppCompatActivity {
                         public void onFailure(@NonNull Exception e) {
                             String errorMessage = "Data Upload Failed: " + e.getMessage();
                             Log.e("UserData", errorMessage);
-                            Toast.makeText(RequestBlood.this, errorMessage, Toast.LENGTH_SHORT).show();
+                            Helper.showToast(RequestBlood.this, errorMessage);
                             finish();
                         }
                     });

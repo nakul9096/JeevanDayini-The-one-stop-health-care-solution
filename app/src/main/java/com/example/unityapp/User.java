@@ -33,7 +33,6 @@ public class User {
         this.platformfee = platformfee;
     }
 
-    // Getter and setter methods for all fields
     public String getName() {
         return name;
     }

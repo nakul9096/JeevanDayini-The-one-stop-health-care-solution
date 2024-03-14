@@ -43,7 +43,6 @@ public class UserData implements Parcelable {
     private String userid;
 
     public UserData() {
-        // Default constructor
     }
 
     protected UserData(Parcel in) {
@@ -70,12 +69,10 @@ public class UserData implements Parcelable {
         userid = in.readString();
     }
 
-    // Getter methods
     public String getFullName() {
         return fullName;
     }
 
-    // Setter methods
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
@@ -219,8 +216,6 @@ public class UserData implements Parcelable {
     public void setImageUrlIdentity1(String imageUrlIdentity1) {
         this.imageUrlIdentity1 = imageUrlIdentity1;
     }
-
-    // Parcelable implementation
     public String getAdminId() {
         return adminId;
     }
