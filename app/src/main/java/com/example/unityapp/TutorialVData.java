@@ -6,7 +6,6 @@ public class TutorialVData {
     private String title;
     private String url;
 
-    // Required default constructor for Firebase
     public TutorialVData() {
     }
 

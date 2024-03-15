@@ -38,7 +38,7 @@ public class Tab3Fragment extends Fragment {
         btnchangelang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(),"Only english language is available in this version!",Toast.LENGTH_SHORT).show();
+                Helper.showToast(getActivity(), "Only english language is available in this version!");
             }
         });
         privacytvi.setOnClickListener(new View.OnClickListener() {

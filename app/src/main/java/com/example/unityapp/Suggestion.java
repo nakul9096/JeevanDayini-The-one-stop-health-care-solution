@@ -1,4 +1,3 @@
-// Suggestion.java
 package com.example.unityapp;
 
 import android.content.Context;

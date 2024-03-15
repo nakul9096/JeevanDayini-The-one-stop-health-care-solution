@@ -86,19 +86,18 @@ public class Requests extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e(TAG, "Database error: " + databaseError.getMessage(), databaseError.toException());
-                Toast.makeText(Requests.this, "Database error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                Helper.showToast(Requests.this, "Database error: " + databaseError.getMessage());
                 loadingprogressbar.setVisibility(View.GONE);
             }
         });
     }
 
     private void createNameCard(String userName, String userEmail, String userPassword) {
-        // Create a new CardView for each name
         CardView nameCard = (CardView) LayoutInflater.from(this).inflate(R.layout.name_card, namesLayout, false);
         TextView nameTextView = nameCard.findViewById(R.id.nameTextView);
         nameTextView.setText(userName);
-        Button viewDataButton = nameCard.findViewById(R.id.button3); // Assuming there's a "View Data" button in your card layout
-        viewDataButton.setTag(userName); // Set the user name as a tag
+        Button viewDataButton = nameCard.findViewById(R.id.button3);
+        viewDataButton.setTag(userName);
         viewDataButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,12 +153,11 @@ public class Requests extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         try {
                             if (task.isSuccessful()) {
-                                // User creation was successful
                                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                                 String uid = user.getUid();
                                 Log.d(TAG, "User created with UID: " + uid);
                                 String successMessage = "User created successfully with UID: " + uid;
-                                Toast.makeText(Requests.this, successMessage, Toast.LENGTH_SHORT).show();
+                                Helper.showToast(Requests.this, successMessage);
                                 Log.d(TAG, "Sending email to: " + userEmail);
                                 DatabaseReference originalUserRef = database.getReference("Admin_requests");
                                 Log.d(TAG, "Email sent to: " + userEmail);
@@ -171,7 +169,6 @@ public class Requests extends AppCompatActivity {
                                         if (dataSnapshot.exists()) {
                                             for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                                                 String userKey = userSnapshot.getKey();
-                                                // Create a new reference for the user data in "trusted_users"
                                                 DatabaseReference newUserRef = database.getReference("Admin").child(userKey);
                                                 newUserRef.setValue(userSnapshot.getValue(), new DatabaseReference.CompletionListener() {
                                                     @Override

@@ -94,7 +94,6 @@ public class Tab4Fragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 String visibility = isChecked ? "private" : "public";
                 String email = currentUser.getEmail();
-                // Assuming currentUser.getEmail() is non-null; otherwise, you should add a null check.
                 String sanitizedEmail = email.replace("@", "").replace(".", "");
                 DatabaseReference usersRef = database.getReference().child("users");
                 DatabaseReference userRef = usersRef.child(sanitizedEmail); // Correctly reference the specific user
@@ -106,9 +105,9 @@ public class Tab4Fragment extends Fragment {
                     @Override
                     public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                         if (databaseError == null) {
-                            Toast.makeText(getContext(), "Preferences updated successfully!", Toast.LENGTH_SHORT).show();
+                            Helper.showToast(getActivity(),"Preferences updated successfully!");
                         } else {
-                            Toast.makeText(getContext(), "Failed to update preferences: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                            Helper.showToast(getActivity(), "Failed to update preferences: ");
                         }
                     }
                 });
@@ -176,7 +175,6 @@ public class Tab4Fragment extends Fragment {
         builder.setMessage("Are you sure you want to reset your password? You will be logged out.")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // User clicked "Yes," log out and send the password reset email
                         FirebaseUser currentUser = mAuth.getCurrentUser();
                         if (currentUser != null) {
                             String email = currentUser.getEmail();
@@ -185,7 +183,7 @@ public class Tab4Fragment extends Fragment {
                             mAuth.sendPasswordResetEmail(email)
                                     .addOnCompleteListener(requireActivity(), task -> {
                                         if (task.isSuccessful()) {
-                                            Toast.makeText(requireContext(), "Password reset email sent to your registered email address.", Toast.LENGTH_SHORT).show();
+                                            Helper.showToast(getActivity(),"Password reset email sent to your registered email address.");
                                             FirebaseAuth.getInstance().signOut();
                                             SharedPreferences preferences = requireContext().getSharedPreferences("MyPrefs", MODE_PRIVATE);
                                             SharedPreferences.Editor editor = preferences.edit();
@@ -195,7 +193,7 @@ public class Tab4Fragment extends Fragment {
                                             startActivity(intent);
                                             requireActivity().finish();
                                         } else {
-                                            Toast.makeText(requireContext(), "Failed to send password reset email. Please check your email address.", Toast.LENGTH_SHORT).show();
+                                            Helper.showToast(getActivity(),"Failed to send password reset email. Please check your email address.");
                                         }
                                     });
                         }
@@ -203,10 +201,8 @@ public class Tab4Fragment extends Fragment {
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // User clicked "No," do nothing
                     }
                 });
-        // Create and show the AlertDialog
         builder.create().show();
     }
 }

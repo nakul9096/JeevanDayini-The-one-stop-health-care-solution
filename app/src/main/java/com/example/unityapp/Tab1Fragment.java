@@ -99,7 +99,7 @@ public class Tab1Fragment extends Fragment {
         if (currentUserEmail != null) {
             retrieveUserName(currentUserEmail);
         } else {
-            Toast.makeText(getActivity(), "User email is null", Toast.LENGTH_SHORT).show();
+            Helper.showToast(getActivity(), "User email is null");
         }
         imageView2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -176,7 +176,7 @@ public class Tab1Fragment extends Fragment {
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getActivity(), "Failed to retrieve user's name", Toast.LENGTH_SHORT).show();
+                Helper.showToast(getActivity(), "Failed to retrieve user's name");
             }
         });
     }
@@ -203,7 +203,7 @@ public class Tab1Fragment extends Fragment {
                                             startActivity(intent);
                                             requireActivity().finish();
                                         } else {
-                                            Toast.makeText(requireContext(), "Failed to send password reset email. Please check your email address.", Toast.LENGTH_SHORT).show();
+                                             Helper.showToast(getActivity(),"Failed to send password reset email. Please check your email address.");
                                         }
                                     });
                         }
@@ -284,7 +284,7 @@ public class Tab1Fragment extends Fragment {
     }
         private void fadeInButtonBackground(Button button) {
             ObjectAnimator fadeIn = ObjectAnimator.ofFloat(button, "alpha", 0f, 1f);
-            fadeIn.setDuration(1000); // Set duration of the animation (in milliseconds)
+            fadeIn.setDuration(1000);
             fadeIn.addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
@@ -308,18 +308,15 @@ public class Tab1Fragment extends Fragment {
                             if (fullName != null && profilePhoto != null) {
                                 String capitalizedFullName = fullName.substring(0, 1).toUpperCase() + fullName.substring(1).toLowerCase();
                                 count++;
-                                // Get the TextView and ImageView using helper methods
                                 TextView nameTextView = findDonorNameTextViewById(count);
                                 ImageView photoImageView = findProfilePhotoImageViewById(count);
                                 nameTextView.setText(capitalizedFullName);
                                 if (!profilePhoto.isEmpty()) {
-                                    // If profile photo exists, load it with Glide
                                     Glide.with(Tab1Fragment.this)
                                             .load(profilePhoto)
                                             .apply(RequestOptions.circleCropTransform())
                                             .into(photoImageView);
                                 } else {
-                                    // If profile photo doesn't exist, set default image
                                     photoImageView.setImageResource(R.drawable.profi);
                                 }
                                 Log.d("Firebase", "Donor #" + count + " retrieved: " + capitalizedFullName);
@@ -331,7 +328,7 @@ public class Tab1Fragment extends Fragment {
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Handle database error
+
                 Log.e("Debug", "Database error: " + databaseError.getMessage());
             }
         });

@@ -44,7 +44,6 @@ public class TestReport extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBarTR);
         textView = findViewById(R.id.textViewTR);
         imageView = findViewById(R.id.imageViewTR);
-        // Get the currently signed-in user
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if (currentUser != null) {
@@ -88,19 +87,15 @@ public class TestReport extends AppCompatActivity {
         }
     }
     private void createHospitalCard(String hospitalName, String hospitalEmail, String reporturl) {
-        // Inflate the card layout
         View cardView = getLayoutInflater().inflate(R.layout.card_hospital, null);
 
-        // Find views inside the card
         TextView textViewHospitalName = cardView.findViewById(R.id.textViewHospitalName);
         TextView textViewHospitalEmail = cardView.findViewById(R.id.textViewHospitalEmail);
         Button buttonViewPrescription = cardView.findViewById(R.id.buttonViewPrescription);
         Button buttonDownloadPrescription = cardView.findViewById(R.id.buttonDownloadPrescription);
-        // Set hospital name and email
         textViewHospitalName.setText(hospitalName);
         textViewHospitalEmail.setText(hospitalEmail);
 
-        // Add OnClickListener to the button
         buttonViewPrescription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,7 +108,6 @@ public class TestReport extends AppCompatActivity {
                 downloadPDF(reporturl, hospitalName);
             }
         });
-        // Add the card to your layout
         LinearLayout container = findViewById(R.id.linearlayoutcontainer); // Assuming you have a layout with id containerLayout
         container.addView(cardView);
     }
@@ -124,12 +118,10 @@ public class TestReport extends AppCompatActivity {
         try {
             startActivity(intent);
         } catch (ActivityNotFoundException e) {
-            // Handle exception if no PDF viewer app is installed
-            Toast.makeText(this, "No PDF viewer app found", Toast.LENGTH_SHORT).show();
+            Helper.showToast(TestReport.this, "No PDF viewer app found");
         }
     }
 
-    // Method to download the file with the URL
     private void downloadPDF(String url,String hospName) {
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
         request.setTitle(hospName+"_prescription");

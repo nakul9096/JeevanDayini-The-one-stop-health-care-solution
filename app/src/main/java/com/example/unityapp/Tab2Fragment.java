@@ -159,11 +159,9 @@ public class Tab2Fragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    // If a record with the matching email exists, navigate to BloodBankSearch
                     Intent intent = new Intent(getActivity(), ApplicationStatus.class);
                     startActivity(intent);
                 } else {
-                    // If no data is present, navigate to DonateBlood
                     Intent intent = new Intent(getActivity(), DonarType.class);
                     startActivity(intent);
                 }
@@ -173,7 +171,7 @@ public class Tab2Fragment extends Fragment {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 hideLoadingIndicator();
-                Toast.makeText(getActivity(), "Error checking data in the database", Toast.LENGTH_SHORT).show();
+                Helper.showToast(getActivity(), "Error checking data in the database");
             }
         });
     }

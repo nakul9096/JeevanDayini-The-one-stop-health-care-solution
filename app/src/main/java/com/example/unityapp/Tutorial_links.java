@@ -21,6 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.rpc.Help;
 
 public class Tutorial_links extends AppCompatActivity {
     private static final String TAG = "EmailSender";
@@ -80,14 +81,13 @@ public class Tutorial_links extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e(TAG, "Database error: " + databaseError.getMessage(), databaseError.toException());
-                Toast.makeText(Tutorial_links.this, "Database error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                Helper.showToast(Tutorial_links.this, "Database error: " + databaseError.getMessage());
                 progressBar.setVisibility(View.GONE);
             }
         });
     }
 
     private void createNameCard(String id, String title, String url) {
-        // Create a new CardView for each name
         CardView videoCard = (CardView) LayoutInflater.from(this).inflate(R.layout.video_card, namesLayout, false);
         TextView IDTextView = videoCard.findViewById(R.id.textViewVideoId);
         IDTextView.setText(id);
@@ -101,17 +101,15 @@ public class Tutorial_links extends AppCompatActivity {
     private void addTutorialToDatabase(String tutorialId, String title, String url) {
         TutorialVData tutorial = new TutorialVData(tutorialId, title, url);
         tutorialsRef.child(tutorialId).setValue(tutorial);
-        Toast.makeText(Tutorial_links.this, "Video add successfull!", Toast.LENGTH_SHORT).show();
+        Helper.showToast(Tutorial_links.this, "Video add successfull!");
     }
 
     private void showAddTutorialPopup() {
-        // Create a custom layout for the dialog
         View popupView = LayoutInflater.from(this).inflate(R.layout.popup_add_tutorial, null);
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         dialogBuilder.setView(popupView);
         AlertDialog dialog = dialogBuilder.create();
 
-        // Find views in the custom layout
         popupEditTextID = popupView.findViewById(R.id.popupEditTextID);
         popupEditTextTitle = popupView.findViewById(R.id.popupEditTextTitle);
         popupEditTextUrl = popupView.findViewById(R.id.popupEditTextUrl);
@@ -127,7 +125,7 @@ public class Tutorial_links extends AppCompatActivity {
                     addTutorialToDatabase(id, title, url);
                     dialog.dismiss();
                 } else {
-                    Toast.makeText(Tutorial_links.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                    Helper.showToast(Tutorial_links.this, "Please fill in all fields");
                 }
             }
         });

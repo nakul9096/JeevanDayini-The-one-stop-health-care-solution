@@ -47,13 +47,11 @@ public class Tutorial extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Handle errors
             }
         });
     }
 
     private void createNameCard(String id, String title, final String videoId) {
-        // Create a new CardView for each tutorial
         CardView videoCard = (CardView) LayoutInflater.from(this).inflate(R.layout.tutorial_video_cards, namesLayout, false);
         TextView IDTextView = videoCard.findViewById(R.id.textViewVideoId2);
         IDTextView.setText("Video ID: " + id);

@@ -132,7 +132,6 @@ public class Session extends AppCompatActivity {
                 }
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-                    // Handle errors
                     Log.e("MainActivity", "Error reading user data: " + databaseError.getMessage());
                 }
             });
@@ -140,7 +139,6 @@ public class Session extends AppCompatActivity {
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(connectivityReceiver, filter);
 
-        // Check initial network status
         if (!isNetworkAvailable()) {
             noInternetTextView.setVisibility(View.VISIBLE);
             noInternetTextView.setText("No internet connection");
@@ -169,7 +167,6 @@ public class Session extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        // Unregister the receiver
         unregisterReceiver(connectivityReceiver);
     }
 }

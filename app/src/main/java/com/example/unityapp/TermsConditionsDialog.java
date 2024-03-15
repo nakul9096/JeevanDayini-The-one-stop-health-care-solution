@@ -43,7 +43,6 @@ public class TermsConditionsDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 if (acceptCheckBox.isChecked()) {
-                    // User accepted terms and conditions, perform confirmation action
                     dismiss();
                     DonateBlood donateBloodActivity = (DonateBlood) context;
                     donateBloodActivity.onSubmitButtonClick();
@@ -56,7 +55,6 @@ public class TermsConditionsDialog extends Dialog {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // User canceled, close the dialog
                 dismiss();
                 Toast.makeText(context, "Cancelled", Toast.LENGTH_SHORT).show();
             }
