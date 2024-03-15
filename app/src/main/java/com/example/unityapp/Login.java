@@ -158,6 +158,7 @@ public class Login extends AppCompatActivity {
                                                     updateFCMTokenBroadcastRef(adminType, email);
                                                     Intent intent = new Intent(getApplicationContext(), HospDashboard.class);
                                                     startActivity(intent);
+                                                    finish();
                                                     showToast("Login successful");
                                                 }
                                             }
@@ -179,7 +180,6 @@ public class Login extends AppCompatActivity {
                     }
                 });
     }
-
     private void showToast(String message) {
         Toast.makeText(Login.this, message, Toast.LENGTH_SHORT).show();
     }

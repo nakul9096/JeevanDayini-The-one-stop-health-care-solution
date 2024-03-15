@@ -2,6 +2,7 @@ package com.example.unityapp;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -70,7 +71,19 @@ public class Tab4Fragment extends Fragment {
         progressBar1.setVisibility(View.VISIBLE);
         progressBar2.setVisibility(View.VISIBLE);
         mAuth = FirebaseAuth.getInstance();
-
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Activity activity = getActivity();
+                if(activity!=null){
+                    FirebaseAuth.getInstance().signOut();
+                    Intent intent = new Intent(getContext(), HomeDashboard.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    getActivity().finish();
+                }
+            }
+        });
         EditProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,12 +161,15 @@ public class Tab4Fragment extends Fragment {
                         textViewAadhar.setText(aadhar);
                         textViewUserid.setText(userid);
                         String imageUrl = profile;
-                        Glide.with(requireContext())
-                                .load(imageUrl)
-                                .circleCrop()
-                                .placeholder(R.drawable.circle_mask)
-                                .into(imageView);
-                        progressBar1.setVisibility(View.GONE);
+                        Activity activity = getActivity();
+                        if (activity != null) {
+                            Glide.with(activity)
+                                    .load(imageUrl)
+                                    .circleCrop()
+                                    .placeholder(R.drawable.circle_mask)
+                                    .into(imageView);
+                            progressBar1.setVisibility(View.GONE);
+                        }
                     } else {
                         progressBar1.setVisibility(View.GONE);
                         progressBar2.setVisibility(View.GONE);
