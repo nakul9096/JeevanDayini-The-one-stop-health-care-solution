@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -38,7 +39,9 @@ public class PaymentSuccess extends AppCompatActivity {
     private Button goToHomeButton;
     private Button viewReceiptButton, downloadReceiptButton;
     private ProgressDialog progressDialog;
+    private TextView textViewDisclaimer;
     String invoiceNumber;
+    private Button viewReceiptButton2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,9 +49,11 @@ public class PaymentSuccess extends AppCompatActivity {
         nameTextView = findViewById(R.id.nameTextView);
         phoneTextView = findViewById(R.id.phoneTextView);
         emailTextView = findViewById(R.id.emailTextView);
+        textViewDisclaimer = findViewById(R.id.textViewDisclaimer);
         downloadReceiptButton = findViewById(R.id.downloadReceiptButton);
         transactionIdTextView = findViewById(R.id.transactionIdTextView);
         viewReceiptButton = findViewById(R.id.viewReceiptButton);
+        viewReceiptButton2 = findViewById(R.id.viewReceiptButton2);
         tokenNumberTextView = findViewById(R.id.tokenNumberTextView);
         DateTextView = findViewById(R.id.DateTextView);
         invoiceNumber = generateInvoiceNumber();
@@ -106,6 +111,13 @@ public class PaymentSuccess extends AppCompatActivity {
             public void onClick(View v) {
                 String filename = "invoice_" + invoiceNumber + ".pdf";
                 downloadPdfFile(filename);
+            }
+        });
+        viewReceiptButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String filename = "invoice_" + invoiceNumber + ".pdf";
+                openFileViaServer(filename);
             }
         });
     }
@@ -171,7 +183,6 @@ public class PaymentSuccess extends AppCompatActivity {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setDataAndType(uri, "application/pdf");
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
             if (intent.resolveActivity(getPackageManager()) != null) {
                 // If a PDF viewer application is found, start the activity to view the PDF
                 startActivity(intent);
@@ -185,16 +196,10 @@ public class PaymentSuccess extends AppCompatActivity {
         });
     }
     private void downloadPdfFile(String filename) {
-        // Create a reference to Firebase Storage
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
-
-        // Create a reference to the file in Firebase Storage
         StorageReference fileRef = storageRef.child("invoice/" + filename);
-
-        // Check if the file exists in Firebase Storage
         fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
-            // If the file exists, download it
             DownloadManager.Request request = new DownloadManager.Request(uri);
             request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, filename);
             request.setTitle("Downloading " + filename);
@@ -202,8 +207,6 @@ public class PaymentSuccess extends AppCompatActivity {
             DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
             long downloadId = downloadManager.enqueue(request);
             Toast.makeText(this, "Download started", Toast.LENGTH_SHORT).show();
-
-            // Register broadcast receiver to listen for download completion
             BroadcastReceiver onComplete = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
@@ -217,9 +220,7 @@ public class PaymentSuccess extends AppCompatActivity {
             };
             registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
         }).addOnFailureListener(exception -> {
-            // If the file does not exist, display a toast
             Toast.makeText(this, "Invoice generation in progress. Please wait for a minute.", Toast.LENGTH_SHORT).show();
-            // You can also display a second toast here to inform the user not to close the page until done
         });
     }
 
@@ -227,15 +228,9 @@ public class PaymentSuccess extends AppCompatActivity {
         String filename = "invoice_" + invoiceNumber + ".pdf";
         String serverUrl = "http://192.168.54.40:4000";
         String fullFileUrl = serverUrl + "/" + filename;
-
-        // Create a reference to Firebase Storage
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
-
-        // Create a reference to the file in Firebase Storage
         StorageReference fileRef = storageRef.child("invoice/" + filename);
-
-        // Fetch the file from the server using the full URL
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(fullFileUrl));
         request.setTitle("Downloading " + filename);
         request.setDescription("Please wait while the file is downloaded.");
@@ -253,6 +248,8 @@ public class PaymentSuccess extends AppCompatActivity {
                             .addOnSuccessListener(taskSnapshot -> {
                                 // File upload succeeded
                                 Toast.makeText(PaymentSuccess.this, "Invoice uploaded Successfully! click to view", Toast.LENGTH_SHORT).show();
+                                textViewDisclaimer.setText("Invoice created successfully! it's better to close now");
+                                textViewDisclaimer.setTextColor(Color.parseColor("#00FF00"));
                             })
                             .addOnFailureListener(e -> {
                                 // Handle unsuccessful uploads
@@ -264,9 +261,19 @@ public class PaymentSuccess extends AppCompatActivity {
                 }
             }
         };
-
-        // Register the broadcast receiver for download completion
         registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
-
+    private void openFileViaServer(String filename) {
+        String serverUrl = "http://192.168.54.40:4000";
+        String fullFileUrl = serverUrl + "/" + filename;
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(Uri.parse(fullFileUrl), "application/pdf");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        Intent chooserIntent = Intent.createChooser(intent, "Open PDF");
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(chooserIntent);
+        } else {
+            Toast.makeText(this, "No application found to open PDF", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

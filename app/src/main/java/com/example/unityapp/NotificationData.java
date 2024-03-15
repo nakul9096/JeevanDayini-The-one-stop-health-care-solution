@@ -11,5 +11,4 @@ public class NotificationData {
         this.message = message;
     }
 
-    // Getters and setters for fcmToken, title, and message
 }

@@ -238,7 +238,7 @@ public class Tab1Fragment extends Fragment {
         });
         popupMenu.show();
     }
-    private void logoutUser() {
+    public void logoutUser() {
         FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(getActivity(), HomeDashboard.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
