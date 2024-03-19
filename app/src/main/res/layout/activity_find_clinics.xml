@@ -64,6 +64,7 @@
             android:id="@+id/searchByNameEditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:theme="@style/Theme.MaterialComponents"
             android:hint="OR Search by Name"
             android:imeOptions="actionSearch"
             android:inputType="text"
@@ -76,6 +77,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Find"
+            android:backgroundTint="#ffffff"
+            android:textColor="#000000"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/searchByNameEditText" />

@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment;
 
 public class Tab3Fragment extends Fragment {
     private BiometricPrompt.PromptInfo promptInfo;
-    private Button tbutton, contactbtn, btneditprof, faqtvi;
+    private Button tbutton, contactbtn, btnBooking, faqtvi, btnApperance;
     private TextView privacytvi, termstvi;
     private Button btnchangelang;
     @Override
@@ -23,10 +23,11 @@ public class Tab3Fragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_tab3, container, false);
         tbutton = view.findViewById(R.id.tubutton);
         btnchangelang = view.findViewById(R.id.btnchangelang);
+        btnApperance = view.findViewById(R.id.btnApperance);
         contactbtn = view.findViewById(R.id.contactbtn);
         privacytvi = view.findViewById(R.id.privacytv);
         termstvi = view.findViewById(R.id.termstv);
-        btneditprof = view.findViewById(R.id.btneditprof);
+        btnBooking = view.findViewById(R.id.btnbookings);
         faqtvi = view.findViewById(R.id.faqbtn);
         tbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,10 +36,16 @@ public class Tab3Fragment extends Fragment {
                 startActivity(intent);
             }
         });
+        btnApperance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Helper.showToast(getActivity(),"This version supports only moonlight-dark theme!");
+            }
+        });
         btnchangelang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Helper.showToast(getActivity(), "Only english language is available in this version!");
+                Helper.showToast(getActivity(), "This version supports only english!");
             }
         });
         privacytvi.setOnClickListener(new View.OnClickListener() {
@@ -64,16 +71,11 @@ public class Tab3Fragment extends Fragment {
                 startActivity(intent);
             }
         });
-        btneditprof.setOnClickListener(new View.OnClickListener() {
+        btnBooking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Replace the current fragment with FragmentTab4
-                Tab4Fragment fragmentTab4 = new Tab4Fragment();
-                requireActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container7, fragmentTab4)
-                        .addToBackStack(null)
-                        .commit();
+               Intent intent = new Intent(getActivity(), Booking_history.class);
+               startActivity(intent);
             }
         });
         contactbtn.setOnClickListener(new View.OnClickListener() {

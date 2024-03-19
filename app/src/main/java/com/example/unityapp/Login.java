@@ -264,6 +264,7 @@ public class Login extends AppCompatActivity {
                     updateFCMTokenBroadcastRef("user", email);
                     Intent intent = new Intent(getApplicationContext(), Session.class);
                     startActivity(intent);
+                    finish();
                     showToast("Login successful");
                 } else {
                     showToast("User not found");

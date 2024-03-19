@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -24,7 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 public class Assistant extends AppCompatActivity {
     private TextView greetingTextView;
     private TextView helpPromptTextView;
-    private LinearLayout tagsLayout;
+    private HorizontalScrollView tagsLayout;
     private EditText messageEditText;
     private TextView messageTextView;
     private RelativeLayout messageContainer;
@@ -72,11 +73,9 @@ public class Assistant extends AppCompatActivity {
                 }
             }
         });
-
         findViewById(R.id.tagAccount1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (isConversationInProgress) {
                     Helper.showToast(Assistant.this, "One conversation at a time, please");
                     return;
@@ -91,7 +90,6 @@ public class Assistant extends AppCompatActivity {
                             String paymentInfo = dataSnapshot.getValue(String.class);
                             updateReceivedMessage(paymentInfo);
                         }
-
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
                         }
@@ -186,6 +184,10 @@ public class Assistant extends AppCompatActivity {
     }
 
     private void updateReceivedMessage(String message) {
+        if (message == null) {
+            return;
+        }
+
         TextView newMessageTextView = new TextView(this);
         newMessageTextView.setText(message);
         newMessageTextView.setTextColor(Color.BLACK);
@@ -207,28 +209,11 @@ public class Assistant extends AppCompatActivity {
         messagesLinearLayout.addView(newMessageTextView);
         newMessageTextView.setBackgroundResource(R.drawable.msg_rcvd_bg);
         if (isConversationInProgress && message.equalsIgnoreCase("Account related information")) {
-            int selectedOption = 1;
-
-            if (selectedOption == 1) {
-                showRefundField();
-            }
+            String reply = "To update biometric details, generate a ticket with specified details or contact support!";
+            updateMessage(reply, false);
         }
-        if (isConversationInProgress && message.equalsIgnoreCase("Payment related information")) {
-            int selectedOption = 1;
 
-            if (selectedOption == 1) {
-                showRefundField();
-            }
-            if (selectedOption == 2) {
-                showPlanField();
-            }
-            if (selectedOption == 3) {
-                showPaymenttcField();
-            }
-            if (selectedOption == 4) {
-                showOtherField();
-            }
-        }
+        // Check if the message is "Service related information" and show refund field if applicable
         if (isConversationInProgress && message.equalsIgnoreCase("Service related information")) {
             int selectedOption = 1;
             if (selectedOption == 1) {
@@ -236,6 +221,7 @@ public class Assistant extends AppCompatActivity {
             }
         }
     }
+
 
     private void showRefundField() {
         String refundInformation = "Your refund information is here";

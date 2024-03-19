@@ -23,15 +23,16 @@
     <ImageView
         android:id="@+id/imageViewTR"
         android:layout_width="wrap_content"
+        android:layout_gravity="center"
         android:layout_height="wrap_content"
-        android:src="@drawable/notfound"
-        android:visibility="gone" />
+        android:visibility="gone"
+        android:src="@drawable/notfound" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:id="@+id/textViewTR"
-        android:text="No test reports found at this moment"
-        android:visibility="gone" />
-
+        android:visibility="gone"
+        android:text="No prescription found at this moment!" />
 </LinearLayout>

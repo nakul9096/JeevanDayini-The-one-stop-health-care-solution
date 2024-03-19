@@ -243,6 +243,7 @@ public class PaymentPage extends AppCompatActivity implements PaymentResultListe
         handlePaymentSuccess(razorpayPaymentID);
         Intent intent = new Intent(PaymentPage.this, PaymentSuccess.class);
         startActivity(intent);
+        finish();
     }
 
     @Override

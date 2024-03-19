@@ -9,7 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- Title: Trusted Users -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -49,7 +48,6 @@
             android:orientation="vertical">
             <!-- User cards will be dynamically added here -->
         </LinearLayout>
-        <!-- Add this TextView below the ProgressBar in your RelativeLayout -->
         <TextView
             android:id="@+id/noRequestsTextView80"
             android:layout_width="wrap_content"

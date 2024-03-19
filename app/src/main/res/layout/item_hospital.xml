@@ -1,0 +1,27 @@
+<!-- item_hospital.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp">
+
+    <!-- Hospital Image -->
+    <ImageView
+        android:id="@+id/hospital_image"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/placeholder_building" />
+
+    <!-- Hospital Name -->
+    <TextView
+        android:id="@+id/hospital_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="Hospital Name"
+        android:textColor="#000000"
+        android:textSize="18sp" />
+
+</LinearLayout>

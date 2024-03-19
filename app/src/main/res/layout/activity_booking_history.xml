@@ -1,148 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BookingHistory">
+    android:background="#000000"
+    android:padding="16dp">
 
-    <EditText
-        android:id="@+id/editTextName8"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Name"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/editTextPhone8"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Phone"
-        android:inputType="phone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextName8" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="My Bookings"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/editTextEmail8"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPhone8" />
+        <ImageView
+            android:id="@+id/refreshImageView80"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/refresh" />
 
-    <EditText
-        android:id="@+id/editTextInvoiceNumber"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="invoice number"
-        android:inputType="numberDecimal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextEmail8" />
-
-    <EditText
-        android:id="@+id/editTextDuebalance"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Due balance"
-        android:inputType="numberDecimal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextInvoiceNumber" />
-
-    <EditText
-        android:id="@+id/editTextAddress"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Address"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextDuebalance" />
-
-    <EditText
-        android:id="@+id/editTextProductname"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Product name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextAddress" />
-
-    <EditText
-        android:id="@+id/editTextTransactionid"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Transaction id"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextProductname" />
-
-    <EditText
-        android:id="@+id/editTexttokenNumber"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Token number"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTransactionid" />
-
-    <EditText
-        android:id="@+id/editTextbaseamount"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="base amount"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTexttokenNumber" />
-
-    <EditText
-        android:id="@+id/editTextgstamount"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="gst amount"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextbaseamount" />
-
-    <EditText
-        android:id="@+id/editTextamount"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="total amount"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextgstamount" />
-
-    <EditText
-        android:id="@+id/editTextdescription"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="discription"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextamount" />
-
-    <EditText
-        android:id="@+id/editTextplatformfee"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Platform fee"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextdescription" />
-
-    <Button
-        android:id="@+id/buttonSend8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Send"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextplatformfee" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- Progress Bar -->
+        <ProgressBar
+            android:id="@+id/loadingProgressBar80"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/refreshImageView80"
+            android:layout_centerInParent="true"
+            android:visibility="visible" />
+        <!-- User Cards (Dynamically added here) -->
+        <LinearLayout
+            android:id="@+id/namesLayout80"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/refreshImageView80"
+            android:orientation="vertical">
+            <!-- User cards will be dynamically added here -->
+        </LinearLayout>
+        <TextView
+            android:id="@+id/noRequestsTextView80"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/loadingProgressBar80"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:visibility="gone"
+            android:text="No Bookings found!"
+            android:textColor="@color/blue"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            />
+        <TextView
+            android:id="@+id/infoTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/namesLayout80"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:text=""
+            android:textColor="@color/red"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+</ScrollView>

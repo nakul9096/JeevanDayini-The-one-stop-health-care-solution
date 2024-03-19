@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -15,8 +16,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -24,6 +27,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class Donation_req_hosp extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private LinearLayout cardContainer;
@@ -68,7 +75,6 @@ public class Donation_req_hosp extends AppCompatActivity {
                 Log.d("fetchDonationRequests", "Data received from database.");
                 cardContainer.removeAllViews();
                 boolean requestsFound = false;
-
                 for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
                     String userId = childSnapshot.getKey();
                     Log.e("Testing","userid nretreived: "+userId);
@@ -81,9 +87,10 @@ public class Donation_req_hosp extends AppCompatActivity {
                         String donationStatus = snapshot2.child("donation_status").getValue(String.class);
                         String status = snapshot2.child("status").getValue(String.class);
                         String donation_location = snapshot2.child("donation_location").getValue(String.class);
+                        String emaildb = snapshot2.child("email").getValue(String.class);
                         Log.e("Testing","DOnation location: "+donation_location);
-                        if (donorName != null && donationType != null && donationStatus == null && status.equals("approved") && donation_location != null && donation_location.equals(email)) {
-                            createCard(userId, donorName, donationType, aadharNumber);
+                        if (donorName != null && donationType != null && donationStatus == null && status.equals("approved") && donation_location != null && donation_location.equals(email) && emaildb != null) {
+                            createCard(userId, donorName, donationType, aadharNumber, emaildb);
                             requestsFound = true;
                         }
                     }
@@ -92,10 +99,8 @@ public class Donation_req_hosp extends AppCompatActivity {
                     noRequestsTextView80.setText("No requests available at this moment!");
                     noRequestsTextView80.setVisibility(View.VISIBLE);
                 }
-
                 progressBar.setVisibility(View.GONE);
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e("fetchDonationRequests", "Error fetching donation requests: " + databaseError.getMessage());
@@ -103,7 +108,7 @@ public class Donation_req_hosp extends AppCompatActivity {
             }
         });
     }
-    private void createCard(String userId, String donorName, String donationType, String aadharNumber) {
+    private void createCard(String userId, String donorName, String donationType, String aadharNumber, String emaildb) {
         View cardView = LayoutInflater.from(this).inflate(R.layout.donation_req_card, cardContainer, false);
         TextView requestIdTextView = cardView.findViewById(R.id.userIdTextView);
         TextView donorNameTextView = cardView.findViewById(R.id.nameTextView);
@@ -124,6 +129,7 @@ public class Donation_req_hosp extends AppCompatActivity {
                                         Helper.showToast(Donation_req_hosp.this,"Preference updated successfully!");
                                         infoTv.setText("Refreshing in 3 seconds");
                                         infoTv.setVisibility(View.VISIBLE);
+                                        assignBadgeToUser(emaildb, donationType);
                                         new CountDownTimer(3000, 1000) {
                                             public void onTick(long millisUntilFinished) {
                                                 infoTv.setText("Refreshing in " + millisUntilFinished / 1000 + " seconds");
@@ -194,7 +200,6 @@ public class Donation_req_hosp extends AppCompatActivity {
                                         // Update the TextView with the remaining time
                                         infoTv.setText("Refreshing in " + millisUntilFinished / 1000 + " seconds");
                                     }
-
                                     public void onFinish() {
                                         Intent intent = new Intent(Donation_req_hosp.this, Donation_req_hosp.class);
                                         finish();
@@ -221,5 +226,50 @@ public class Donation_req_hosp extends AppCompatActivity {
     }
     private String sanitizeEmail(String email) {
         return email.replaceAll("@", "").replace(".", "");
+    }
+    private void assignBadgeToUser(String email, String memberType) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        String sanitizedEmail = email.replace("@", "").replace(".", "");
+        DatabaseReference usersRef = database.getReference().child("users");
+        DatabaseReference userRef = usersRef.child(sanitizedEmail);
+        DatabaseReference badgeRef = userRef.child("badge").child(memberType);
+        badgeRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    String currentBadgeCount = dataSnapshot.getValue(String.class);
+                    int updatedBadgeCount = Integer.parseInt(currentBadgeCount) + 1;
+
+                    badgeRef.setValue(String.valueOf(updatedBadgeCount))
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Helper.showToast(Donation_req_hosp.this, "Badge allotted successfully!");
+                                    } else {
+                                        Helper.showToast(Donation_req_hosp.this, "Failed to update badge: " + task.getException().getMessage());
+                                    }
+                                }
+                            });
+                } else {
+                    badgeRef.setValue("1")
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Helper.showToast(Donation_req_hosp.this, "Badge allotted successfully!");
+                                    } else {
+                                        Helper.showToast(Donation_req_hosp.this, "Failed to update badge: " + task.getException().getMessage());
+                                    }
+                                }
+                            });
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Helper.showToast(Donation_req_hosp.this, "Failed to fetch badge count: " + databaseError.getMessage());
+            }
+        });
     }
 }

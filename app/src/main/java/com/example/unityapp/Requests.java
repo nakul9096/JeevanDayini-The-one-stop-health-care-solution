@@ -37,7 +37,7 @@ import retrofit2.Response;
 public class Requests extends AppCompatActivity {
     private static final String TAG = "EmailSender";
     APIService apiService;
-    String serverBaseUrl = "http://192.168.54.40:5000";
+    String serverBaseUrl = "http://192.168.139.40:5000";
     private LinearLayout namesLayout;
     private ProgressBar loadingprogressbar;
     private FirebaseDatabase database;

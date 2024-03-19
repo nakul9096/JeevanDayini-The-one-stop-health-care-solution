@@ -209,10 +209,10 @@ public class FragmentReg1 extends Fragment {
         int genderRadioButtonId = genderRadioGroup.getCheckedRadioButtonId();
         return !fullName.isEmpty() && !email.isEmpty() && isValidEmail(email) && genderRadioButtonId != -1;
     }
-
     private void showConfirmationDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         builder.setMessage("Are you sure you want to upload this image?")
+                .setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -222,11 +222,11 @@ public class FragmentReg1 extends Fragment {
                 .setNegativeButton("Retry", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        profilePictureImageView.setImageResource(R.drawable.circular_frame);
                     }
                 })
                 .show();
     }
-
     private void uploadProfilePictureToFirebase() {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();

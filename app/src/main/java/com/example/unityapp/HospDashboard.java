@@ -134,8 +134,8 @@ public class HospDashboard extends AppCompatActivity {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this,
                 drawerLayout,
-                R.string.navigation_drawer_open,  // Make sure to use resource IDs
-                R.string.navigation_drawer_close  // for openDrawerContentDescRes and closeDrawerContentDescRes
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close
         );
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();

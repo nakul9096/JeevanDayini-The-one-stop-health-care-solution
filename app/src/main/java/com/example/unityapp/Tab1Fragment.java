@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,13 +26,18 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.google.android.gms.ads.AdRequest;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -62,6 +68,7 @@ public class Tab1Fragment extends Fragment {
     public ImageView donar1, donar2, donar3, donar4, donar5;
     public TextView donarname1, donarname2, donarname3, donarname4, donarname5;
     public TextView textViewViewMore;
+    private DatabaseReference hospitalsRef;
     public Tab1Fragment() {
     }
     @Override
@@ -84,6 +91,7 @@ public class Tab1Fragment extends Fragment {
         donarname3 = view.findViewById(R.id.donarname3);
         donarname4 = view.findViewById(R.id.donarname4);
         donarname5 = view.findViewById(R.id.donarname5);
+        hospitalsRef = FirebaseDatabase.getInstance().getReference().child("hospitals");
         textViewViewMore = view.findViewById(R.id.textViewViewMore);
         usersRef = FirebaseDatabase.getInstance().getReference().child("users");
         currentUserEmail = getCurrentUserEmail();
@@ -121,6 +129,54 @@ public class Tab1Fragment extends Fragment {
                 startActivity(intent);
             }
         });
+        hospitalsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int itemCount = 0;
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    itemCount++;
+                    if (itemCount > 5) break;
+
+                    String imageUrl = snapshot.child("imageUrlIdentity1").getValue(String.class);
+                    String name = snapshot.child("name").getValue(String.class);
+                    if (name != null && name.length() > 15) {
+                        name = name.substring(0, 15) + "..";
+                    }
+                    int imageViewId = getResources().getIdentifier("diagnostic_center_image_" + itemCount, "id", requireContext().getPackageName());
+                    int textViewId = getResources().getIdentifier("diagnostic_center_name_" + itemCount, "id", requireContext().getPackageName());
+
+                    ImageView imageView = view.findViewById(imageViewId);
+                    TextView textView = view.findViewById(textViewId);
+
+                    Log.d("Tab1", "Image URL: " + imageUrl);
+                    Log.d("Tab1", "Name: " + name);
+                    Log.d("Tab1", "ImageView ID: " + imageViewId);
+                    Log.d("Tab1", "TextView ID: " + textViewId);
+
+                    Glide.with(requireContext())
+                            .asBitmap()
+                            .load(imageUrl)
+                            .placeholder(R.drawable.placeholder_building)
+                            .into(new SimpleTarget<Bitmap>() {
+                                @Override
+                                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                    // Create rounded drawable from bitmap
+                                    RoundedBitmapDrawable roundedDrawable = RoundedBitmapDrawableFactory.create(getResources(), resource);
+                                    roundedDrawable.setCornerRadius(getResources().getDimension(R.dimen.image_corner_radius));
+                                    imageView.setImageDrawable(roundedDrawable);
+                                }
+                            });
+                    textView.setText(name);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle error
+                Log.e("Tab1", "Database Error: " + databaseError.getMessage());
+            }
+        });
+
         getDonorsByDonationStatus();
         BannerAdapter bannerAdapter = new BannerAdapter(banners, requireContext());
         viewPager.setAdapter(bannerAdapter);
@@ -304,20 +360,24 @@ public class Tab1Fragment extends Fragment {
                     for (DataSnapshot childSnapshot : donorSnapshot.getChildren()) {
                         if (count < 5 && childSnapshot.child("donation_status").exists() && childSnapshot.child("donation_status").getValue(String.class).equals("DONATED")) {
                             String fullName = childSnapshot.child("fullName").getValue(String.class);
-                            String profilePhoto = childSnapshot.child("profilePhoto").getValue(String.class);
+                            String profilePhoto = childSnapshot.child("imageUrl").getValue(String.class);
                             if (fullName != null && profilePhoto != null) {
                                 String capitalizedFullName = fullName.substring(0, 1).toUpperCase() + fullName.substring(1).toLowerCase();
                                 count++;
                                 TextView nameTextView = findDonorNameTextViewById(count);
                                 ImageView photoImageView = findProfilePhotoImageViewById(count);
-                                nameTextView.setText(capitalizedFullName);
-                                if (!profilePhoto.isEmpty()) {
-                                    Glide.with(Tab1Fragment.this)
-                                            .load(profilePhoto)
-                                            .apply(RequestOptions.circleCropTransform())
-                                            .into(photoImageView);
-                                } else {
-                                    photoImageView.setImageResource(R.drawable.profi);
+                                if (nameTextView != null) {
+                                    nameTextView.setText(capitalizedFullName);
+                                }
+                                if (photoImageView != null) {
+                                    if (!profilePhoto.isEmpty()) {
+                                        Glide.with(Tab1Fragment.this)
+                                                .load(profilePhoto)
+                                                .apply(RequestOptions.circleCropTransform())
+                                                .into(photoImageView);
+                                    } else {
+                                        photoImageView.setImageResource(R.drawable.profi);
+                                    }
                                 }
                                 Log.d("Firebase", "Donor #" + count + " retrieved: " + capitalizedFullName);
                             }
@@ -328,11 +388,11 @@ public class Tab1Fragment extends Fragment {
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
                 Log.e("Debug", "Database error: " + databaseError.getMessage());
             }
         });
     }
+
     private TextView findDonorNameTextViewById(int donorCounter) {
         String donorNameId = "donarname" + donorCounter;
         int donorNameResId = getResources().getIdentifier(donorNameId, "id", getActivity().getPackageName());

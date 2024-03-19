@@ -78,20 +78,10 @@
                 android:textSize="18sp" />
 
             <Button
-                android:id="@+id/viewReceiptButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tokenNumberTextView"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/button_background2"
-                android:text="View Receipt"
-                android:textColor="@android:color/white" />
-
-            <Button
                 android:id="@+id/viewReceiptButton2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/viewReceiptButton"
+                android:layout_below="@id/tokenNumberTextView"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/button_background2"
                 android:text="View Receipt (via server)"
@@ -121,7 +111,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="Do not close page while invoice generation in progress! \n still you can view invoice via server"
+                android:text="Do not close page while invoice generation in progress! \nstill you can view invoice via local file server"
                 android:layout_below="@id/goToHomeButton"
                 android:textSize="12sp"
                 android:textColor="#FF0000"/>

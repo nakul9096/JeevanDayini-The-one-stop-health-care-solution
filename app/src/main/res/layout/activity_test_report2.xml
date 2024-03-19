@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".TestReport">
+    <LinearLayout
+        android:id="@+id/linearlayoutcontainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:orientation="vertical"/>
+
+    <ProgressBar
+        android:id="@+id/progressBarTR"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:visibility="visible" />
+
+    <!-- ImageView -->
+    <ImageView
+        android:id="@+id/imageViewTR"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:src="@drawable/notfound" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/textViewTR"
+        android:visibility="gone"
+        android:text="No test reports found at this moment" />
+</LinearLayout>

@@ -25,7 +25,6 @@ public class RatingDialog {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.activity_rating_dialog, null);
 
-        // Find the RatingBar and EditText in the layout
         final RatingBar ratingBar = view.findViewById(R.id.ratingBar);
         final EditText descriptionEditText = view.findViewById(R.id.descriptionEditText);
 

@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class Booking extends AppCompatActivity {
     String date;
 
@@ -30,6 +32,11 @@ public class Booking extends AppCompatActivity {
         tokenNumberEditText.setText(String.valueOf(tokenNumber2));
         dateEditText.setText(date);
         Button proceedBtn = findViewById(R.id.proceedbtn);
+        String signedInEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        if (signedInEmail != null) {
+            emailEditText.setText(signedInEmail);
+            emailEditText.setEnabled(false);
+        }
         proceedBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

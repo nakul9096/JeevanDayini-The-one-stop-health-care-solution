@@ -37,7 +37,7 @@ public class ViewMore extends AppCompatActivity {
     private TextView textFriday;
     private TextView textSaturday;
     private TextView textSunday;
-
+    private TextView textRating;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +45,7 @@ public class ViewMore extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         cardClinic = findViewById(R.id.cardClinic);
         cardClinic.setVisibility(View.GONE);
+        textRating = findViewById(R.id.textRating);
         textMonday = findViewById(R.id.textMondayTimings);
         textTuesday = findViewById(R.id.textTuesdayTimings);
         textWednesday = findViewById(R.id.textWednesdayTimings);
@@ -64,8 +65,8 @@ public class ViewMore extends AppCompatActivity {
         btnViewMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String selectedUserEmail = getIntent().getStringExtra("selectedUser");
-                getMapUrlByEmail(selectedUserEmail);
+                String mapUrl = getIntent().getStringExtra("mapurl");
+                openMap(mapUrl);
             }
         });
         String selectedUserEmail = getIntent().getStringExtra("selectedUser");
@@ -95,7 +96,14 @@ public class ViewMore extends AppCompatActivity {
                         String city = userSnapshot.child("selectedCity").getValue(String.class);
                         String address = userSnapshot.child("address").getValue(String.class);
                         String type = userSnapshot.child("adminType").getValue(String.class);
+                        String ratings = userSnapshot.child("ratings").getValue(String.class);
                         DataSnapshot timingsSnapshot = userSnapshot.child("timings");
+                        if(ratings != null && !ratings.isEmpty())
+                        {
+                            textRating.setText(ratings+" / 5.0");
+                        }else {
+                            textRating.setText("Not rated yet!");
+                        }
                         String mondaystart = timingsSnapshot.child("Monday_start").getValue(String.class);
                         String mondayend = timingsSnapshot.child("Monday_end").getValue(String.class);
                         String tuesdaystart = timingsSnapshot.child("Tuesday_start").getValue(String.class);
@@ -150,7 +158,6 @@ public class ViewMore extends AppCompatActivity {
 
         return formattedStart + " To " + formattedEnd;
     }
-
     private void updateUI(String name, String type, String imageUrl1, String imageUrl2, String imageUrl3, String imageUrl4, String address, String location, String mondayStart, String mondayEnd, String tuesdayStart, String tuesdayEnd, String wednesdayStart, String wednesdayEnd, String thursdayStart, String thursdayEnd, String fridayStart, String fridayEnd, String saturdayStart, String saturdayEnd, String sundayStart, String sundayEnd) {
         TextView nameTextView = findViewById(R.id.textClinicName1);
         TextView typeTextView = findViewById(R.id.textClinictype);
@@ -176,35 +183,7 @@ public class ViewMore extends AppCompatActivity {
         Glide.with(this).load(imageUrl3).into(previewImageView3);
         Glide.with(this).load(imageUrl4).into(previewImageView4);
     }
-
-    private void getMapUrlByEmail(String email) {
-        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("hospitals");
-        Query query = usersRef.orderByChild("email").equalTo(email);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                        String mapUrl = userSnapshot.child("mapurl").getValue(String.class);
-                        if (mapUrl != null && !mapUrl.isEmpty()) {
-                            openMap(mapUrl);
-                        } else {
-                            Helper.showToast(ViewMore.this, "Error: 404 Not found");
-                        }
-                    }
-                } else {
-                    Helper.showToast(ViewMore.this, "Error: Request not exist");
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Helper.showToast(ViewMore.this, "Database error: " + databaseError.getMessage());
-            }
-        });
-    }
-
-    private void openMap(String mapUrl) {
+  private void openMap(String mapUrl) {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mapUrl));
         startActivity(browserIntent);
     }

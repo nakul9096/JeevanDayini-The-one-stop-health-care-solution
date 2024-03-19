@@ -1,10 +1,12 @@
 package com.example.unityapp;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,12 +16,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
@@ -29,6 +33,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 
 public class FindClinics extends AppCompatActivity {
@@ -40,8 +46,8 @@ public class FindClinics extends AppCompatActivity {
     private TextView t1;
     private Button viewmore;
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_clinics);
         namesLayout2 = findViewById(R.id.namesLayout2);
         progressBar = findViewById(R.id.loadingProgressBar);
@@ -75,7 +81,6 @@ public class FindClinics extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parentView) {
             }
         });
-
         findButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,7 +112,7 @@ public class FindClinics extends AppCompatActivity {
                                         Intent intent = getIntent();
                                         if(intent!=null && intent.getStringExtra("requestType").equals("findclinics"))
                                         {
-                                            createNameCard(name, email, type, address, state, city, img1, img2, mapUrl);
+                                            createNameCard(name, email, type, address, state, city, img1, img2, mapUrl, userSnapshot);
                                         }else if(intent != null && intent.getStringExtra("requestType").equals("blooddonation")) {
                                             if(bloodDonationField != null && bloodDonationField.equals("Yes")) {
                                                 createNameCard2(name, email, type, address, state, city, img1, img2, mapUrl);
@@ -179,11 +184,68 @@ public class FindClinics extends AppCompatActivity {
         });
         namesLayout2.addView(nameCard);
     }
-    private void createNameCard(String Name, String Email, String Type, String Address, String state, String city, String imageUrl, String imageUrl2, String mapurl) {
+    private void createNameCard(String Name, String Email, String Type, String Address, String state, String city, String imageUrl, String imageUrl2, String mapurl, DataSnapshot userSnapshot) {
         Log.d("FindClinics", "Image URL from database: " + imageUrl);
         CardView nameCard = (CardView) LayoutInflater.from(this).inflate(R.layout.activity_hopsital_card, namesLayout2, false);
         ImageView previewImageView = nameCard.findViewById(R.id.previewCircularFrame);
         ImageView previewImageView2 = nameCard.findViewById(R.id.previewCircularFrame2);
+        ImageView starIcon = nameCard.findViewById(R.id.starIcon);
+        TextView textRating = nameCard.findViewById(R.id.textRating);
+        TextView textViewReport = nameCard.findViewById(R.id.reportButtonText);
+        if(userSnapshot.hasChild("ratings")) {
+            textRating.setVisibility(View.VISIBLE);
+            starIcon.setVisibility(View.VISIBLE);
+            String ratings = userSnapshot.child("ratings").getValue(String.class);
+            double parsedRating = Double.parseDouble(ratings);
+            String formattedRating = String.format("%.2f", parsedRating);
+            textRating.setText(formattedRating + " / 5.0");
+        }
+        textViewReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(FindClinics.this)
+                        .setTitle("Confirmation")
+                        .setMessage("Are you sure you want to report this?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                DatabaseReference ratedRef = userSnapshot.getRef().child("reports");
+                                ratedRef.runTransaction(new Transaction.Handler() {
+                                    @NonNull
+                                    @Override
+                                    public Transaction.Result doTransaction(@NonNull MutableData mutableData) {
+                                        String currentValue = mutableData.getValue(String.class);
+                                        if (currentValue == null) {
+                                            mutableData.setValue("1");
+                                        } else {
+                                            int intValue = Integer.parseInt(currentValue);
+                                            intValue++;
+                                            mutableData.setValue(String.valueOf(intValue));
+                                        }
+                                        return Transaction.success(mutableData);
+                                    }
+
+                                    @Override
+                                    public void onComplete(@Nullable DatabaseError databaseError, boolean committed, @Nullable DataSnapshot dataSnapshot) {
+                                        if (databaseError != null) {
+                                            Log.e("Firebase", "Transaction failed: " + databaseError.getMessage());
+                                        } else {
+                                            if (committed) {
+                                                Helper.showToast(FindClinics.this,"Hospital reported!");
+                                                textViewReport.setText("Reported");
+                                                textViewReport.setEnabled(false);
+                                            } else {
+                                                Log.d("Firebase", "Report aborted.");
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, null)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            }
+        });
         Glide.with(FindClinics.this)
                 .load(imageUrl)
                 .circleCrop()
@@ -232,6 +294,7 @@ public class FindClinics extends AppCompatActivity {
                 String selectedUserName = (String) v.getTag();
                 Intent intent = new Intent(FindClinics.this, ViewMore.class);
                 intent.putExtra("selectedUser", selectedUserName);
+                intent.putExtra("mapurl",mapurl);
                 startActivity(intent);
             }
         });

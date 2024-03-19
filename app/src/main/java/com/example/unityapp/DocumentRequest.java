@@ -38,7 +38,7 @@ public class DocumentRequest extends AppCompatActivity {
     private FirebaseDatabase database;
     private CardView nameCard;
     APIService apiService;
-    String serverBaseUrl = "http://192.168.54.40:5000";
+    String serverBaseUrl = "http://192.168.139.40:5000";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -148,8 +148,8 @@ public class DocumentRequest extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     String selectedUserName = (String) v.getTag();
-                    Intent intent = new Intent(DocumentRequest.this, User_details.class);
-                    intent.putExtra("selectedUser", selectedUserName);
+                    Intent intent = new Intent(DocumentRequest.this, UserDataView.class);
+                    intent.putExtra("userID", userId);
                     startActivity(intent);
                 }
             });

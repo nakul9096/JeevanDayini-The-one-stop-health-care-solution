@@ -193,12 +193,14 @@ public class Management extends AppCompatActivity {
                     .placeholder(R.drawable.profile1)
                     .error(R.drawable.profile1);
             requestOptions.transform(new CircleCrop());
-            Glide.with(this)
-                    .load(adminImage)
-                    .apply(requestOptions)
-                    .centerCrop()
-                    .transform(new CircleCrop())
-                    .into(userImageView);
+            if (!isDestroyed() && !isFinishing()) {
+                Glide.with(this)
+                        .load(adminImage)
+                        .apply(requestOptions)
+                        .centerCrop()
+                        .transform(new CircleCrop())
+                        .into(userImageView);
+            }
         }
     }
 }

@@ -1,5 +1,4 @@
 package com.example.unityapp;
-
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -20,6 +19,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.unityapp.SendNotificationPack.Client;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -29,19 +32,20 @@ import java.util.Random;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
 public class PaymentSuccess extends AppCompatActivity {
     APIService apiService;
-    String serverBaseUrl = "http://192.168.54.40:3000";
+    String serverBaseUrl = "http://192.168.139.40:3000";
     SharedPreferences.Editor editor2;
     private TextView nameTextView, phoneTextView, emailTextView, transactionIdTextView, tokenNumberTextView, DateTextView;
     private SharedPreferences sharedPreferences;
     private Button goToHomeButton;
-    private Button viewReceiptButton, downloadReceiptButton;
+    private Button downloadReceiptButton;
     private ProgressDialog progressDialog;
     private TextView textViewDisclaimer;
     String invoiceNumber;
     private Button viewReceiptButton2;
+    private FirebaseAuth mAuth;
+    private DatabaseReference bookingsRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +56,6 @@ public class PaymentSuccess extends AppCompatActivity {
         textViewDisclaimer = findViewById(R.id.textViewDisclaimer);
         downloadReceiptButton = findViewById(R.id.downloadReceiptButton);
         transactionIdTextView = findViewById(R.id.transactionIdTextView);
-        viewReceiptButton = findViewById(R.id.viewReceiptButton);
         viewReceiptButton2 = findViewById(R.id.viewReceiptButton2);
         tokenNumberTextView = findViewById(R.id.tokenNumberTextView);
         DateTextView = findViewById(R.id.DateTextView);
@@ -74,6 +77,7 @@ public class PaymentSuccess extends AppCompatActivity {
         String baseAmount = sharedPreferences.getString("baseAmount", "");
         String totalAmount = sharedPreferences.getString("totalAmount", "");
         String platformFee = sharedPreferences.getString("platformFee", "");
+        mAuth = FirebaseAuth.getInstance();
         String mode = sharedPreferences.getString("mode", "");
         String hospitalName = "jeevan";
         String description = "Slot booked for " + hospitalName;
@@ -91,19 +95,13 @@ public class PaymentSuccess extends AppCompatActivity {
         tokenNumberTextView.setText("Token Number: " + tokenNumber);
         DateTextView.setText("Date: " + date);
         uploadFileToFirebaseStorage();
+        storeBookingData(hospitalName, phone, email, transactionId, tokenNumber, date);
         goToHomeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PaymentSuccess.this, Session.class);
                 startActivity(intent);
                 finishAffinity();
-            }
-        });
-        viewReceiptButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String filename = "invoice_" + invoiceNumber + ".pdf";
-                openPdfFile(filename);
             }
         });
         downloadReceiptButton.setOnClickListener(new View.OnClickListener() {
@@ -151,6 +149,18 @@ public class PaymentSuccess extends AppCompatActivity {
         }
         return invoiceNumber;
     }
+    private void storeBookingData(String name, String phone, String email, String transactionId, String tokenNumber, String date) {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            String sanitizedEmail = currentUser.getEmail().replace(".", "").replace("@", "");
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            bookingsRef = database.getReference("bookings");
+            DatabaseReference userBookingRef = bookingsRef.child(sanitizedEmail).child(transactionId);
+            Bookingdata booking = new Bookingdata("Appointment slot", name, transactionId, tokenNumber, date);
+            userBookingRef.setValue(booking);
+        }
+    }
+
     private void sendDataToServer(User user) {
         apiService.sendInvoiceDataToServer(user).enqueue(new Callback<Void>() {
             @Override
@@ -166,33 +176,6 @@ public class PaymentSuccess extends AppCompatActivity {
             public void onFailure(Call<Void> call, Throwable t) {
                 Toast.makeText(PaymentSuccess.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        });
-    }
-
-    private void openPdfFile(String filename) {
-        // Create a reference to Firebase Storage
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReference();
-
-        // Create a reference to the file in Firebase Storage
-        StorageReference fileRef = storageRef.child("invoice/" + filename);
-
-        // Get the download URL of the file
-        fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
-            // If the file exists, create an intent to view the PDF
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(uri, "application/pdf");
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            if (intent.resolveActivity(getPackageManager()) != null) {
-                // If a PDF viewer application is found, start the activity to view the PDF
-                startActivity(intent);
-            } else {
-                // If no PDF viewer application is found, display a toast
-                Toast.makeText(this, "No PDF viewer application found", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnFailureListener(exception -> {
-            // If the file does not exist, display a toast
-            Toast.makeText(this, "PDF file not found", Toast.LENGTH_SHORT).show();
         });
     }
     private void downloadPdfFile(String filename) {
@@ -226,7 +209,7 @@ public class PaymentSuccess extends AppCompatActivity {
 
     private void uploadFileToFirebaseStorage() {
         String filename = "invoice_" + invoiceNumber + ".pdf";
-        String serverUrl = "http://192.168.54.40:4000";
+        String serverUrl = "http://192.168.139.40:4000";
         String fullFileUrl = serverUrl + "/" + filename;
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
@@ -264,7 +247,7 @@ public class PaymentSuccess extends AppCompatActivity {
         registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
     private void openFileViaServer(String filename) {
-        String serverUrl = "http://192.168.54.40:4000";
+        String serverUrl = "http://192.168.139.40:4000";
         String fullFileUrl = serverUrl + "/" + filename;
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(Uri.parse(fullFileUrl), "application/pdf");

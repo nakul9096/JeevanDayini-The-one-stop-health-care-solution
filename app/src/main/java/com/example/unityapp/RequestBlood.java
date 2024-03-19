@@ -36,7 +36,7 @@ import retrofit2.Response;
 public class RequestBlood extends AppCompatActivity {
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1001;
     APIService apiService;
-    String serverBaseUrl = "http://192.168.54.40:5000";
+    String serverBaseUrl = "http://192.168.139.40:5000";
     Spinner citySpinner, stateSpinner, bloodGroupSpinner, deliveryTimeSpinner, mlSpinner;
     private Button chooseLocationButton;
     private CityUtils cityUtils;

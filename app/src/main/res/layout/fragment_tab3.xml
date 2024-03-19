@@ -35,18 +35,22 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/btneditprof"
+            android:id="@+id/btnbookings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
+            android:backgroundTint="#ffffff"
+            android:textColor="#0D47A1"
             android:background="@drawable/rounded_button_setting"
-            android:text="Edit profile" />
+            android:text="Your bookings" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:id="@+id/btnchangelang"
+            android:textColor="#0D47A1"
+            android:backgroundTint="#ffffff"
             android:background="@drawable/rounded_button_setting"
             android:text="Change language" />
 
@@ -54,13 +58,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
+            android:backgroundTint="#ffffff"
+            android:id="@+id/btnApperance"
+            android:textColor="#0D47A1"
             android:background="@drawable/rounded_button_setting"
             android:text="Appearance setting" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="#ffffff"
             android:layout_marginBottom="8dp"
+            android:textColor="#0D47A1"
             android:background="@drawable/rounded_button_setting"
             android:text="transactions" />
         <!-- Divider line between sections -->
@@ -85,12 +94,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
+            android:textColor="#0D47A1"
+            android:backgroundTint="#ffffff"
             android:background="@drawable/rounded_button_setting"
             android:text="Troubleshoot Issue" />
 
         <Button
             android:id="@+id/faqbtn"
             android:layout_width="match_parent"
+            android:backgroundTint="#ffffff"
+            android:textColor="#0D47A1"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:background="@drawable/rounded_button_setting"
@@ -99,8 +112,10 @@
         <Button
             android:id="@+id/tubutton"
             android:layout_width="match_parent"
+            android:backgroundTint="#ffffff"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
+            android:textColor="#0D47A1"
             android:background="@drawable/rounded_button_setting"
             android:text="Tutorial Videos" />
 
@@ -108,10 +123,11 @@
             android:id="@+id/contactbtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="#ffffff"
+            android:textColor="#0D47A1"
             android:background="@drawable/rounded_button_setting"
             android:text="Contact Us" />
 
-        <!-- Divider line between sections -->
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -133,7 +149,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Privacy &amp; Policy"
-                android:textColor="#0000FF" />
+                android:textColor="#FFFFFF" />
 
             <TextView
                 android:id="@+id/termstv"
@@ -142,7 +158,7 @@
                 android:layout_weight="1"
                 android:gravity="right"
                 android:text="Terms &amp; conditions"
-                android:textColor="#0000FF" />
+                android:textColor="#FFFFFF" />
         </LinearLayout>
 
         <LinearLayout

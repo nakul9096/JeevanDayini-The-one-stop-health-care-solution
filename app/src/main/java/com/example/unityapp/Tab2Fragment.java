@@ -23,7 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class Tab2Fragment extends Fragment {
-    Button bt2, bt3, bt4, bt5, bt6, btnew, btnotify;
+    Button bt3, bt4, bt5, bt6, btnew, btnPrescription, btnTestReport;
     private String retrievedFullName;
     private CustomLoadingBar loadingBar;
     private static final String PREFS_NAME2 = "ProfileData";
@@ -32,25 +32,25 @@ public class Tab2Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_tab2, container, false);
-        bt2 = rootView.findViewById(R.id.btn2);
+        btnPrescription = rootView.findViewById(R.id.btnPrescription);
+        btnTestReport = rootView.findViewById(R.id.btnTestReport);
         bt3 = rootView.findViewById(R.id.btn3);
         bt5 = rootView.findViewById(R.id.btn5);
         bt6 = rootView.findViewById(R.id.btn6);
         btnew = rootView.findViewById(R.id.btnnew);
         bt4 = rootView.findViewById(R.id.btn4);
         loadingBar = new CustomLoadingBar(getActivity());
-        btnotify = rootView.findViewById(R.id.btnNotify);
-        btnotify.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), FirebaseMessagingSender.class);
-                startActivity(intent);
-            }
-        });
-        bt2.setOnClickListener(new View.OnClickListener() {
+        btnPrescription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), TestReport.class);
+                startActivity(intent);
+            }
+        });
+        btnTestReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), TestReport2.class);
                 startActivity(intent);
             }
         });
@@ -82,7 +82,6 @@ public class Tab2Fragment extends Fragment {
                 startActivity(intent);
             }
         });
-
         bt5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,15 +143,12 @@ public class Tab2Fragment extends Fragment {
             }
         }
     }
-
     private void hideLoadingIndicator() {
         loadingBar.dismiss();
     }
-
     private String sanitizeEmail(String email) {
         return email.replace("@", "").replace(".", "");
     }
-
     private void checkDataInDatabase(String email, String userId) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("blooddonation").child(userId);
         reference.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -175,11 +171,9 @@ public class Tab2Fragment extends Fragment {
             }
         });
     }
-
     private void handleFullName(String fullName) {
         retrievedFullName = fullName;
     }
-
     private void showRatingDialog() {
         String userEmail = getCurrentUserEmail();
         RatingDialog.showRatingDialog(getActivity(), userEmail, retrievedFullName);
