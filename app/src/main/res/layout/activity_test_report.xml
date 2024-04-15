@@ -1,38 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:padding="16dp"
     tools:context=".TestReport">
+
+    <!-- Linear layout at the top -->
     <LinearLayout
         android:id="@+id/linearlayoutcontainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:orientation="vertical"/>
+        android:orientation="vertical">
+    </LinearLayout>
 
-    <ProgressBar
-        android:id="@+id/progressBarTR"
-        android:layout_width="wrap_content"
-        android:layout_gravity="center"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="visible" />
+        android:gravity="center"
+        android:layout_below="@id/linearlayoutcontainer"
+        android:orientation="vertical">
 
-    <!-- ImageView -->
-    <ImageView
-        android:id="@+id/imageViewTR"
-        android:layout_width="wrap_content"
-        android:layout_gravity="center"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:src="@drawable/notfound" />
+        <!-- ProgressBar -->
+        <ProgressBar
+            android:id="@+id/progressBarTR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:visibility="visible" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:id="@+id/textViewTR"
-        android:visibility="gone"
-        android:text="No prescription found at this moment!" />
-</LinearLayout>
+        <!-- ImageView -->
+        <ImageView
+            android:id="@+id/imageViewTR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/notfound"
+            android:visibility="gone" />
+
+        <!-- TextView -->
+        <TextView
+            android:id="@+id/textViewPrescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:text="No prescription found or not uploaded yet by the hospital/clinic!"
+            android:visibility="gone" />
+    </LinearLayout>
+
+</RelativeLayout>

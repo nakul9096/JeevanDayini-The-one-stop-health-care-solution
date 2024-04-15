@@ -294,6 +294,7 @@ public class FindClinics extends AppCompatActivity {
                 String selectedUserName = (String) v.getTag();
                 Intent intent = new Intent(FindClinics.this, ViewMore.class);
                 intent.putExtra("selectedUser", selectedUserName);
+                intent.putExtra("HospitalEmail", Email);
                 intent.putExtra("mapurl",mapurl);
                 startActivity(intent);
             }

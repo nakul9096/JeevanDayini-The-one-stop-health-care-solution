@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.Html;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuInflater;
@@ -26,6 +27,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -79,6 +81,8 @@ public class HospDashboard extends AppCompatActivity {
         imageView3 = findViewById(R.id.imageView3);
         imageView4 = findViewById(R.id.imageView4);
         marqueetextview = findViewById(R.id.marqueeText);
+        marqueetextview.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        marqueetextview.setSelected(true);
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navigationView);
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
@@ -107,30 +111,27 @@ public class HospDashboard extends AppCompatActivity {
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 // Nothing to do here
             }
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                // Remove any existing callbacks to the handler
                 handler.removeCallbacks(updateDatabaseRunnable);
-
-                // Schedule the update after 3 seconds
                 updateDatabaseRunnable = () -> {
-                    // Get the current email (replace this with your actual logic)
                     String currentEmail = getCurrentUserEmail();
                     String encodedEmail = currentEmail.replace("@", "").replace(".", "");
                     String newValue = charSequence.toString();
-                    updateDatabase(encodedEmail, newValue);
+                    if (newValue.isEmpty()) {
+                        removeOngoingAppointmentFromDatabase(encodedEmail);
+                    } else {
+                        updateDatabase(encodedEmail, newValue);
+                    }
                 };
 
-                handler.postDelayed(updateDatabaseRunnable, 3000); // 3 seconds delay
+                handler.postDelayed(updateDatabaseRunnable, 3000);
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                // Nothing to do here
             }
         });
-        // Set up the ActionBarDrawerToggle for the hamburger icon
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this,
                 drawerLayout,
@@ -148,7 +149,11 @@ public class HospDashboard extends AppCompatActivity {
             } else if (id == R.id.menu_donation_requests) {
                 Intent intent = new Intent(HospDashboard.this, Donation_req_hosp.class);
                 startActivity(intent);
-            } else if (id == R.id.menu_upload_test_report) {
+            } else if (id == R.id.menu_upload_prescription) {
+                Intent intent = new Intent(HospDashboard.this, UploadPrescription.class);
+                startActivity(intent);
+            }
+            else if (id == R.id.menu_upload_test_report) {
                 Intent intent = new Intent(HospDashboard.this, UploadTestReport.class);
                 startActivity(intent);
             } else if (id == R.id.requestbloodbtn) {
@@ -162,7 +167,10 @@ public class HospDashboard extends AppCompatActivity {
                 Intent intent = new Intent(HospDashboard.this, ListOnline.class);
                 startActivity(intent);
             } else if (id == R.id.menu_logout) {
-                // Handle Logout click
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(HospDashboard.this, HomeDashboard.class);
+                startActivity(intent);
+                finishAffinity();
             }
             drawerLayout.closeDrawer(GravityCompat.START);
             return true;
@@ -362,7 +370,6 @@ public class HospDashboard extends AppCompatActivity {
             Log.d("HospDashboard", "User email is null");
         }
     }
-
     private void setClinicNameButtonClick() {
         String currentUserEmail = getCurrentUserEmail();
         if (currentUserEmail != null) {
@@ -507,8 +514,6 @@ public class HospDashboard extends AppCompatActivity {
                                         // End Time selected, process the times
                                         String startTime = formatTime(startHourOfDay, startMinute);
                                         String endTime = formatTime(endHourOfDay, endMinute);
-
-                                        // Do something with the start and end times
                                         processStartAndEndTime(day, startTime, endTime);
                                     }
                                 }, currentHour, currentMinute, false);
@@ -779,5 +784,19 @@ public class HospDashboard extends AppCompatActivity {
             }
         }
         return false;
+    }
+    private void removeOngoingAppointmentFromDatabase(String currentEmail) {
+        DatabaseReference hospitalsRef = FirebaseDatabase.getInstance().getReference("hospitals");
+        DatabaseReference hospitalRef = hospitalsRef.child(currentEmail).child("ongoingAppointment");
+        hospitalRef.removeValue(new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                if (error == null) {
+                    Toast.makeText(HospDashboard.this, "Ongoing appointment removed successfully", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(HospDashboard.this, "Failed to remove ongoing appointment", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }

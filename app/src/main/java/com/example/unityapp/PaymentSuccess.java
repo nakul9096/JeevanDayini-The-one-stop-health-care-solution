@@ -34,7 +34,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 public class PaymentSuccess extends AppCompatActivity {
     APIService apiService;
-    String serverBaseUrl = "http://192.168.139.40:3000";
+    String serverBaseUrl = "http://192.168.173.40:3000";
     SharedPreferences.Editor editor2;
     private TextView nameTextView, phoneTextView, emailTextView, transactionIdTextView, tokenNumberTextView, DateTextView;
     private SharedPreferences sharedPreferences;
@@ -152,11 +152,15 @@ public class PaymentSuccess extends AppCompatActivity {
     private void storeBookingData(String name, String phone, String email, String transactionId, String tokenNumber, String date) {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
+            SharedPreferences sharedPreferences = getSharedPreferences("HospData", Context.MODE_PRIVATE);
+            String savedEmail = sharedPreferences.getString("HospitalEmail", null);
             String sanitizedEmail = currentUser.getEmail().replace(".", "").replace("@", "");
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             bookingsRef = database.getReference("bookings");
+            long timestamp = System.currentTimeMillis();
+            String timestampString = String.valueOf(timestamp);
             DatabaseReference userBookingRef = bookingsRef.child(sanitizedEmail).child(transactionId);
-            Bookingdata booking = new Bookingdata("Appointment slot", name, transactionId, tokenNumber, date);
+            Bookingdata booking = new Bookingdata("Appointment slot", name, transactionId, tokenNumber, date, savedEmail, timestampString);
             userBookingRef.setValue(booking);
         }
     }
@@ -209,7 +213,7 @@ public class PaymentSuccess extends AppCompatActivity {
 
     private void uploadFileToFirebaseStorage() {
         String filename = "invoice_" + invoiceNumber + ".pdf";
-        String serverUrl = "http://192.168.139.40:4000";
+        String serverUrl = "http://192.168.173.40:4000";
         String fullFileUrl = serverUrl + "/" + filename;
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
@@ -235,7 +239,6 @@ public class PaymentSuccess extends AppCompatActivity {
                                 textViewDisclaimer.setTextColor(Color.parseColor("#00FF00"));
                             })
                             .addOnFailureListener(e -> {
-                                // Handle unsuccessful uploads
                                 Toast.makeText(PaymentSuccess.this, "Upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                             });
 
@@ -247,7 +250,7 @@ public class PaymentSuccess extends AppCompatActivity {
         registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
     private void openFileViaServer(String filename) {
-        String serverUrl = "http://192.168.139.40:4000";
+        String serverUrl = "http://192.168.173.40:4000";
         String fullFileUrl = serverUrl + "/" + filename;
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(Uri.parse(fullFileUrl), "application/pdf");

@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="#163D5AFE">
 
-    <!-- Main content layout -->
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
@@ -19,7 +18,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <!-- More Options Icon -->
+
                 <ImageView
                     android:id="@+id/menuPlaceholder"
                     android:layout_width="45dp"
@@ -70,7 +69,15 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:tint="@color/white" />
-
+                <View
+                    android:id="@+id/dividerView3new"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@android:color/darker_gray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/menuPlaceholder" />
                 <!-- Admin ID TextView -->
                 <TextView
                     android:id="@+id/adminIdTextView4"
@@ -82,46 +89,44 @@
                     android:textColor="#FFFFFF"
                     android:textSize="17sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/menuPlaceholder" />
+                    app:layout_constraintTop_toBottomOf="@+id/dividerView3new" />
 
                 <!-- Hello Card -->
-                <RelativeLayout
+                <LinearLayout
                     android:id="@+id/cardHello"
-                    android:layout_width="1000dp"
-                    android:layout_height="150dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="40dp"
                     android:layout_marginEnd="16dp"
+                    android:orientation="vertical"
                     android:background="@drawable/rounded_white_background"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/adminIdTextView4">
 
-                    <TextView
-                        android:id="@+id/organizationNameTV"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:text="Hello!"
-                        android:textColor="#000000"
-                        android:textSize="18sp" />
-
-                    <!-- Button to set the clinic name -->
-                    <Button
-                        android:id="@+id/setClinicNameButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/organizationNameTV"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="8dp"
-                        android:text="Set Clinic Name" />
-
-                </RelativeLayout>
-
-                <!-- Ongoing appointment TextView -->
-
-                <!-- Box to enter number -->
                 <TextView
+                    android:id="@+id/organizationNameTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Hello!"
+                    android:layout_marginTop="20dp"
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+
+                <!-- Button to set the clinic name -->
+                <Button
+                    android:id="@+id/setClinicNameButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="8dp"
+                    android:text="Set Clinic Name" />
+
+            </LinearLayout>
+
+            <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
@@ -478,31 +483,23 @@
                     </TableRow>
                 </TableLayout>
 
-                <HorizontalScrollView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toTopOf="@+id/tableLayoutSchedule"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/adminIdTextView4"
-                    app:layout_constraintVertical_bias="0.021">
-
                     <TextView
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/adminIdTextView4"
+                        app:layout_constraintVertical_bias="0.021"
                         android:id="@+id/marqueeText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:ellipsize="marquee"
-                        android:focusable="true"
                         android:focusableInTouchMode="true"
-                        android:gravity="right"
-                        android:marqueeRepeatLimit="marquee_forever"
+                        android:gravity="start"
+                        app:layout_constraintBottom_toTopOf="@+id/tableLayoutSchedule"
                         android:scrollHorizontally="true"
                         android:singleLine="true"
                         android:text="Your clinic is not live! To go live, visit List clinic online section available in the More Options menu. Thank you for using JEEVANDAYINI App!"
                         android:textColor="#F4511E"
                         android:textSize="17sp" />
-                </HorizontalScrollView>
 
                 <View
                     android:id="@+id/dividerView"

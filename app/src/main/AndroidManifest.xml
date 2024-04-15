@@ -49,6 +49,15 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".Jeevancard"
+            android:exported="false" />
+        <activity
+            android:name=".Transactions"
+            android:exported="false" />
+        <activity
+            android:name=".UploadPrescription"
+            android:exported="false" />
+        <activity
             android:name=".Booking_history"
             android:exported="false" />
         <activity
@@ -74,13 +83,7 @@
             android:name=".ApplyNow"
             android:exported="false" />
         <activity
-            android:name=".SuccessDialog2"
-            android:exported="false" />
-        <activity
             android:name=".OrgImagePreview"
-            android:exported="false" />
-        <activity
-            android:name=".BookingHistory"
             android:exported="false" />
         <activity
             android:name=".PaymentSuccess"
@@ -164,9 +167,9 @@
         <activity
             android:name=".Assistant"
             android:exported="false" />
-        <activity android:name=".UserDataView"
-            android:exported="false"
-            />
+        <activity
+            android:name=".UserDataView"
+            android:exported="false" />
         <activity
             android:name=".FAQ"
             android:exported="false" />
@@ -212,8 +215,8 @@
             android:exported="false" />
         <activity
             android:name=".FindClinics"
-            android:windowSoftInputMode="adjustPan"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Booking"
             android:exported="false"

@@ -8,6 +8,10 @@
         android:icon="@drawable/tests"
         android:title="Donation Requests" />
     <item
+        android:id="@+id/menu_upload_prescription"
+        android:icon="@drawable/tests"
+        android:title="Upload prescription" />
+    <item
         android:id="@+id/menu_upload_test_report"
         android:icon="@drawable/upload"
         android:title="Upload Test Report" />

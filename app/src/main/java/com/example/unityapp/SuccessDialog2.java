@@ -1,21 +1,20 @@
 package com.example.unityapp;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.widget.Button;
-
 public class SuccessDialog2 extends Dialog {
     private static final int TIMEOUT_DELAY = 6000;
     private Button okButton;
     private CountDownTimer countDownTimer;
-
     public SuccessDialog2(Context context) {
         super(context);
     }
-
+    public SuccessDialog2(Context context, int themeResId) {
+        super(context, themeResId);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

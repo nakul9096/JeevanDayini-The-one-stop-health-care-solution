@@ -1,5 +1,4 @@
 package com.example.unityapp;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -25,7 +24,6 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
-
 public class PaymentPage extends AppCompatActivity implements PaymentResultListener {
     private static final int RAZOR_PAY_REQUEST_CODE = 123;
     private static final String PREFS_NAME = "MyPrefs";
@@ -37,7 +35,6 @@ public class PaymentPage extends AppCompatActivity implements PaymentResultListe
     private RadioGroup paymentRadioGroup;
     private Button payAndBookButton;
     private double totalAmount;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +76,6 @@ public class PaymentPage extends AppCompatActivity implements PaymentResultListe
             }
         });
     }
-
     private void handlePayOnClinicSelection() {
         // Set visibility
         paymentModePromptTextView.setVisibility(View.GONE);
@@ -99,7 +95,6 @@ public class PaymentPage extends AppCompatActivity implements PaymentResultListe
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         String baseAmount = sharedPreferences.getString("base_amount", "");
         double BaseAmount = Double.parseDouble(baseAmount);
-        // Set values for Pay on Clinic
         baseAmountTextView.setText("₹5");
         gstBreakdownTextView.setText("₹0.90");
         cgstTextView.setText("₹0.45");
@@ -119,7 +114,6 @@ public class PaymentPage extends AppCompatActivity implements PaymentResultListe
             }
         });
     }
-
     private void handlePayNowOnlineSelection() {
         paymentModePromptTextView.setVisibility(View.GONE);
         baseAmountTextView.setVisibility(View.VISIBLE);
@@ -168,7 +162,6 @@ public class PaymentPage extends AppCompatActivity implements PaymentResultListe
             Toast.makeText(this, "Base amount not found", Toast.LENGTH_SHORT).show();
         }
     }
-
     private void startRazorpayPayment(double totalAmount, double gstAmount, double platformfee, double baseAmount, String mode) {
         Checkout checkout = new Checkout();
         checkout.setKeyID("rzp_test_FY7GOm27Z0Zc8P");
@@ -189,7 +182,6 @@ public class PaymentPage extends AppCompatActivity implements PaymentResultListe
             e.printStackTrace();
         }
     }
-
     private void handlePaymentSuccess(String transactionId) {
         SharedPreferences profileDataSharedPreferences = getSharedPreferences("ProfileData", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = getSharedPreferences("PaymentInfo", Context.MODE_PRIVATE).edit();
@@ -207,11 +199,11 @@ public class PaymentPage extends AppCompatActivity implements PaymentResultListe
         String email = userDataSharedPreferences.getString("email", "");
         String token = userDataSharedPreferences.getString("tokenNumber", "");
         String date = userDataSharedPreferences.getString("date", "");
-        editor2.putString("fullName", fullName); // Replace fullName with the actual value you want to save
-        editor2.putString("phoneNumber", phoneNumber); // Replace phoneNumber with the actual value you want to save
-        editor2.putString("email", email); // Replace email with the actual value you want to save
-        editor2.putString("transactionId", transactionId); // Replace transactionId with the actual value you want to save
-        editor2.putString("tokenNumber", token); // Replace tokenNumber with the actual value you want to save
+        editor2.putString("fullName", fullName);
+        editor2.putString("phoneNumber", phoneNumber);
+        editor2.putString("email", email);
+        editor2.putString("transactionId", transactionId);
+        editor2.putString("tokenNumber", token);
         editor2.putString("date", date);
         editor.putString("fullName", fullName);
         editor.putString("phoneNumber", phoneNumber);
@@ -237,15 +229,13 @@ public class PaymentPage extends AppCompatActivity implements PaymentResultListe
                     Toast.makeText(this, "Failed to store data. Please try again later.", Toast.LENGTH_SHORT).show();
                 });
     }
-
     @Override
     public void onPaymentSuccess(String razorpayPaymentID) {
         handlePaymentSuccess(razorpayPaymentID);
         Intent intent = new Intent(PaymentPage.this, PaymentSuccess.class);
         startActivity(intent);
-        finish();
+        finishAffinity();
     }
-
     @Override
     public void onPaymentError(int code, String response) {
         Toast.makeText(this, "Payment unsuccessful! Please try again later.", Toast.LENGTH_SHORT).show();

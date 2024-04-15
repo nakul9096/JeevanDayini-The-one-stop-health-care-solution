@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:background="@drawable/card_background"
+    android:orientation="horizontal">
+
+    <!-- Hospital Name and Icon Section -->
+    <LinearLayout
+        android:id="@+id/linearlayout1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <!-- Hospital Name -->
+        <TextView
+            android:id="@+id/textViewHospitalName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_marginBottom="10dp"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:text="Hospital Name" />
+
+        <!-- Date -->
+        <TextView
+            android:id="@+id/textViewDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@android:color/darker_gray"
+            android:text="Date: 01/01/2024" />
+
+        <!-- Time -->
+        <TextView
+            android:id="@+id/textViewTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@android:color/darker_gray"
+            android:text="Time: 10:00 AM" />
+
+        <!-- Action Buttons Layout (Download, View) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="end"
+            android:layout_marginTop="8dp">
+
+            <!-- View Prescription Button -->
+            <Button
+                android:id="@+id/buttonView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="View Prescription"
+                android:backgroundTint="@color/colorPrimary"
+                android:textColor="@android:color/white" />
+
+            <!-- Download Prescription Button -->
+            <Button
+                android:id="@+id/buttonDownload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Download Prescription"
+                android:backgroundTint="@color/colorAccent"
+                android:textColor="@android:color/white" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- File Icon/Image View -->
+    <ImageView
+        android:id="@+id/imageViewCard"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/ic_file"
+        android:layout_gravity="end"
+        android:layout_marginStart="16dp" />
+
+</LinearLayout>

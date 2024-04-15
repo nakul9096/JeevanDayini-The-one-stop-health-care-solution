@@ -10,7 +10,6 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Title -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -40,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:backgroundTint="#ffffff"
-            android:textColor="#0D47A1"
+            android:textColor="#84FFFF"
             android:background="@drawable/rounded_button_setting"
             android:text="Your bookings" />
 
@@ -49,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:id="@+id/btnchangelang"
-            android:textColor="#0D47A1"
+            android:textColor="#84FFFF"
             android:backgroundTint="#ffffff"
             android:background="@drawable/rounded_button_setting"
             android:text="Change language" />
@@ -60,7 +59,7 @@
             android:layout_marginBottom="8dp"
             android:backgroundTint="#ffffff"
             android:id="@+id/btnApperance"
-            android:textColor="#0D47A1"
+            android:textColor="#84FFFF"
             android:background="@drawable/rounded_button_setting"
             android:text="Appearance setting" />
 
@@ -69,7 +68,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="#ffffff"
             android:layout_marginBottom="8dp"
-            android:textColor="#0D47A1"
+            android:textColor="#84FFFF"
             android:background="@drawable/rounded_button_setting"
             android:text="transactions" />
         <!-- Divider line between sections -->
@@ -94,7 +93,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:textColor="#0D47A1"
+            android:textColor="#84FFFF"
             android:backgroundTint="#ffffff"
             android:background="@drawable/rounded_button_setting"
             android:text="Troubleshoot Issue" />
@@ -103,7 +102,7 @@
             android:id="@+id/faqbtn"
             android:layout_width="match_parent"
             android:backgroundTint="#ffffff"
-            android:textColor="#0D47A1"
+            android:textColor="#84FFFF"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:background="@drawable/rounded_button_setting"
@@ -115,7 +114,7 @@
             android:backgroundTint="#ffffff"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:textColor="#0D47A1"
+            android:textColor="#84FFFF"
             android:background="@drawable/rounded_button_setting"
             android:text="Tutorial Videos" />
 
@@ -124,7 +123,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#ffffff"
-            android:textColor="#0D47A1"
+            android:textColor="#84FFFF"
             android:background="@drawable/rounded_button_setting"
             android:text="Contact Us" />
 

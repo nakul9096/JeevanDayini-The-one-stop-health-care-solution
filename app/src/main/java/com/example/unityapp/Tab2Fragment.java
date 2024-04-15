@@ -23,7 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class Tab2Fragment extends Fragment {
-    Button bt3, bt4, bt5, bt6, btnew, btnPrescription, btnTestReport;
+    Button bt3, bt4, bt5, bt6, btnew, btnPrescription, btnTestReport, btn4new;
     private String retrievedFullName;
     private CustomLoadingBar loadingBar;
     private static final String PREFS_NAME2 = "ProfileData";
@@ -38,6 +38,7 @@ public class Tab2Fragment extends Fragment {
         bt5 = rootView.findViewById(R.id.btn5);
         bt6 = rootView.findViewById(R.id.btn6);
         btnew = rootView.findViewById(R.id.btnnew);
+        btn4new = rootView.findViewById(R.id.btn4new);
         bt4 = rootView.findViewById(R.id.btn4);
         loadingBar = new CustomLoadingBar(getActivity());
         btnPrescription.setOnClickListener(new View.OnClickListener() {
@@ -72,6 +73,13 @@ public class Tab2Fragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), FindClinics.class);
                 intent.putExtra("requestType","findclinics");
+                startActivity(intent);
+            }
+        });
+        btn4new.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), Jeevancard.class);
                 startActivity(intent);
             }
         });

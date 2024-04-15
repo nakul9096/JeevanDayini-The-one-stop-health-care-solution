@@ -57,6 +57,12 @@ public class ViewMore extends AppCompatActivity {
         btnBookAppointment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String email = getIntent().getStringExtra("HospitalEmail");
+                Log.e("ViewMore","Retrieved email: "+email);
+                SharedPreferences sharedPreferences = getSharedPreferences("HospData", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("HospitalEmail", email);
+                editor.apply();
                 Intent bookIntent = new Intent(ViewMore.this, Book.class);
                 startActivity(bookIntent);
             }

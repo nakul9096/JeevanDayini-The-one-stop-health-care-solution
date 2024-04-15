@@ -33,14 +33,12 @@ public class TestReport2 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_report2);
-
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         progressBar = findViewById(R.id.progressBarTR);
         textView = findViewById(R.id.textViewTR);
         imageView = findViewById(R.id.imageViewTR);
         FirebaseUser currentUser = mAuth.getCurrentUser();
-
         if (currentUser != null) {
             String userEmail = currentUser.getEmail();
             Log.d("TestReport","user Email: "+userEmail);
@@ -83,7 +81,6 @@ public class TestReport2 extends AppCompatActivity {
     }
     private void createHospitalCard(String hospitalName, String hospitalEmail, String reporturl) {
         View cardView = getLayoutInflater().inflate(R.layout.card_hospital, null);
-
         TextView textViewHospitalName = cardView.findViewById(R.id.textViewHospitalName);
         TextView textViewHospitalEmail = cardView.findViewById(R.id.textViewHospitalEmail);
         Button buttonViewPrescription = cardView.findViewById(R.id.buttonViewPrescription);
@@ -103,7 +100,7 @@ public class TestReport2 extends AppCompatActivity {
                 downloadPDF(reporturl, hospitalName);
             }
         });
-        LinearLayout container = findViewById(R.id.linearlayoutcontainer); // Assuming you have a layout with id containerLayout
+        LinearLayout container = findViewById(R.id.linearlayoutcontainer);
         container.addView(cardView);
     }
     private void openPDFViewer(String url) {
@@ -116,14 +113,12 @@ public class TestReport2 extends AppCompatActivity {
             Helper.showToast(TestReport2.this, "No PDF viewer app found");
         }
     }
-
     private void downloadPDF(String url,String hospName) {
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
         request.setTitle(hospName+"_prescription");
         request.setDescription("Downloading PDF file...");
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "file.pdf");
-
         DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
         downloadManager.enqueue(request);
     }

@@ -8,6 +8,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
@@ -36,21 +38,29 @@ public class Book extends AppCompatActivity {
     private FirebaseDatabase database;
     private ProgressDialog progressDialog;
     private ArrayList<Button> disabledButtonIds = new ArrayList<>();
-
+    private TextView currentTokenTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book);
         selectedDateTextView = findViewById(R.id.selectedDateTextView);
         updateDateBtn = findViewById(R.id.updateDateBtn);
+        currentTokenTextView = findViewById(R.id.currentTokenTextView);
         tokenButtonsContainer = findViewById(R.id.slotsContainer);
         paybtn = findViewById(R.id.continuebtn);
         estimatedtimetv = findViewById(R.id.estimatedDurationTextView);
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Gathering information...");
+        Animation anim = new AlphaAnimation(0.0f, 1.0f);
+        anim.setDuration(1000);
+        anim.setStartOffset(20);
+        anim.setRepeatMode(Animation.REVERSE);
+        anim.setRepeatCount(Animation.INFINITE);
+        currentTokenTextView.startAnimation(anim);
         database = FirebaseDatabase.getInstance();
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         email = sharedPreferences.getString("hospital_email", "");
+        retrieveOngoingAppointment(email.replace("@","").replace(".",""));
         Log.d("Hospital email", email);
         showDatePicker();
         updateDateBtn.setOnClickListener(new View.OnClickListener() {
@@ -290,7 +300,28 @@ public class Book extends AppCompatActivity {
             button.setBackgroundResource(R.drawable.disabled_button_background);
         }
     }
+    public void retrieveOngoingAppointment(String email) {
+        DatabaseReference hospitalsRef;
+        hospitalsRef = FirebaseDatabase.getInstance().getReference("hospitals").child(email).child("ongoingAppointment");
+        hospitalsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    String value = dataSnapshot.getValue(String.class);
+                    if (currentTokenTextView != null) {
+                        currentTokenTextView.setText("Current token: " + value);
+                    }
+                } else {
+                    Log.d("Firebase", "Snapshot does not exist");
+                }
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("Firebase", "Error getting ongoingAppointment value", databaseError.toException());
+            }
+        });
+    }
     private Button findSelectedButton() {
         for (int i = 0; i < tokenButtonsContainer.getChildCount(); i++) {
             View rowLayout = tokenButtonsContainer.getChildAt(i);
