@@ -1,72 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <TextView
         android:id="@+id/noInternetTextView"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="#B2FF3D00"
-        android:textStyle="bold"
         android:gravity="center"
+        android:text="WK"
+        android:textSize="16sp"
+        android:textStyle="bold"
         android:visibility="gone"
-        android:text="No internet connection"
-        android:textSize="16sp" />
-    <!-- ViewPager2 for Tab Content -->
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/noInternetTextView"
-        android:layout_above="@id/tab_layout1"
-        android:contentDescription="ViewPager for Tab Content" />
-    <!-- TabLayout -->
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab_layout1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="#7A000000"
-        app:tabGravity="fill"
-        app:tabIndicatorColor="#FF5722"
-        app:tabIndicatorHeight="4dp"
-        app:tabMode="fixed"
-        app:tabSelectedTextColor="#FF5722"
-        app:tabTextAppearance="@style/MyTabTextAppearance"
-        app:tabTextColor="#FFFFFF" />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="ViewPager for Tab Content"
+        app:layout_constraintBottom_toTopOf="@id/bottomBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/noInternetTextView" />
 
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top|end"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:visibility="gone"> <!-- Set visibility to gone initially -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/circular_profile_image_layout"
-            android:gravity="center"
-            android:paddingStart="8dp"
-            android:paddingTop="4dp"
-            android:paddingEnd="8dp"
-            android:paddingBottom="4dp"
-            android:text="Hello!"
-            android:textColor="@android:color/white"
-            android:textSize="12sp" />
-    </FrameLayout>
+    <me.ibrahimsn.lib.SmoothBottomBar
+        android:id="@+id/bottomBar"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        app:menu="@menu/bottom_nav_menu"
+        app:activeItem="0"
+        app:iconSize="24dp"
+        app:textSize="10sp"
+        app:backgroundColor="#7A000000"
+        app:textColor="#FFFFFF"
+        app:iconTint="@null"
+        app:iconTintActive="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/chatIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_alignParentEnd="true"
-        android:layout_above="@id/tab_layout1"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:contentDescription="Chat button"
         android:src="@drawable/chat_icon"
-        app:backgroundTint="@color/colorPrimary"
+        app:backgroundTint="#6200EE"
         app:elevation="6dp"
-        app:fabSize="normal" />
-</RelativeLayout>
+        app:fabSize="normal"
+        app:layout_behavior="com.google.android.material.floatingactionbutton.FloatingActionButtonBehavior"
+        app:layout_constraintBottom_toTopOf="@id/bottomBar"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

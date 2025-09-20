@@ -3,13 +3,17 @@ package com.example.unityapp;
 import android.content.Context;
 import android.content.res.Resources;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class CityUtils {
     public String[] updateCitySpinner(Context context, int statePosition) {
         String[] cityOptions;
         Resources resources = context.getResources();
+
         switch (statePosition) {
             case 0:
-                cityOptions = resources.getStringArray(R.array.selectoptions);
+                cityOptions = new String[]{"Select state first!"}; // Default for "Select options" state
                 break;
             case 1:
                 cityOptions = resources.getStringArray(R.array.AndamanNicobar);
@@ -120,6 +124,11 @@ public class CityUtils {
                 cityOptions = new String[0];
                 break;
         }
-        return cityOptions;
+
+        // Create a new ArrayList to add the "Select City" option
+        ArrayList<String> cityList = new ArrayList<>();
+        cityList.add("Select City"); // Add the new default option
+        Collections.addAll(cityList, cityOptions);
+        return cityList.toArray(new String[0]);
     }
 }

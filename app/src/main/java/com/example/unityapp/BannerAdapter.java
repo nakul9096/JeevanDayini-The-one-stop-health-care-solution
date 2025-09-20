@@ -8,6 +8,8 @@ import android.widget.ImageView;
 
 import androidx.viewpager.widget.PagerAdapter;
 
+import com.bumptech.glide.Glide;
+
 public class BannerAdapter extends PagerAdapter {
 
     private int[] banners;
@@ -35,7 +37,15 @@ public class BannerAdapter extends PagerAdapter {
         View itemView = layoutInflater.inflate(R.layout.banner_item, container, false);
 
         ImageView imageView = itemView.findViewById(R.id.bannerImageView);
-        imageView.setImageResource(banners[position]);
+
+        // Set a scaleType to make the image fit the curved frame
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+        // Use Glide to efficiently load and display the image
+        Glide.with(context)
+                .load(banners[position])
+                .centerCrop() // Center-crop for Glide, matches the scaleType
+                .into(imageView);
 
         container.addView(itemView);
 

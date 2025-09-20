@@ -7,17 +7,14 @@ pluginManagement {
     }
 
 }
-
+//url  "https://phonepe.mycloudrepo.io/public/repositories/phonepe-intentsdk-android"
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
-        google()
-        maven { url  "https://phonepe.mycloudrepo.io/public/repositories/phonepe-intentsdk-android"
-                }
         mavenCentral()
+        maven { url 'https://jitpack.io' }
+        google()
     }
-
 }
-
 rootProject.name = "Unity App"
 include ':app'

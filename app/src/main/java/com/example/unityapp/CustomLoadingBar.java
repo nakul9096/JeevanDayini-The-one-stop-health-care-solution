@@ -1,4 +1,5 @@
 package com.example.unityapp;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -7,6 +8,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -24,5 +26,16 @@ public class CustomLoadingBar extends Dialog {
         setOnCancelListener(null);
         View view = LayoutInflater.from(context).inflate(R.layout.loading_layout,null);
         setContentView(view);
+    }
+
+    /**
+     * Placeholder method to prevent compilation errors.
+     * Note: This method does nothing as the layout does not contain a TextView
+     * to display the message.
+     */
+    public void setMessage(String message) {
+        // Log the message for debugging purposes
+        Log.d("CustomLoadingBar", "Message set: " + message);
+        // No visual changes will be made as the layout does not support a message.
     }
 }

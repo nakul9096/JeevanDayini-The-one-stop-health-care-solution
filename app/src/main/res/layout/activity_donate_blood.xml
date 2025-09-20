@@ -1,576 +1,520 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#f0f2f5">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#342F00FF"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="24dp">
 
-        <!-- Heading -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:gravity="center"
             android:text="Donor Registration Form"
-            android:textColor="#ffffff"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textColor="#212121"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="8dp" />
 
-        <!-- Mandatory Fields Text -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:gravity="end"
             android:text="* Indicates mandatory fields"
-            android:textColor="#FF0000" />
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:textColor="#E53935"
+            android:gravity="end"
+            android:textSize="12sp"
+            android:layout_marginBottom="16dp" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="8dp"
-            android:gravity="center_horizontal">
+            app:cardCornerRadius="70dp"
+            app:cardElevation="8dp"
+            android:layout_marginBottom="16dp">
 
-            <ImageView
-                android:id="@+id/imageViewPhotoProof"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_gravity="center"
-                android:contentDescription="Profile Picture"
-                android:scaleType="centerCrop"
-                android:src="@drawable/profile" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <ProgressBar
-                android:id="@+id/progressBarnew"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:visibility="gone"
-                android:layout_gravity="center" />
-        </FrameLayout>
+                <ImageView
+                    android:id="@+id/imageViewPhotoProof"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/profil" />
+
+                <ProgressBar
+                    android:id="@+id/progressBarnew"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:visibility="gone" />
+            </FrameLayout>
+        </androidx.cardview.widget.CardView>
 
         <Button
-                android:id="@+id/buttonUploadPhotoProof"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Upload Photo Proof"
-                android:layout_gravity="center"
-                android:textSize="12sp" />
+            android:id="@+id/buttonUploadPhotoProof"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:text="Upload Photo Proof"
+            android:textColor="#ffffff"
+            android:backgroundTint="#008080"
+            app:cornerRadius="12dp" />
 
-            <TextView
-                android:id="@+id/textViewUploadStatus"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:gravity="center_horizontal"
-                android:text="Photo upload successful!"
-                android:textColor="@android:color/holo_green_dark"
-                android:visibility="gone" />
+        <TextView
+            android:id="@+id/textViewUploadStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center_horizontal"
+            android:text="Photo upload successful!"
+            android:textColor="#4CAF50"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/textViewRelationType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Relation Type:"
+            android:textColor="#212121"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etFullname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Full Name"
+            android:textColorHint="#000000"
+            android:inputType="textPersonName"
+            android:padding="12dp"
+            android:background="@drawable/rounded_edittext_background" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Blood Group *"
+            android:textColor="#212121"
+            android:textSize="16sp" />
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:gravity="start"
-            android:text="Relation Type: "
-            android:textColor="#ffffff" />
-        <!-- Name Section -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="horizontal">
+            android:scrollbars="none">
 
-            <!-- First Name -->
-            <EditText
-                android:id="@+id/etFullname"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Full Name"
-                android:inputType="textPersonName"
-                android:padding="12dp" />
-        </LinearLayout>
-
-        <!-- Blood Group Section -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="vertical">
-
-            <TextView
+            <RadioGroup
+                android:id="@+id/radioGroupBloodGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:gravity="center_horizontal"
-                android:text="Blood Group *"
-                android:textColor="#ffffff" />
+                android:orientation="horizontal"
+                android:gravity="center">
 
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <!-- RadioGroup for Blood Group Options -->
-                <RadioGroup
-                    android:id="@+id/radioGroupBloodGroup"
-                    android:layout_width="match_parent"
+                <RadioButton
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:text="A+"
+                    android:textColor="#212121"
+                    android:buttonTint="#008080" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="A-"
+                    android:textColor="#212121"
+                    android:buttonTint="#008080" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="B+"
+                    android:textColor="#212121"
+                    android:buttonTint="#008080" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="B-"
+                    android:textColor="#212121"
+                    android:buttonTint="#008080" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="AB+"
+                    android:textColor="#212121"
+                    android:buttonTint="#008080" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="AB-"
+                    android:textColor="#212121"
+                    android:buttonTint="#008080" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="O+"
+                    android:textColor="#212121"
+                    android:buttonTint="#008080" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="O-"
+                    android:textColor="#212121"
+                    android:buttonTint="#008080" />
+            </RadioGroup>
+        </HorizontalScrollView>
 
-
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="A+" />
-
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="A-" />
-
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="B+" />
-
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="B-" />
-
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="AB+" />
-
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="AB-" />
-
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="O+" />
-
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="O-" />
-
-                </RadioGroup>
-            </HorizontalScrollView>
-        </LinearLayout>
-
-        <!-- Birth date Section -->
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:orientation="horizontal">
+            android:text="Birth date *"
+            android:textColor="#212121"
+            android:textSize="16sp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:gravity="center_vertical"
-                android:text="Birth date *"
-                android:textColor="#ffffff" />
-
-            <Button
-                android:id="@+id/textViewChooseDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="70dp"
-                android:layout_marginBottom="4dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center"
-                android:text="Choose date" />
-
-            <DatePicker
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:datePickerMode="calendar"
-                android:visibility="gone" />
-        </LinearLayout>
+        <Button
+            android:id="@+id/textViewChooseDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Choose date"
+            android:backgroundTint="#BDBDBD"
+            android:textColor="#424242"
+            app:cornerRadius="12dp" />
 
         <TextView
             android:id="@+id/textViewAgeWarning"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:gravity="left"
             android:text="Below 18 age group are not allowed to donate blood"
-            android:textColor="#FF0000" />
-        <!-- Gender Section -->
+            android:textColor="#E53935"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Gender *"
+            android:textColor="#212121"
+            android:textSize="16sp" />
+
+        <RadioGroup
+            android:id="@+id/radioGroupGender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Male"
+                android:textColor="#212121"
+                android:buttonTint="#008080" />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Female"
+                android:textColor="#212121"
+                android:buttonTint="#008080" />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Other"
+                android:textColor="#212121"
+                android:buttonTint="#008080" />
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Occupation"
+            android:textColor="#212121"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/eOccupation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="#000000"
+            android:inputType="text"
+            android:padding="12dp"
+            android:background="@drawable/rounded_edittext_background" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Phone Number *"
+            android:textColor="#212121"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/ePhoneNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:inputType="phone"
+            android:maxLength="10"
+            android:textColor="#000000"
+            android:padding="12dp"
+            android:background="@drawable/rounded_edittext_background" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Email *"
+            android:textColor="#212121"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/eEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:layout_marginTop="8dp"
+            android:inputType="textEmailAddress"
+            android:padding="12dp"
+            android:background="@drawable/rounded_edittext_background" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Address (street) *"
+            android:textColor="#212121"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/eAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="#000000"
+            android:inputType="text"
+            android:padding="12dp"
+            android:background="@drawable/rounded_edittext_background" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="State"
+            android:textColor="#212121"
+            android:textSize="16sp" />
+        <Spinner
+            android:id="@+id/SpinnerState"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:minHeight="48dp"
+            android:background="@drawable/spinner_background"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="City"
+            android:textColor="#212121"
+            android:textSize="16sp" />
+        <Spinner
+            android:id="@+id/SpinnerCity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:minHeight="48dp"
+            android:background="@drawable/spinner_background"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Pincode"
+            android:textColor="#212121"
+            android:textSize="16sp" />
+        <EditText
+            android:id="@+id/etpostalcode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:inputType="numberDecimal"
+            android:textColor="#000000"
+            android:maxLength="6"
+            android:padding="12dp"
+            android:background="@drawable/rounded_edittext_background" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Aadhaar Number *"
+            android:textColor="#212121"
+            android:textSize="16sp" />
+        <EditText
+            android:id="@+id/eAadhaarNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:inputType="number"
+            android:textColor="#000000"
+            android:maxLength="12"
+            android:padding="12dp"
+            android:background="@drawable/rounded_edittext_background" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:orientation="vertical">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:gravity="center_horizontal"
-                android:text="Gender *"
-                android:textColor="#ffffff" />
-
-            <!-- RadioGroup for Gender Options -->
-            <RadioGroup
-                android:id="@+id/radioGroupGender"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Male" />
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Female" />
-
-                <RadioButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Other" />
-
-            </RadioGroup>
-        </LinearLayout>
-
-        <!-- Occupation Section -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:gravity="center_horizontal"
-                android:text="Occupation"
-                android:textColor="#ffffff" />
-
-            <EditText
-                android:id="@+id/eOccupation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="text"
-                android:padding="12dp" />
-        </LinearLayout>
-
-        <!-- Phone Number Section -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:gravity="center_horizontal"
-                android:text="Phone Number *"
-                android:textColor="#ffffff" />
-
-            <EditText
-                android:id="@+id/ePhoneNumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="phone"
-                android:maxLength="10"
-                android:padding="12dp" />
-        </LinearLayout>
-
-        <!-- Email Section -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:gravity="center_horizontal"
-                android:text="Email *"
-                android:textColor="#ffffff" />
-
-            <EditText
-                android:id="@+id/eEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:padding="12dp" />
-        </LinearLayout>
-
-        <!-- Address Section -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:gravity="center_horizontal"
-                android:text="Address (street) *"
-                android:textColor="#ffffff" />
-
-            <EditText
-                android:id="@+id/eAddress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="text"
-                android:padding="12dp" />
-        </LinearLayout>
-
-        <!-- State, City, Postal Section -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="State"
-                android:textSize="18sp" />
-
-            <Spinner
-                android:id="@+id/SpinnerState"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:minHeight="48dp" />
-
-            <!-- City Selection -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="City"
-                android:textSize="18sp" />
-
-            <Spinner
-                android:id="@+id/SpinnerCity"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:minHeight="48dp" />
-
-            <EditText
-                android:id="@+id/etpostalcode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Zip Code *"
-                android:inputType="numberDecimal"
-                android:maxLength="6"
-                android:padding="12dp"
-                android:textSize="16dp" />
-        </LinearLayout>
-
-        <!-- Aadhaar Number Section -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:gravity="center_horizontal"
-                android:text="Aadhaar Number *"
-                android:textColor="#ffffff" />
-
-            <EditText
-                android:id="@+id/eAadhaarNumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:maxLength="12"
-                android:padding="12dp" />
-
-            <!-- Upload Aadhaar Card Section -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="30dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:gravity="center_vertical"
-                    android:text="Upload Aadhaar Card *"
-                    android:textColor="#ffffff" />
-
-                <Button
-                    android:id="@+id/buttonUploadAadhaarCard"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Upload"
-                    android:layout_marginLeft="80dp"
-                    android:textSize="10sp" />
-                <ProgressBar
-                    android:id="@+id/progressBarAadhar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/buttonUploadAadhaarCard"
-                    android:visibility="gone"
-                   />
-            </LinearLayout>
-            <!-- Blood Donation Section -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
-                    android:gravity="center_horizontal"
-                    android:text="Did you ever donate blood before? *"
-                    android:textColor="#ffffff"
-                    android:textSize="12dp" />
-
-                <RadioGroup
-                    android:id="@+id/radioGroupBloodDonation"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginBottom="30dp"
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:id="@+id/radioButtonBloodDonationYes"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Yes"
-                        android:textSize="10dp" />
-
-                    <RadioButton
-                        android:id="@+id/radioButtonBloodDonationNo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="No"
-                        android:textSize="10dp" />
-                </RadioGroup>
-            </LinearLayout>
-            <TextView
-                android:id="@+id/textViewDescribeDonation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:text="Describe when you donated blood recently *"
-                android:textColor="#ffffff"
-                android:textSize="12dp" />
-
+                android:layout_weight="1"
+                android:text="Upload Aadhaar Card *"
+                android:textColor="#000000"
+                android:textSize="16sp" />
             <Button
-                android:id="@+id/buttonChooseDate"
+                android:id="@+id/buttonUploadAadhaarCard"
                 android:layout_width="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:visibility="gone"
                 android:layout_height="wrap_content"
-                android:text="Choose Date" />
-            <!-- Disease History Section -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
-                    android:gravity="center_horizontal"
-                    android:text="Did you suffer from any diseases? *"
-                    android:textColor="#ffffff"
-                    android:textSize="12dp" />
-
-                <RadioGroup
-                    android:id="@+id/radioGroupDiseaseHistory"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginBottom="30dp"
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:id="@+id/radioButtonDiseaseHistoryYes"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Yes"
-                        android:textSize="10dp" />
-
-                    <RadioButton
-                        android:id="@+id/radioButtonDiseaseHistoryNo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="No"
-                        android:textSize="10dp" />
-                </RadioGroup>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tvadditionalinfo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
-                    android:gravity="center_horizontal"
-                    android:text="Describe illness *"
-                    android:textColor="#ffffff"
-                    android:visibility="gone" />
-
-                <EditText
-                    android:id="@+id/editTextAdditionalInfo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textMultiLine"
-                    android:padding="12dp"
-                    android:visibility="gone" />
-            </LinearLayout>
+                android:text="Upload"
+                android:backgroundTint="#008080"
+                style="@style/ProfileActionButton"
+                app:cornerRadius="12dp"
+                android:textColor="#ffffff"/>
+            <ProgressBar
+                android:id="@+id/progressBarAadhar"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="8dp"
+                android:visibility="gone" />
         </LinearLayout>
 
-        <!-- Submit Button -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Did you ever donate blood before? *"
+            android:textColor="#212121"
+            android:textSize="16sp" />
+
+        <RadioGroup
+            android:id="@+id/radioGroupBloodDonation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/radioButtonBloodDonationYes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Yes"
+                android:layout_marginEnd="16dp"
+                android:textColor="#212121"
+                android:buttonTint="#008080" />
+            <RadioButton
+                android:id="@+id/radioButtonBloodDonationNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No"
+                android:textColor="#212121"
+                android:buttonTint="#008080" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/textViewDescribeDonation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Describe when you donated blood recently *"
+            android:textColor="#212121"
+            android:textSize="16sp"
+            android:visibility="gone" />
+        <Button
+            android:id="@+id/buttonChooseDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Choose Date"
+            android:backgroundTint="#BDBDBD"
+            android:textColor="#424242"
+            app:cornerRadius="12dp"
+            android:visibility="gone" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Did you suffer from any diseases? *"
+            android:textColor="#212121"
+            android:textSize="16sp" />
+        <RadioGroup
+            android:id="@+id/radioGroupDiseaseHistory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/radioButtonDiseaseHistoryYes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Yes"
+                android:layout_marginEnd="16dp"
+                android:textColor="#212121"
+                android:buttonTint="#008080" />
+            <RadioButton
+                android:id="@+id/radioButtonDiseaseHistoryNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No"
+                android:textColor="#212121"
+                android:buttonTint="#008080" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/tvadditionalinfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Describe illness *"
+            android:textColor="#212121"
+            android:textSize="16sp"
+            android:visibility="gone" />
+        <EditText
+            android:id="@+id/editTextAdditionalInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:inputType="textMultiLine"
+            android:padding="12dp"
+            android:background="@drawable/rounded_edittext_background"
+            android:visibility="gone" />
+
         <Button
             android:id="@+id/buttonSubmit"
-            android:layout_width="100dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="16dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="32dp"
             android:text="Submit"
-            android:textColor="#000000" />
+            style="@style/ProfileActionButton"
+            android:textColor="#ffffff"
+            android:backgroundTint="#008080"
+            app:cornerRadius="12dp"
+            android:textSize="16sp" />
     </LinearLayout>
 </ScrollView>

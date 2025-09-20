@@ -4,32 +4,30 @@
 
     <uses-feature
         android:name="android.hardware.telephony"
-        android:required="true" />
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.NFC" />
+
+    <uses-feature
+        android:name="android.hardware.nfc"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-    <permission
-        android:name="com.example.unityapp.permission.C2D_MESSAGE"
-        android:protectionLevel="signature" />
-
-    <uses-feature android:name="android.hardware.camera" />
-
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
-    <uses-permission
-        android:name="android.permission.POST_NOTIFICATIONS"
-        tools:node="remove" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
@@ -42,15 +40,21 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
-        android:label="Jeevandayini"
+        android:label="JEEVANDAYINI"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat"
+        android:theme="@style/Theme.UnityApp"
         android:usesCleartextTraffic="true"
-        tools:targetApi="31">
+        tools:targetApi="36">
+        <activity
+            android:name=".QrScannerActivity"
+            android:screenOrientation="fullSensor"
+            android:exported="false" />
         <activity
             android:name=".Jeevancard"
             android:exported="false" />
+        <activity android:name=".DisplayProfileActivity"
+            android:exported="true" />
         <activity
             android:name=".Transactions"
             android:exported="false" />
@@ -98,15 +102,6 @@
             android:name=".RequestBlood"
             android:exported="false"
             android:theme="@style/Theme.MaterialComponents" />
-
-        <service
-            android:name=".MyFirebaseMessagingService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-
         <activity
             android:name=".UploadTestReport"
             android:exported="false" />
@@ -191,15 +186,6 @@
         <activity
             android:name=".Privacy"
             android:exported="false" />
-
-        <service
-            android:name=".CustomMessagingService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-
         <activity
             android:name=".DonateBlood"
             android:exported="false"
@@ -216,6 +202,7 @@
         <activity
             android:name=".FindClinics"
             android:exported="false"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Booking"
@@ -223,13 +210,16 @@
             android:theme="@style/Theme.MaterialComponents" />
         <activity
             android:name=".Session"
-            android:exported="false" />
+            android:exported="false"/>
         <activity
             android:name=".Login"
             android:exported="false" />
         <activity
             android:name=".ImagePreview"
             android:exported="false" />
+        <activity
+            android:name=".NfcActivity"
+            android:exported="true"/>
         <activity
             android:name=".RegisterAdmin"
             android:exported="false"
@@ -240,7 +230,7 @@
             android:theme="@style/Theme.Material3.Light.Dialog.Alert" />
         <activity
             android:name=".HomeDashboard"
-            android:exported="false" /> <!-- Razorpay Checkout Activity -->
+            android:exported="true"/>
         <activity
             android:name="com.razorpay.CheckoutActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
@@ -254,7 +244,8 @@
                     android:host="rzp.io"
                     android:scheme="io.rzp" />
             </intent-filter>
-        </activity> <!-- Razorpay Token Receiver -->
+        </activity>
+
         <receiver
             android:name="com.razorpay.RzpTokenReceiver"
             android:exported="false"
@@ -273,19 +264,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-1166821612575626~1186268166" />
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/notification" />
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/colorAccent" />
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="@string/default_notification_channelid" />
         <meta-data
             android:name="com.phonepe.android.sdk.isUAT"
             android:value="true" />
@@ -293,32 +271,17 @@
             android:name="com.phonepe.android.sdk.isSimulator"
             android:value="true" />
         <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="${razorpayApiKey}" />
+
+        <meta-data
             android:name="sqip.SQUARE_APPLICATION_ID"
-            android:value="sandbox-sq0idb-lnTDlOufsuYTs9hbtOESCg" />
+            android:value="${squareApiKey}" />
+
         <meta-data
             android:name="com.phonepe.android.sdk.MerchantId"
-            android:value="ATMOSTUAT" />
-        <meta-data
-            android:name="com.google.firebase.messaging.12345"
-            android:value="12345" />
+            android:value="${phonepeMerchantId}" />
 
-        <receiver
-            android:name=".NotificationReceiver"
-            android:enabled="true"
-            android:exported="false" />
-
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/notification" />
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDYET3tC0xF7DuR5DU659ZlaxfJQktZNj8" />
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/colorAccent" />
-        <meta-data
-            android:name="com.razorpay.ApiKey"
-            android:value="rzp_test_FY7GOm27Z0Zc8P" />
     </application>
 
 </manifest>

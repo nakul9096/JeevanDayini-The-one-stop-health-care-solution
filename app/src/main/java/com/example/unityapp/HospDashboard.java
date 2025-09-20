@@ -9,28 +9,27 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.text.Editable;
-import android.text.Html;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.MenuInflater;
 import android.view.View;
 import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -52,11 +51,8 @@ import java.util.Calendar;
 
 public class HospDashboard extends AppCompatActivity {
     private final Handler handler = new Handler();
-    private TextView textViewAdminId, helloTextView;
-    private ImageView imageView1, imageView2, imageView3, imageView4;
-    private Button[] dayButtons;
+    private TextView textViewAdminId;
     private TextView marqueetextview;
-    private TextView[] textTimings;
     private Button setClinicName;
     private TextView organizationNameTV;
     private DrawerLayout drawerLayout;
@@ -69,17 +65,15 @@ public class HospDashboard extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private ProgressDialog progressDialog;
 
+    private CardView[] scheduleLayouts;
+    private String[] days = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hosp_dashboard);
         setClinicName = findViewById(R.id.setClinicNameButton);
         textViewAdminId = findViewById(R.id.adminIdTextView4);
-        helloTextView = findViewById(R.id.helloTextView);
-        imageView1 = findViewById(R.id.imageView18);
-        imageView2 = findViewById(R.id.imageView2);
-        imageView3 = findViewById(R.id.imageView3);
-        imageView4 = findViewById(R.id.imageView4);
         marqueetextview = findViewById(R.id.marqueeText);
         marqueetextview.setEllipsize(TextUtils.TruncateAt.MARQUEE);
         marqueetextview.setSelected(true);
@@ -94,22 +88,11 @@ public class HospDashboard extends AppCompatActivity {
         setDetailsBtn = findViewById(R.id.buttonSetOtherInformation);
         progressDialog = new ProgressDialog(HospDashboard.this);
         progressDialog.setMessage("Loading data...");
-        setDetailsBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDetailsDialog();
-            }
-        });
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                reloadData();
-            }
-        });
+        setDetailsBtn.setOnClickListener(v -> showDetailsDialog());
+        swipeRefreshLayout.setOnRefreshListener(this::reloadData);
         ongoingAppointmentEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                // Nothing to do here
             }
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -124,10 +107,8 @@ public class HospDashboard extends AppCompatActivity {
                         updateDatabase(encodedEmail, newValue);
                     }
                 };
-
                 handler.postDelayed(updateDatabaseRunnable, 3000);
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
             }
@@ -143,27 +124,23 @@ public class HospDashboard extends AppCompatActivity {
         checkAndSetClinicName();
         navigationView.setNavigationItemSelectedListener(item -> {
             int id = item.getItemId();
-
             if (id == R.id.menu_home) {
-                // Handle Home click
             } else if (id == R.id.menu_donation_requests) {
                 Intent intent = new Intent(HospDashboard.this, Donation_req_hosp.class);
                 startActivity(intent);
             } else if (id == R.id.menu_upload_prescription) {
                 Intent intent = new Intent(HospDashboard.this, UploadPrescription.class);
                 startActivity(intent);
-            }
-            else if (id == R.id.menu_upload_test_report) {
+            } else if (id == R.id.menu_upload_test_report) {
                 Intent intent = new Intent(HospDashboard.this, UploadTestReport.class);
                 startActivity(intent);
             } else if (id == R.id.requestbloodbtn) {
                 Intent intent = new Intent(HospDashboard.this, RequestBlood.class);
                 startActivity(intent);
-            }
-            else if (id == R.id.menu_viewbr) {
+            } else if (id == R.id.menu_viewbr) {
                 Intent intent = new Intent(HospDashboard.this, ViewBloodRequests.class);
                 startActivity(intent);
-            }else if (id == R.id.menu_lco) {
+            } else if (id == R.id.menu_lco) {
                 Intent intent = new Intent(HospDashboard.this, ListOnline.class);
                 startActivity(intent);
             } else if (id == R.id.menu_logout) {
@@ -175,51 +152,12 @@ public class HospDashboard extends AppCompatActivity {
             drawerLayout.closeDrawer(GravityCompat.START);
             return true;
         });
-        dayButtons = new Button[]{
-                findViewById(R.id.buttonMonday),
-                findViewById(R.id.buttonTuesday),
-                findViewById(R.id.buttonWednesday),
-                findViewById(R.id.buttonThursday),
-                findViewById(R.id.buttonFriday),
-                findViewById(R.id.buttonSaturday),
-                findViewById(R.id.buttonSunday)
-        };
-        textTimings = new TextView[]{
-                findViewById(R.id.textMondayTimings),
-                findViewById(R.id.textTuesdayTimings),
-                findViewById(R.id.textWednesdayTimings),
-                findViewById(R.id.textThursdayTimings),
-                findViewById(R.id.textFridayTimings),
-                findViewById(R.id.textSaturdayTimings),
-                findViewById(R.id.textSundayTimings)
-        };
         setupDayButtons();
         checkPremiumUser();
-        ImageView menuPlaceholder = findViewById(R.id.menuPlaceholder);
-        menuPlaceholder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openLeftMenuDrawer();
-            }
-        });
-        setClinicName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setClinicNameButtonClick();
-            }
-        });
-        setMapUrlbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setMapUrl();
-            }
-        });
-        bdbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showBloodDonationDialog();
-            }
-        });
+        findViewById(R.id.menu_icon).setOnClickListener(v -> openLeftMenuDrawer());
+        setClinicName.setOnClickListener(v -> setClinicNameButtonClick());
+        setMapUrlbtn.setOnClickListener(v -> setMapUrl());
+        bdbutton.setOnClickListener(v -> showBloodDonationDialog());
     }
 
     private void showDetailsDialog() {
@@ -232,27 +170,19 @@ public class HospDashboard extends AppCompatActivity {
         final EditText appointmentFeeEditText = dialogView.findViewById(R.id.appointmentFeeEditText);
         final EditText tokenslotsEditText = dialogView.findViewById(R.id.tokenslotsEditText);
         builder.setView(dialogView);
-        builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String address = addressEditText.getText().toString().trim();
-                String pincode = pincodeEditText.getText().toString().trim();
-                String specialty = specialtyEditText.getText().toString().trim();
-                String appointmentFee = appointmentFeeEditText.getText().toString().trim();
-                String tokenslots = tokenslotsEditText.getText().toString().trim();
-                if (!address.isEmpty() && !pincode.isEmpty() && !specialty.isEmpty() && !appointmentFee.isEmpty() && !tokenslots.isEmpty()) {
-                    updateClinicDetails(address, pincode, specialty, appointmentFee, tokenslots);
-                } else {
-                    Toast.makeText(HospDashboard.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
-                }
+        builder.setPositiveButton("Submit", (dialog, which) -> {
+            String address = addressEditText.getText().toString().trim();
+            String pincode = pincodeEditText.getText().toString().trim();
+            String specialty = specialtyEditText.getText().toString().trim();
+            String appointmentFee = appointmentFeeEditText.getText().toString().trim();
+            String tokenslots = tokenslotsEditText.getText().toString().trim();
+            if (!address.isEmpty() && !pincode.isEmpty() && !specialty.isEmpty() && !appointmentFee.isEmpty() && !tokenslots.isEmpty()) {
+                updateClinicDetails(address, pincode, specialty, appointmentFee, tokenslots);
+            } else {
+                Toast.makeText(HospDashboard.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             }
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
         builder.show();
     }
 
@@ -269,46 +199,24 @@ public class HospDashboard extends AppCompatActivity {
             hospitalRef.child("slots").setValue(tokenslots);
             setDetailsBtn.setText("Update");
             Toast.makeText(HospDashboard.this, "Clinic details updated successfully", Toast.LENGTH_SHORT).show();
-        } else {
-            Log.d("HospDashboard", "User email is null");
         }
     }
 
     private void setupDayButtons() {
-        for (int i = 0; i < dayButtons.length; i++) {
-            final String day = getDayString(i);
-            setButtonClickListener(dayButtons[i], day);
+        scheduleLayouts = new CardView[]{
+                findViewById(R.id.mondayRow),
+                findViewById(R.id.tuesdayRow),
+                findViewById(R.id.wednesdayRow),
+                findViewById(R.id.thursdayRow),
+                findViewById(R.id.fridayRow),
+                findViewById(R.id.saturdayRow),
+                findViewById(R.id.sundayRow)
+        };
+        for (int i = 0; i < scheduleLayouts.length; i++) {
+            final String day = days[i];
+            Button setButton = scheduleLayouts[i].findViewById(R.id.setButton);
+            setButton.setOnClickListener(v -> showTimePicker(day));
         }
-    }
-
-    private String getDayString(int dayIndex) {
-        switch (dayIndex) {
-            case 0:
-                return "Monday";
-            case 1:
-                return "Tuesday";
-            case 2:
-                return "Wednesday";
-            case 3:
-                return "Thursday";
-            case 4:
-                return "Friday";
-            case 5:
-                return "Saturday";
-            case 6:
-                return "Sunday";
-            default:
-                return "";
-        }
-    }
-
-    private void setButtonClickListener(Button button, final String day) {
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showTimePicker(day);
-            }
-        });
     }
 
     private void checkAndSetClinicName() {
@@ -317,7 +225,6 @@ public class HospDashboard extends AppCompatActivity {
             DatabaseReference hospitalsRef = FirebaseDatabase.getInstance().getReference("hospitals");
             String childPath = sanitizeEmailForChildPath(currentUserEmail);
             DatabaseReference hospitalRef = hospitalsRef.child(childPath);
-
             hospitalRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -331,33 +238,29 @@ public class HospDashboard extends AppCompatActivity {
                         bdbutton.setText("Update");
                     }
                     if (dataSnapshot.hasChild("timings")) {
-                        for (int i = 0; i < dayButtons.length; i++) {
-                            String day = getDayString(i);
+                        for (int i = 0; i < days.length; i++) {
+                            String day = days[i];
                             String startTime = dataSnapshot.child("timings").child(day + "_start").getValue(String.class);
                             String endTime = dataSnapshot.child("timings").child(day + "_end").getValue(String.class);
                             if (startTime != null && endTime != null) {
-                                textTimings[i].setText("Start: " + startTime + "\nEnd: " + endTime);
-                                dayButtons[i].setText("Update");
+                                TextView timingsTextView = scheduleLayouts[i].findViewById(R.id.timingsTextView);
+                                timingsTextView.setText(startTime + " - " + endTime);
                             }
                         }
                     }
                     if (dataSnapshot.hasChild("status")) {
                         marqueetextview.setText("Congratulations! Your clinic is live and visible to all users on JEEVANDAYINI app.");
-                        marqueetextview.setTextColor(Color.GREEN);
+                        marqueetextview.setTextColor(Color.parseColor("#4CAF50"));
                     }
                     if (dataSnapshot.hasChild("name")) {
                         String clinicName = dataSnapshot.child("name").getValue(String.class);
-                        String htmlText = "<html><body style=\"text-align:center;\">Hello,<br>" + clinicName + "</body></html>";
-                        String currentUserEmail = getCurrentUserEmail();
+                        organizationNameTV.setText(clinicName);
+                        setClinicName.setVisibility(View.GONE);
                         SharedPreferences preferences = getSharedPreferences("HospData", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = preferences.edit();
                         editor.putString("hospital_email", currentUserEmail);
                         editor.putString("hospital_name", clinicName);
-                        Log.d("newdebug","hosp_email"+currentUserEmail);
-                        Log.d("newdebug","hosp_email"+clinicName);
                         editor.apply();
-                        organizationNameTV.setText(Html.fromHtml(htmlText));
-                        setClinicName.setVisibility(View.GONE);
                     }
                 }
 
@@ -366,60 +269,28 @@ public class HospDashboard extends AppCompatActivity {
                     Log.e("HospDashboard", "Database error: " + databaseError.getMessage());
                 }
             });
-        } else {
-            Log.d("HospDashboard", "User email is null");
         }
     }
+
     private void setClinicNameButtonClick() {
         String currentUserEmail = getCurrentUserEmail();
         if (currentUserEmail != null) {
-            DatabaseReference hospitalsRef = FirebaseDatabase.getInstance().getReference("hospitals");
-            String childPath = sanitizeEmailForChildPath(currentUserEmail);
-            DatabaseReference hospitalRef = hospitalsRef.child(childPath);
-            hospitalRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(HospDashboard.this);
-                    builder.setTitle("Enter Clinic Name");
-                    final EditText input = new EditText(HospDashboard.this);
-                    input.setInputType(InputType.TYPE_CLASS_TEXT);
-                    input.setHint("Clinic Name");
-                    builder.setView(input);
-                    builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            String clinicName = input.getText().toString().trim();
-                            if (!clinicName.isEmpty()) {
-                                progressDialog.dismiss();
-                                // Handle the clinic name submission
-                                processClinicName(clinicName);
-                            } else {
-                                // Display a toast or alert that the clinic name cannot be empty
-                                progressDialog.dismiss();
-                                Toast.makeText(HospDashboard.this, "Please enter a valid clinic name", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-
-                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
-
-                    builder.show();
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    progressDialog.dismiss();
-                    Log.e("HospDashboard", "Database error: " + databaseError.getMessage());
+            AlertDialog.Builder builder = new AlertDialog.Builder(HospDashboard.this);
+            builder.setTitle("Enter Clinic Name");
+            final EditText input = new EditText(HospDashboard.this);
+            input.setInputType(InputType.TYPE_CLASS_TEXT);
+            input.setHint("Clinic Name");
+            builder.setView(input);
+            builder.setPositiveButton("Submit", (dialog, which) -> {
+                String clinicName = input.getText().toString().trim();
+                if (!clinicName.isEmpty()) {
+                    processClinicName(clinicName);
+                } else {
+                    Toast.makeText(HospDashboard.this, "Please enter a valid clinic name", Toast.LENGTH_SHORT).show();
                 }
             });
-        } else {
-            progressDialog.dismiss();
-            Log.d("HospDashboard", "User email is null");
+            builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+            builder.show();
         }
     }
 
@@ -428,29 +299,10 @@ public class HospDashboard extends AppCompatActivity {
         if (currentUserEmail != null) {
             String childPath = sanitizeEmailForChildPath(currentUserEmail);
             DatabaseReference adminRef = FirebaseDatabase.getInstance().getReference("hospitals").child(childPath);
-            adminRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        adminRef.child("name").setValue(clinicName);
-                        organizationNameTV.setText(clinicName);
-                        setClinicName.setVisibility(View.GONE);
-                        Toast.makeText(HospDashboard.this, "Clinic name updated successfully", Toast.LENGTH_SHORT).show();
-                    } else {
-                        dataSnapshot.getRef().child("name").setValue(clinicName);
-                        helloTextView.setText("Hello, \n" + clinicName);
-                        reloadData();
-                        Log.d("HospDashboard", "No data found for email: " + currentUserEmail);
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    Log.e("HospDashboard", "Database error: " + databaseError.getMessage());
-                }
-            });
-        } else {
-            Log.d("HospDashboard", "User email is null");
+            adminRef.child("name").setValue(clinicName);
+            organizationNameTV.setText(clinicName);
+            setClinicName.setVisibility(View.GONE);
+            Toast.makeText(HospDashboard.this, "Clinic name updated successfully", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -472,14 +324,12 @@ public class HospDashboard extends AppCompatActivity {
                             String bannerImageUrl2 = adminSnapshot.child("imageUrlHorizontal2").getValue(String.class);
                             String bannerImageUrl3 = adminSnapshot.child("imageUrlHorizontal3").getValue(String.class);
                             String bannerImageUrl4 = adminSnapshot.child("imageUrlIdentity1").getValue(String.class);
-                            loadImageWithGlide(bannerImageUrl4, imageView1);
-                            loadImageWithGlide(bannerImageUrl1, imageView2);
-                            loadImageWithGlide(bannerImageUrl2, imageView3);
-                            loadImageWithGlide(bannerImageUrl3, imageView4);
+                            loadImageWithGlide(bannerImageUrl1, findViewById(R.id.image_carousel_1));
+                            loadImageWithGlide(bannerImageUrl2, findViewById(R.id.image_carousel_2));
+                            loadImageWithGlide(bannerImageUrl3, findViewById(R.id.image_carousel_3));
+                            loadImageWithGlide(bannerImageUrl4, findViewById(R.id.image_carousel_4));
                             String adminId = adminSnapshot.child("adminId").getValue(String.class);
                             textViewAdminId.setText("Admin ID: " + adminId);
-                            String name = adminSnapshot.child("organizationName").getValue(String.class);
-                            helloTextView.setText("Hello, \n" + name);
                             progressDialog.dismiss();
                         }
                     } else {
@@ -492,8 +342,6 @@ public class HospDashboard extends AppCompatActivity {
                     Log.e("HospDashboard", "Database error: " + databaseError.getMessage());
                 }
             });
-        } else {
-            Log.d("HospDashboard", "User email is null");
         }
     }
 
@@ -501,44 +349,24 @@ public class HospDashboard extends AppCompatActivity {
         final Calendar calendar = Calendar.getInstance();
         int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
         int currentMinute = calendar.get(Calendar.MINUTE);
-
         TimePickerDialog startTimePickerDialog = new TimePickerDialog(this,
-                new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, final int startHourOfDay, final int startMinute) {
-                        // Start Time selected, show End Time picker
-                        TimePickerDialog endTimePickerDialog = new TimePickerDialog(HospDashboard.this,
-                                new TimePickerDialog.OnTimeSetListener() {
-                                    @Override
-                                    public void onTimeSet(TimePicker view, int endHourOfDay, int endMinute) {
-                                        // End Time selected, process the times
-                                        String startTime = formatTime(startHourOfDay, startMinute);
-                                        String endTime = formatTime(endHourOfDay, endMinute);
-                                        processStartAndEndTime(day, startTime, endTime);
-                                    }
-                                }, currentHour, currentMinute, false);
-
-                        endTimePickerDialog.show();
-                    }
+                (view, startHourOfDay, startMinute) -> {
+                    TimePickerDialog endTimePickerDialog = new TimePickerDialog(HospDashboard.this,
+                            (view1, endHourOfDay, endMinute) -> {
+                                String startTime = formatTime(startHourOfDay, startMinute);
+                                String endTime = formatTime(endHourOfDay, endMinute);
+                                processStartAndEndTime(day, startTime, endTime);
+                            }, currentHour, currentMinute, false);
+                    endTimePickerDialog.show();
                 }, currentHour, currentMinute, false);
-
         startTimePickerDialog.show();
-    }
-
-    private int getDayIndex(String day) {
-        for (int i = 0; i < dayButtons.length; i++) {
-            if (getDayString(i).equals(day)) {
-                return i;
-            }
-        }
-        return -1;
     }
 
     private void processStartAndEndTime(String day, String startTime, String endTime) {
         int dayIndex = getDayIndex(day);
         if (dayIndex != -1) {
-            textTimings[dayIndex].setText("Start: " + startTime + "\nEnd: " + endTime);
-            dayButtons[dayIndex].setText("Update");
+            TextView timingsTextView = scheduleLayouts[dayIndex].findViewById(R.id.timingsTextView);
+            timingsTextView.setText(startTime + " - " + endTime);
         }
         DatabaseReference hospitalsRef = FirebaseDatabase.getInstance().getReference("hospitals");
         String currentUserEmail = getCurrentUserEmail();
@@ -549,46 +377,30 @@ public class HospDashboard extends AppCompatActivity {
         Toast.makeText(HospDashboard.this, "Timings updated successfully", Toast.LENGTH_SHORT).show();
     }
 
-    private String formatTime(int hour, int minute) {
-        return String.format("%02d:%02d", hour, minute);
-    }
-
-    private void updateButtonAndSaveTimings(final String day, final String selectedTime) {
-        DatabaseReference hospitalsRef = FirebaseDatabase.getInstance().getReference("hospitals");
-        String currentUserEmail = getCurrentUserEmail();
-        String childPath = currentUserEmail.replace("@", "").replace(".", "");
-        DatabaseReference hospitalRef = hospitalsRef.child(childPath);
-        hospitalRef.child("timings").child(day).setValue(selectedTime, new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(@NonNull DatabaseError error, @NonNull DatabaseReference ref) {
-                if (error == null) {
-                    String buttonText = "Update: " + selectedTime;
-                    for (Button button : dayButtons) {
-                        String buttonDay = getDayString(dayButtons, button);
-                        if (buttonDay.equals(day)) {
-                            button.setText(buttonText);
-                            break;
-                        }
-                    }
-                    Toast.makeText(HospDashboard.this, "Timings updated successfully", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(HospDashboard.this, "Failed to update timings", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
-
-    private String getDayString(Button[] dayButtons, Button button) {
-        for (int i = 0; i < dayButtons.length; i++) {
-            if (dayButtons[i] == button) {
-                return getDayString(i);
+    private int getDayIndex(String day) {
+        for (int i = 0; i < days.length; i++) {
+            if (days[i].equals(day)) {
+                return i;
             }
         }
-        return "";
+        return -1;
+    }
+
+    private String formatTime(int hour, int minute) {
+        String ampm = "AM";
+        if (hour >= 12) {
+            ampm = "PM";
+            if (hour > 12) {
+                hour -= 12;
+            }
+        } else if (hour == 0) {
+            hour = 12;
+        }
+        return String.format("%d:%02d %s", hour, minute, ampm);
     }
 
     private void loadImageWithGlide(String imageUrl, ImageView imageView) {
-        if (!isDestroyed()) {
+        if (!isDestroyed() && imageUrl != null && !imageUrl.isEmpty()) {
             Glide.with(this)
                     .load(imageUrl)
                     .placeholder(R.drawable.placeholder_image)
@@ -599,17 +411,11 @@ public class HospDashboard extends AppCompatActivity {
     }
 
     private String getCurrentUserEmail() {
-        FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseUser user = auth.getCurrentUser();
-        if (user != null) {
-            return user.getEmail();
-        } else {
-            return null;
-        }
+        FirebaseUser user = mAuth.getCurrentUser();
+        return (user != null) ? user.getEmail() : null;
     }
 
     public void openLeftMenuDrawer() {
-        DrawerLayout drawerLayout = findViewById(R.id.drawerLayout);
         drawerLayout.openDrawer(GravityCompat.START);
     }
 
@@ -620,27 +426,19 @@ public class HospDashboard extends AppCompatActivity {
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         input.setHint("Map URL");
         builder.setView(input);
-        builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String mapUrl = input.getText().toString().trim();
-                if (!mapUrl.isEmpty()) {
-                    if (isValidUrl(mapUrl)) {
-                        processMapUrl(mapUrl);
-                    } else {
-                        Toast.makeText(HospDashboard.this, "Invalid URL format", Toast.LENGTH_SHORT).show();
-                    }
+        builder.setPositiveButton("Submit", (dialog, which) -> {
+            String mapUrl = input.getText().toString().trim();
+            if (!mapUrl.isEmpty()) {
+                if (isValidUrl(mapUrl)) {
+                    processMapUrl(mapUrl);
                 } else {
-                    Toast.makeText(HospDashboard.this, "Please enter a map URL", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(HospDashboard.this, "Invalid URL format", Toast.LENGTH_SHORT).show();
                 }
+            } else {
+                Toast.makeText(HospDashboard.this, "Please enter a map URL", Toast.LENGTH_SHORT).show();
             }
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
         builder.show();
     }
 
@@ -649,15 +447,12 @@ public class HospDashboard extends AppCompatActivity {
         String currentUserEmail = getCurrentUserEmail();
         String childPath = currentUserEmail.replace("@", "").replace(".", "");
         DatabaseReference hospitalRef = hospitalsRef.child(childPath);
-        hospitalRef.child("mapUrl").setValue(mapUrl, new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(@NonNull DatabaseError error, @NonNull DatabaseReference ref) {
-                if (error == null) {
-                    Toast.makeText(HospDashboard.this, "Map URL updated successfully", Toast.LENGTH_SHORT).show();
-                    recreate();
-                } else {
-                    Toast.makeText(HospDashboard.this, "Failed to update map URL", Toast.LENGTH_SHORT).show();
-                }
+        hospitalRef.child("mapUrl").setValue(mapUrl, (error, ref) -> {
+            if (error == null) {
+                Toast.makeText(HospDashboard.this, "Map URL updated successfully", Toast.LENGTH_SHORT).show();
+                recreate();
+            } else {
+                Toast.makeText(HospDashboard.this, "Failed to update map URL", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -666,23 +461,9 @@ public class HospDashboard extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Blood Donation Facility")
                 .setMessage("Is your hospital/clinic equipped with the facility to donate blood?")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        setBloodDonationFacility("Yes");
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        setBloodDonationFacility("No");
-                    }
-                })
-                .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                    }
-                })
+                .setPositiveButton("Yes", (dialogInterface, i) -> setBloodDonationFacility("Yes"))
+                .setNegativeButton("No", (dialogInterface, i) -> setBloodDonationFacility("No"))
+                .setNeutralButton("Cancel", (dialogInterface, i) -> dialogInterface.dismiss())
                 .show();
     }
 
@@ -702,36 +483,14 @@ public class HospDashboard extends AppCompatActivity {
         if (!newValue.isEmpty()) {
             DatabaseReference hospitalsRef = FirebaseDatabase.getInstance().getReference("hospitals");
             DatabaseReference hospitalRef = hospitalsRef.child(currentEmail);
-            hospitalRef.child("ongoingAppointment").setValue(newValue, new DatabaseReference.CompletionListener() {
-                @Override
-                public void onComplete(@NonNull DatabaseError error, @NonNull DatabaseReference ref) {
-                    if (error == null) {
-                        Toast.makeText(HospDashboard.this, "Ongoing appointment updated successfully: " + newValue, Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(HospDashboard.this, "Failed to update ongoing appointment", Toast.LENGTH_SHORT).show();
-                    }
+            hospitalRef.child("ongoingAppointment").setValue(newValue, (error, ref) -> {
+                if (error == null) {
+                    Toast.makeText(HospDashboard.this, "Ongoing appointment updated successfully: " + newValue, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(HospDashboard.this, "Failed to update ongoing appointment", Toast.LENGTH_SHORT).show();
                 }
             });
         }
-    }
-
-    public void showPopupMenu(View view) {
-        PopupMenu popupMenu = new PopupMenu(this, view);
-        MenuInflater inflater = popupMenu.getMenuInflater();
-        inflater.inflate(R.menu.logout_menu, popupMenu.getMenu());
-        popupMenu.setOnMenuItemClickListener(item -> {
-            if (item.getItemId() == R.id.menu_logout_btn) {
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(HospDashboard.this, HomeDashboard.class);
-                startActivity(intent);
-                finishAffinity();
-                return true;
-            } else if (item.getItemId() == R.id.menu_change_password_btn) {
-                changePass();
-            }
-            return false;
-        });
-        popupMenu.show();
     }
 
     private void reloadData() {
@@ -739,41 +498,35 @@ public class HospDashboard extends AppCompatActivity {
         swipeRefreshLayout.setRefreshing(false);
     }
 
-    public void changePass() {
+    private void changePass() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Are you sure you want to reset your password? You will be logged out.")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        FirebaseUser currentUser = mAuth.getCurrentUser();
-                        if (currentUser != null) {
-                            String email = currentUser.getEmail();
-                            Log.d("Changed1", "password reset email sent to: " + email);
-                            mAuth.signOut();
-                            mAuth.sendPasswordResetEmail(email)
-                                    .addOnCompleteListener(HospDashboard.this, task -> {
-                                        if (task.isSuccessful()) {
-                                            Toast.makeText(HospDashboard.this, "Password reset email sent to your registered email address.", Toast.LENGTH_SHORT).show();
-                                            FirebaseAuth.getInstance().signOut();
-                                            SharedPreferences preferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-                                            SharedPreferences.Editor editor = preferences.edit();
-                                            editor.remove("userUid");
-                                            editor.apply();
-                                            Intent intent = new Intent(HospDashboard.this, HomeDashboard.class);
-                                            startActivity(intent);
-                                            finish();
-                                        } else {
-                                            Toast.makeText(HospDashboard.this, "Failed to send password reset email. Please check your email address.", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                        }
+                .setPositiveButton("Yes", (dialog, id) -> {
+                    FirebaseUser currentUser = mAuth.getCurrentUser();
+                    if (currentUser != null) {
+                        String email = currentUser.getEmail();
+                        mAuth.sendPasswordResetEmail(email)
+                                .addOnCompleteListener(HospDashboard.this, task -> {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(HospDashboard.this, "Password reset email sent to your registered email address.", Toast.LENGTH_SHORT).show();
+                                        FirebaseAuth.getInstance().signOut();
+                                        SharedPreferences preferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                                        SharedPreferences.Editor editor = preferences.edit();
+                                        editor.remove("userUid");
+                                        editor.apply();
+                                        Intent intent = new Intent(HospDashboard.this, HomeDashboard.class);
+                                        startActivity(intent);
+                                        finish();
+                                    } else {
+                                        Toast.makeText(HospDashboard.this, "Failed to send password reset email. Please check your email address.", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                     }
                 })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                    }
-                });
+                .setNegativeButton("No", (dialog, id) -> dialog.dismiss());
         builder.create().show();
     }
+
     private boolean isValidUrl(String url) {
         if (URLUtil.isValidUrl(url)) {
             try {
@@ -785,17 +538,15 @@ public class HospDashboard extends AppCompatActivity {
         }
         return false;
     }
+
     private void removeOngoingAppointmentFromDatabase(String currentEmail) {
         DatabaseReference hospitalsRef = FirebaseDatabase.getInstance().getReference("hospitals");
         DatabaseReference hospitalRef = hospitalsRef.child(currentEmail).child("ongoingAppointment");
-        hospitalRef.removeValue(new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                if (error == null) {
-                    Toast.makeText(HospDashboard.this, "Ongoing appointment removed successfully", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(HospDashboard.this, "Failed to remove ongoing appointment", Toast.LENGTH_SHORT).show();
-                }
+        hospitalRef.removeValue((error, ref) -> {
+            if (error == null) {
+                Toast.makeText(HospDashboard.this, "Ongoing appointment removed successfully", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(HospDashboard.this, "Failed to remove ongoing appointment", Toast.LENGTH_SHORT).show();
             }
         });
     }

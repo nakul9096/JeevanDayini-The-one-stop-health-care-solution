@@ -793,4 +793,6 @@ We prioritize user privacy and employ measures to responsibly share data with re
         <item>Siliguri</item>
         <item>Suri</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

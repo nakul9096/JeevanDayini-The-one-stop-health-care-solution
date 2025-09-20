@@ -38,7 +38,7 @@ public class DocumentRequest extends AppCompatActivity {
     private FirebaseDatabase database;
     private CardView nameCard;
     APIService apiService;
-    String serverBaseUrl = "http://192.168.173.40:5000";
+    String serverBaseUrl = "http://192.168.94.40:5000";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

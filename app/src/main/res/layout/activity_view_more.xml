@@ -1,408 +1,406 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="@color/background_dark">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:paddingBottom="24dp">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="7dp">
+        <!-- Header (Optional - if you want a back button or title at the very top of the screen) -->
+        <!-- For now, the CardView below acts as the main content container -->
 
-            <ProgressBar
-                android:id="@+id/progressBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:visibility="visible" />
-
+        <!-- Clinic Details Card -->
         <androidx.cardview.widget.CardView
-            android:id="@+id/cardClinic"
-            android:layout_width="match_parent"
+            android:id="@+id/cardClinicDetails"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
             app:cardCornerRadius="12dp"
-            app:cardElevation="4dp">
+            app:cardElevation="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/android_fade"
-            android:padding="16dp">
-
-            <TextView
-                android:id="@+id/textClinicName1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Clinic Name"
-                android:textSize="22sp"
-                android:textStyle="bold" />
-
-            <!-- Add borders between sections -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#CCCCCC" />
-
-            <!-- Clinic Type -->
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp">
+                android:background="@color/card_background"
+                android:padding="16dp">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/clinic" />
-
+                <!-- Clinic Name -->
                 <TextView
-                    android:id="@+id/textClinictype"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/textClinicName"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
+                    android:textAlignment="center"
+                    android:textColor="@color/text_primary"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Best Diagnostic Center Ever" />
+
+                <View
+                    android:id="@+id/divider1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/divider_dark"
+                    app:layout_constraintTop_toBottomOf="@+id/textClinicName" />
+
+                <!-- Clinic Type -->
+                <LinearLayout
+                    android:id="@+id/clinicTypeLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/divider1">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:contentDescription="Clinic Type Icon"
+                        android:src="@drawable/ic_clinic"
+                        app:tint="@color/text_secondary" />
+
+                    <TextView
+                        android:id="@+id/textClinictype"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="16sp"
+                        tools:text="Multi-Specialty Clinic" />
+                </LinearLayout>
+
+                <!-- Clinic Address & Location -->
+                <LinearLayout
+                    android:id="@+id/clinicAddressLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Clinic Type"
-                    android:textColor="#757575"
-                    android:textSize="18sp" />
-            </LinearLayout>
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/clinicTypeLayout">
 
-            <!-- Add borders between sections -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#CCCCCC" />
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:contentDescription="Location Icon"
+                        android:src="@drawable/ic_location"
+                        app:tint="@color/text_secondary" />
 
-            <!-- Preview Images -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textClinicAddress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="16sp"
+                            tools:text="123 Health Ave, Suite 100" />
+
+                        <TextView
+                            android:id="@+id/textCliniclocation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="14sp"
+                            tools:text="Springfield, IL 62704" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/divider2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/divider_dark"
+                    app:layout_constraintTop_toBottomOf="@+id/clinicAddressLayout" />
+
+                <!-- Preview Images -->
+                <LinearLayout
+                    android:id="@+id/imagesLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/divider2">
+
+                    <ImageView
+                        android:id="@+id/imagePreview1"
+                        style="@style/PreviewImage"
+                        android:layout_marginEnd="8dp"
+                        tools:src="@tools:sample/avatars" />
+
+                    <ImageView
+                        android:id="@+id/imagePreview2"
+                        style="@style/PreviewImage"
+                        android:layout_marginEnd="8dp"
+                        tools:src="@tools:sample/avatars" />
+
+                    <ImageView
+                        android:id="@+id/imagePreview3"
+                        style="@style/PreviewImage"
+                        android:layout_marginEnd="8dp"
+                        tools:src="@tools:sample/avatars" />
+
+                    <ImageView
+                        android:id="@+id/imagePreview4"
+                        style="@style/PreviewImage"
+                        tools:src="@tools:sample/avatars" />
+                </LinearLayout>
+
+                <!-- Rating -->
+                <LinearLayout
+                    android:id="@+id/ratingLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imagesLayout">
+
+                    <ImageView
+                        android:id="@+id/starIcon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:contentDescription="Star Icon"
+                        android:src="@drawable/staricon"
+                        app:tint="@android:color/holo_orange_light" />
+
+                    <TextView
+                        android:id="@+id/textRating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:textColor="@color/text_primary"
+                        android:textSize="18sp"
+                        tools:text="4.5 / 5.0" />
+                </LinearLayout>
+
+                <!-- Book Appointment Button -->
+                <Button
+                    android:id="@+id/buttonBookAppointment"
+                    style="@style/CustomButtonStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="Book Appointment Slot"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ratingLayout" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Schedule Table Card -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardSchedule"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardClinicDetails">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="16dp">
-
-                <!-- Four preview images with rounded corners -->
-                <ImageView
-                    android:id="@+id/imagePreview1"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_marginEnd="8dp"
-                    android:background="@drawable/imageviewnew"
-                    android:scaleType="centerCrop" />
-
-                            <ImageView
-                                android:id="@+id/imagePreview2"
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
-                                android:layout_marginRight="8dp"
-                                android:scaleType="centerCrop" />
-
-                            <ImageView
-                                android:id="@+id/imagePreview3"
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
-                                android:layout_marginRight="8dp"
-                                android:scaleType="centerCrop" />
-
-                            <ImageView
-                                android:id="@+id/imagePreview4"
-                                android:layout_width="100dp"
-                                android:layout_height="100dp"
-                                android:scaleType="centerCrop" />
-                        </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#CCCCCC" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp">
-
-                <ImageView
-                    android:id="@+id/starIcon"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@drawable/staricon" /> <!-- Make sure you have a star icon in your drawables -->
+                android:background="@color/card_background"
+                android:orientation="vertical"
+                android:padding="16dp">
 
                 <TextView
-                    android:id="@+id/textRating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/starIcon"
-                    android:text="4.5/5"
-                    android:textColor="#CDCDCD"
-                    android:textSize="20sp" />
-            </RelativeLayout>
+                    android:layout_marginBottom="16dp"
+                    android:text="Operating Hours"
+                    android:textColor="@color/text_primary"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-            <!-- Clinic Address -->
-            <TextView
-                android:id="@+id/textClinicAddress1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Clinic Address"
-                android:textColor="#CDCDCD"
-                android:textSize="18sp" />
+                <TableLayout
+                    android:id="@+id/tableLayoutSchedule"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:stretchColumns="*">
 
-        <!-- Clinic Location -->
-        <TextView
-            android:id="@+id/textCliniclocation"
+                    <!-- Table Header -->
+                    <TableRow android:background="@color/table_header_background">
+
+                        <TextView
+                            style="@style/TableColumnHeader"
+                            android:text="Day" />
+
+                        <TextView
+                            style="@style/TableColumnHeader"
+                            android:text="Timings" />
+                    </TableRow>
+
+                    <!-- Days and timings rows -->
+                    <TableRow android:background="@color/table_cell_background_odd">
+
+                        <TextView
+                            style="@style/TableCell"
+                            android:text="Monday" />
+
+                        <TextView
+                            android:id="@+id/textMondayTimings"
+                            style="@style/TableCell"
+                            tools:text="9:00 AM - 10:00 PM" />
+                    </TableRow>
+
+                    <TableRow android:background="@color/table_cell_background_even">
+
+                        <TextView
+                            style="@style/TableCell"
+                            android:text="Tuesday" />
+
+                        <TextView
+                            android:id="@+id/textTuesdayTimings"
+                            style="@style/TableCell"
+                            tools:text="9:00 AM - 10:00 PM" />
+                    </TableRow>
+
+                    <TableRow android:background="@color/table_cell_background_odd">
+
+                        <TextView
+                            style="@style/TableCell"
+                            android:text="Wednesday" />
+
+                        <TextView
+                            android:id="@+id/textWednesdayTimings"
+                            style="@style/TableCell"
+                            tools:text="9:00 AM - 10:00 PM" />
+                    </TableRow>
+
+                    <TableRow android:background="@color/table_cell_background_even">
+
+                        <TextView
+                            style="@style/TableCell"
+                            android:text="Thursday" />
+
+                        <TextView
+                            android:id="@+id/textThursdayTimings"
+                            style="@style/TableCell"
+                            tools:text="9:00 AM - 10:00 PM" />
+                    </TableRow>
+
+                    <TableRow android:background="@color/table_cell_background_odd">
+
+                        <TextView
+                            style="@style/TableCell"
+                            android:text="Friday" />
+
+                        <TextView
+                            android:id="@+id/textFridayTimings"
+                            style="@style/TableCell"
+                            tools:text="9:00 AM - 10:00 PM" />
+                    </TableRow>
+
+                    <TableRow android:background="@color/table_cell_background_even">
+
+                        <TextView
+                            style="@style/TableCell"
+                            android:text="Saturday" />
+
+                        <TextView
+                            android:id="@+id/textSaturdayTimings"
+                            style="@style/TableCell"
+                            tools:text="9:00 AM - 10:00 PM" />
+                    </TableRow>
+
+                    <TableRow android:background="@color/table_cell_background_odd">
+
+                        <TextView
+                            style="@style/TableCell"
+                            android:text="Sunday" />
+
+                        <TextView
+                            android:id="@+id/textSundayTimings"
+                            style="@style/TableCell"
+                            tools:text="Closed" />
+                    </TableRow>
+                </TableLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Map Section Card -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardMap"
+            android:layout_width="0dp"
+            android:layout_height="210dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardSchedule">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <!-- Blurred map image -->
+                <ImageView
+                    android:id="@+id/mapImageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/map"
+                    android:contentDescription="Map Location" />
+
+                <!-- Button to view on map -->
+                <Button
+                    android:id="@+id/buttonViewOnMap"
+                    style="@style/button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="View on Map" />
+            </FrameLayout>
+        </androidx.cardview.widget.CardView>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="Clinic Location"
-            android:textColor="#CDCDCD"
-            android:textSize="18sp" />
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Book Appointment Button -->
-        <Button
-            android:id="@+id/buttonBookAppointment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:background="@drawable/bg_blue_button"
-            android:text="Book Appointment Slot"
-            android:textColor="#FFFFFF" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-        </RelativeLayout>
-        <TableLayout
-            android:id="@+id/tableLayoutSchedule"
-            android:layout_width="match_parent"
-            android:padding="10dp"
-            android:layout_height="wrap_content">
-            <TableRow  android:background="#000000">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
-                    android:gravity="center"
-                    android:text="Day"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
-                    android:gravity="center"
-                    android:text="Timings"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-            </TableRow>
-            <!-- Days and timings rows -->
-            <TableRow>
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/table_cell_border"
-                    android:gravity="left"
-                    android:paddingLeft="10dp"
-                    android:text="Monday"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/textMondayTimings"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/table_cell_border"
-                    android:gravity="center"
-                    android:text="9:00 AM - 10:00 PM"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/table_cell_border"
-                    android:gravity="left"
-                    android:paddingLeft="10dp"
-                    android:text="Tuesday"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/textTuesdayTimings"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/table_cell_border"
-                    android:gravity="center"
-                    android:text="9:00 AM - 10:00 PM"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/table_cell_border"
-                    android:gravity="left"
-                    android:paddingLeft="10dp"
-                    android:text="Wednesday"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/textWednesdayTimings"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/table_cell_border"
-                    android:gravity="center"
-                    android:text="9:00 AM - 10:00 PM"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/table_cell_border"
-                    android:gravity="left"
-                    android:paddingLeft="10dp"
-                    android:text="Thursday"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/textThursdayTimings"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/table_cell_border"
-                    android:gravity="center"
-                    android:text="9:00 AM - 10:00 PM"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/table_cell_border"
-                    android:gravity="left"
-                    android:paddingLeft="10dp"
-                    android:text="Friday"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/textFridayTimings"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/table_cell_border"
-                    android:gravity="center"
-                    android:text="9:00 AM - 10:00 PM"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/table_cell_border"
-                    android:gravity="left"
-                    android:paddingLeft="10dp"
-                    android:text="Saturday"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/textSaturdayTimings"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/table_cell_border"
-                    android:gravity="center"
-                    android:text="9:00 AM - 10:00 PM"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/table_cell_border"
-                    android:gravity="left"
-                    android:paddingLeft="10dp"
-                    android:text="Sunday"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/textSundayTimings"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/table_cell_border"
-                    android:gravity="center"
-                    android:text="9:00 AM - 10:00 PM"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
-            </TableRow>
-        </TableLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#CCCCCC" />
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="210dp"
-            android:layout_marginTop="5dp">
-
-            <!-- Blurred map image -->
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="210dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/map" />
-
-            <!-- Button to view on map -->
-            <Button
-                android:id="@+id/buttonViewOnMap"
-                android:layout_width="118dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="8dp"
-                android:background="@drawable/bg_blue_button"
-                android:text="View on Map"
-                android:textColor="#FFFFFF" />
-        </FrameLayout>
-    </LinearLayout>
-</ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

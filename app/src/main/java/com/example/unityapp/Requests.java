@@ -37,7 +37,7 @@ import retrofit2.Response;
 public class Requests extends AppCompatActivity {
     private static final String TAG = "EmailSender";
     APIService apiService;
-    String serverBaseUrl = "http://192.168.173.40:5000";
+    String serverBaseUrl = "http://192.168.94.40:5000";
     private LinearLayout namesLayout;
     private ProgressBar loadingprogressbar;
     private FirebaseDatabase database;
@@ -286,7 +286,6 @@ public class Requests extends AppCompatActivity {
             }
         });
     }
-
     private void sendDataToServer(NotificationData notificationData) {
         apiService.sendDataToServer(notificationData).enqueue(new Callback<Void>() {
             @Override

@@ -9,22 +9,19 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 public class RegisterFragment extends Fragment {
-
     private ViewPager2 viewPager;
     private RegistrationPagerAdapter pagerAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_register, container, false);
-
         viewPager = view.findViewById(R.id.viewPager);
-        pagerAdapter = new RegistrationPagerAdapter(this); // Pass 'this' as a Fragment
+        pagerAdapter = new RegistrationPagerAdapter(this);
         viewPager.setAdapter(pagerAdapter);
         viewPager.setUserInputEnabled(false);
         return view;
     }
 
-    // Handle completion or submission logic here
     private void finishRegistration() {
         // Handle completion or submission logic
     }

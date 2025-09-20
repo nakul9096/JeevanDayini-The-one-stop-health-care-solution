@@ -1,4 +1,5 @@
 package com.example.unityapp;
+
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -14,7 +15,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -30,93 +30,130 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.airbnb.lottie.LottieAnimationView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class TestReport extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private LinearLayout linearLayoutContainer;
-    private TextView textViewNoPrescription;
-    private ProgressBar progressBarTR;
-    private ImageView imageView;
+    private TextView textViewTitle, textViewSubtitle;
+    private LottieAnimationView lottieAnimationView;
+    private ProgressBar progressBarTR; // Added ProgressBar
+    private BroadcastReceiver onComplete;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_report);
-        databaseReference = FirebaseDatabase.getInstance().getReference();
+
         linearLayoutContainer = findViewById(R.id.linearlayoutcontainer);
-        textViewNoPrescription = findViewById(R.id.textViewPrescription);
-        progressBarTR = findViewById(R.id.progressBarTR);
-        imageView = findViewById(R.id.imageViewTR);
+        textViewTitle = findViewById(R.id.textViewTitle);
+        textViewSubtitle = findViewById(R.id.textViewSubtitle);
+        lottieAnimationView = findViewById(R.id.lottieAnimationViewTR);
+        progressBarTR = findViewById(R.id.progressBarTR); // Initialize ProgressBar
+
+        // Initial state: Show progress bar, hide Lottie and text views
+        progressBarTR.setVisibility(View.VISIBLE);
+        lottieAnimationView.setVisibility(View.GONE);
+        textViewTitle.setVisibility(View.GONE);
+        textViewSubtitle.setVisibility(View.GONE);
+
+        databaseReference = FirebaseDatabase.getInstance().getReference();
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
         if (currentUser != null) {
             String userEmail = currentUser.getEmail();
             String sanitizedEmail = sanitizeEmail(userEmail);
-            Log.e("Mytest","santizedEmail: "+sanitizedEmail);
-            databaseReference.child("users").child(sanitizedEmail).child("prescriptions")
-                    .addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.exists()) {
-                                boolean foundPrescription = false; // Flag to track if at least one prescription was found
-                                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
-                                    String hospitalName = childSnapshot.getKey();
-                                    for (DataSnapshot childSnapshot2 : childSnapshot.getChildren()) {
-                                        String timestamp = childSnapshot2.getKey();
-                                        if (hospitalName != null && timestamp != null) {
-                                            String fileUrl = childSnapshot2.child("fileUrl").getValue(String.class);
-                                            if (fileUrl != null && !fileUrl.isEmpty()) {
-                                                createCard(hospitalName, timestamp, fileUrl);
-                                                foundPrescription = true; // Set flag to true since at least one prescription was found
-                                            }
+            Log.e("Mytest", "sanitizedEmail: " + sanitizedEmail);
+            fetchPrescriptions(sanitizedEmail);
+        } else {
+            // If no user, immediately show no prescription message and hide progress bar
+            showNoPrescriptionMessage();
+            progressBarTR.setVisibility(View.GONE);
+        }
+    }
+
+    private void fetchPrescriptions(String sanitizedEmail) {
+        databaseReference.child("users").child(sanitizedEmail).child("prescriptions")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        linearLayoutContainer.removeAllViews();
+                        boolean foundPrescription = false;
+                        if (dataSnapshot.exists()) {
+                            for (DataSnapshot hospitalSnapshot : dataSnapshot.getChildren()) {
+                                String hospitalName = hospitalSnapshot.getKey();
+                                for (DataSnapshot prescriptionSnapshot : hospitalSnapshot.getChildren()) {
+                                    String timestamp = prescriptionSnapshot.getKey();
+                                    if (hospitalName != null && timestamp != null) {
+                                        String fileUrl = prescriptionSnapshot.child("fileUrl").getValue(String.class);
+                                        if (fileUrl != null && !fileUrl.isEmpty()) {
+                                            createCard(hospitalName, timestamp, fileUrl);
+                                            foundPrescription = true;
                                         }
                                     }
                                 }
-                                if (!foundPrescription) {
-                                    showNoPrescriptionMessage(); // Display "No Prescription" message if no prescriptions were found
-                                }
-                            } else {
-                                showNoPrescriptionMessage(); // Display "No Prescription" message if no prescriptions node exists
                             }
-                            progressBarTR.setVisibility(View.GONE); // Hide progress bar after processing prescriptions
                         }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        // Hide progress bar once data is loaded/checked
+                        progressBarTR.setVisibility(View.GONE);
+
+                        if (!foundPrescription) {
+                            showNoPrescriptionMessage(); // Show Lottie and text if no data
+                        } else {
+                            // Hide "no data" UI components if data is found
+                            lottieAnimationView.setVisibility(View.GONE);
+                            textViewTitle.setVisibility(View.GONE);
+                            textViewSubtitle.setVisibility(View.GONE);
                         }
-                    });
-        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        Toast.makeText(TestReport.this, "Failed to load data.", Toast.LENGTH_SHORT).show();
+                        progressBarTR.setVisibility(View.GONE); // Hide progress bar on error
+                        showNoPrescriptionMessage(); // Show "no data" UI on error
+                    }
+                });
     }
+
     private String sanitizeEmail(String email) {
         return email.replace("@", "").replace(".", "");
     }
+
     private void createCard(String hospitalName, String timestamp, String fileUrl) {
-        View cardView = LayoutInflater.from(this).inflate(R.layout.custom_prescription_layout, null);
+        View cardView = LayoutInflater.from(this).inflate(R.layout.custom_prescription_layout, linearLayoutContainer, false);
         TextView textViewHospitalName = cardView.findViewById(R.id.textViewHospitalName);
         TextView textViewDate = cardView.findViewById(R.id.textViewDate);
         TextView textViewTime = cardView.findViewById(R.id.textViewTime);
         Button viewPrescription = cardView.findViewById(R.id.buttonView);
         Button downloadPrescription = cardView.findViewById(R.id.buttonDownload);
-        viewPrescription.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openPdfInExternalViewer(fileUrl);
-            }
-        });
-        downloadPrescription.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                initiatePdfDownload(fileUrl);
-            }
-        });
+
+        viewPrescription.setOnClickListener(v -> openPdfInExternalViewer(fileUrl));
+        downloadPrescription.setOnClickListener(v -> initiatePdfDownload(fileUrl));
+
         textViewHospitalName.setText(hospitalName);
         try {
-            String date = timestamp.substring(0, 4) + "/" + timestamp.substring(4, 6) + "/" + timestamp.substring(6, 8);
-            String time = timestamp.substring(9, 11) + ":" + timestamp.substring(11, 13) + ":" + timestamp.substring(13, 15);
-            textViewDate.setText("Date: " + date);
-            textViewTime.setText("Time: " + time);
-        } catch (Exception e) {
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault());
+            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+            Date date = inputFormat.parse(timestamp);
+
+            if (date != null) {
+                textViewDate.setText("Date: " + dateFormat.format(date));
+                textViewTime.setText("Time: " + timeFormat.format(date));
+            }
+        } catch (ParseException e) {
+            Log.e("TestReport", "Error parsing timestamp: " + e.getMessage());
             e.printStackTrace();
         }
+
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
@@ -131,29 +168,27 @@ public class TestReport extends AppCompatActivity {
         float density = getResources().getDisplayMetrics().density;
         return Math.round(dp * density);
     }
+
     private void showNoPrescriptionMessage() {
-        textViewNoPrescription.setVisibility(View.VISIBLE);
-        imageView.setVisibility(View.VISIBLE);
-        progressBarTR.setVisibility(View.GONE);
+        lottieAnimationView.setVisibility(View.VISIBLE);
+        textViewTitle.setVisibility(View.VISIBLE);
+        textViewSubtitle.setVisibility(View.VISIBLE);
     }
+
     private void openPdfInExternalViewer(String pdfUrl) {
-        // Create an intent with ACTION_VIEW and the PDF URL
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(Uri.parse(pdfUrl), "application/pdf");
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-        // Check if there's an app to handle this intent
         PackageManager packageManager = getPackageManager();
         List<ResolveInfo> resolveInfos = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
 
-        if (resolveInfos != null && !resolveInfos.isEmpty()) {
-            // Start the activity if there's at least one app to handle the intent
+        if (!resolveInfos.isEmpty()) {
             startActivity(intent);
         } else {
-            // Handle scenario where no PDF viewer app is available
             Toast.makeText(this, "No PDF viewer app available", Toast.LENGTH_SHORT).show();
         }
     }
+
     private void initiatePdfDownload(String pdfUrl) {
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(pdfUrl));
         request.setTitle("Downloading Prescription");
@@ -162,38 +197,60 @@ public class TestReport extends AppCompatActivity {
         request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "prescription.pdf");
         DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
         long downloadId = downloadManager.enqueue(request);
-        BroadcastReceiver onComplete = new BroadcastReceiver() {
+
+        if (onComplete != null) {
+            unregisterReceiver(onComplete);
+        }
+
+        onComplete = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
                 if (id == downloadId) {
                     DownloadManager.Query query = new DownloadManager.Query();
                     query.setFilterById(downloadId);
-                    Cursor cursor = downloadManager.query(query);
-                    if (cursor != null && cursor.moveToFirst()) {
-                        int columnIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS);
-
-                        if (columnIndex != -1) {
-                            int status = cursor.getInt(columnIndex);
-                            if (status == DownloadManager.STATUS_SUCCESSFUL) {
-                                Toast.makeText(TestReport.this, "Download successful", Toast.LENGTH_SHORT).show();
+                    try (Cursor cursor = downloadManager.query(query)) {
+                        if (cursor != null && cursor.moveToFirst()) {
+                            int columnIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS);
+                            if (columnIndex != -1) {
+                                int status = cursor.getInt(columnIndex);
+                                if (status == DownloadManager.STATUS_SUCCESSFUL) {
+                                    Toast.makeText(TestReport.this, "Download successful", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(TestReport.this, "Download failed", Toast.LENGTH_SHORT).show();
+                                }
                             } else {
-                                Toast.makeText(TestReport.this, "Download failed", Toast.LENGTH_SHORT).show();
+                                Log.e("Download", "Invalid columnIndex");
                             }
                         } else {
-                            Log.e("Download", "Invalid columnIndex");
-                            Toast.makeText(TestReport.this, "Error processing download status", Toast.LENGTH_SHORT).show();
+                            Log.e("Download", "Cursor is null or empty");
                         }
-                    } else {
-                        Log.e("Download", "Cursor is null or empty");
-                        Toast.makeText(TestReport.this, "Error processing download status", Toast.LENGTH_SHORT).show();
-                    }
-                    if (cursor != null) {
-                        cursor.close();
+                    } catch (Exception e) {
+                        Log.e("Download", "Error with cursor: " + e.getMessage());
+                    } finally {
+                        try {
+                            unregisterReceiver(onComplete);
+                            onComplete = null;
+                        } catch (Exception e) {
+                            Log.e("Download", "Error unregistering receiver: " + e.getMessage());
+                        }
                     }
                 }
             }
         };
-        registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE), Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (onComplete != null) {
+            unregisterReceiver(onComplete);
+        }
     }
 }

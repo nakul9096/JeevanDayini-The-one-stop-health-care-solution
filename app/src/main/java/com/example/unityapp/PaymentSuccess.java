@@ -34,7 +34,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 public class PaymentSuccess extends AppCompatActivity {
     APIService apiService;
-    String serverBaseUrl = "http://192.168.173.40:3000";
+    String serverBaseUrl = "http://192.168.94.40:3000";
     SharedPreferences.Editor editor2;
     private TextView nameTextView, phoneTextView, emailTextView, transactionIdTextView, tokenNumberTextView, DateTextView;
     private SharedPreferences sharedPreferences;
@@ -213,7 +213,7 @@ public class PaymentSuccess extends AppCompatActivity {
 
     private void uploadFileToFirebaseStorage() {
         String filename = "invoice_" + invoiceNumber + ".pdf";
-        String serverUrl = "http://192.168.173.40:4000";
+        String serverUrl = "http://192.168.94.40:4000";
         String fullFileUrl = serverUrl + "/" + filename;
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
@@ -250,7 +250,7 @@ public class PaymentSuccess extends AppCompatActivity {
         registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
     private void openFileViaServer(String filename) {
-        String serverUrl = "http://192.168.173.40:4000";
+        String serverUrl = "http://192.168.94.40:4000";
         String fullFileUrl = serverUrl + "/" + filename;
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(Uri.parse(fullFileUrl), "application/pdf");

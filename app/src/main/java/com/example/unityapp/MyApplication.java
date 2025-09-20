@@ -7,7 +7,7 @@ import com.google.firebase.inappmessaging.FirebaseInAppMessaging;
 import com.onesignal.Continue;
 import com.onesignal.OneSignal;
 import com.onesignal.debug.LogLevel;
-import com.phonepe.intent.sdk.api.PhonePe;
+//import com.phonepe.intent.sdk.api.PhonePe;
 
 public class MyApplication extends Application {
     private static final String ONESIGNAL_APP_ID = "627f2e4b-e687-40b1-9946-03a9ff56f0ac";
@@ -16,7 +16,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         FirebaseApp.initializeApp(this);
-        PhonePe.init(this);
+        //PhonePe.init(this);
         FirebaseInAppMessaging.getInstance().setAutomaticDataCollectionEnabled(true);
         FirebaseInAppMessaging.getInstance().setMessagesSuppressed(false);
         // Verbose Logging set to help debug issues, remove before releasing your app.

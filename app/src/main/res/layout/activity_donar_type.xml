@@ -1,65 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#004D40"
+    android:background="#E0F2F1"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="24dp">
 
-    <!-- Title -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="32dp"
         android:gravity="center"
         android:text="Select Donar-type"
-        android:textSize="24sp"
+        android:textSize="28sp"
+        android:textColor="#004D40"
         android:textStyle="bold" />
 
-    <!-- Donation Options -->
-    <RadioGroup
-        android:id="@+id/radioGroupDonationOptions"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        app:cardCornerRadius="16dp"
+        app:cardElevation="8dp"
+        android:layout_marginBottom="24dp">
 
-        <!-- Donate for Myself -->
-        <RadioButton
-            android:id="@+id/radioMyself"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Register as Myself" />
+            android:orientation="vertical"
+            android:padding="16dp">
 
-        <!-- Donate for Family Member -->
-        <RadioButton
-            android:id="@+id/radioFamilyMember"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Register as Family Member" />
-        <!-- Inside your LinearLayout or RelativeLayout -->
-        <Spinner
-            android:id="@+id/familyMemberSpinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="10dp"
-            android:entries="@array/family_members"
-            android:visibility="gone" />
+            <RadioGroup
+                android:id="@+id/radioGroupDonationOptions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-        <!-- Donate for Friend -->
-        <RadioButton
-            android:id="@+id/radioFriend"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Register as Friend" />
-    </RadioGroup>
+                <RadioButton
+                    android:id="@+id/radioMyself"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Register as Myself"
+                    android:textSize="18sp"
+                    android:paddingVertical="12dp"
+                    android:textColor="#FFFFFF" />
 
-    <!-- Button to Proceed -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#E0E0E0"
+                    android:layout_marginVertical="8dp"/>
+
+                <RadioButton
+                    android:id="@+id/radioFamilyMember"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Register as Family Member"
+                    android:textSize="18sp"
+                    android:paddingVertical="12dp"
+                    android:textColor="#FFFFFF" />
+
+                <Spinner
+                    android:id="@+id/familyMemberSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/spinner_background"
+                    android:padding="8dp"
+                    android:visibility="gone"
+                    android:entries="@array/family_members" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#E0E0E0"
+                    android:layout_marginVertical="8dp"/>
+
+                <RadioButton
+                    android:id="@+id/radioFriend"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Register as Friend"
+                    android:textSize="18sp"
+                    android:paddingVertical="12dp"
+                    android:textColor="#FFFFFF" />
+            </RadioGroup>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
     <Button
         android:id="@+id/btnProceed"
         android:layout_width="match_parent"
-        android:background="@drawable/bg_blue_button"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Proceed" />
+        android:backgroundTint="#008080"
+        android:text="Proceed"
+        style="@style/ProfileActionButton"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:paddingVertical="14dp"
+        app:cornerRadius="12dp"
+        android:elevation="4dp"/>
 </LinearLayout>

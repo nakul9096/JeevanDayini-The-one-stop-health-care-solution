@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E8F1F5"
+    tools:context=".DisplayProfileActivity">
+
+    <View
+        android:id="@+id/header_bg"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:background="#3498DB"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/profile_icon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/profil"
+        android:contentDescription="User profile picture"
+        android:background="@drawable/circle_white_bg"
+        android:elevation="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="100dp" />
+
+    <TextView
+        android:id="@+id/profile_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="User Profile"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:elevation="10dp"
+        app:layout_constraintBottom_toTopOf="@id/profile_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="16dp" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="180dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp"
+                app:contentPadding="20dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/ProfileFieldLabel"
+                        android:text="Name:" />
+                    <TextView
+                        android:id="@+id/tvName"
+                        style="@style/ProfileFieldValue"
+                        tools:text="John Doe" />
+                    <View style="@style/ProfileDivider" />
+
+                    <TextView
+                        style="@style/ProfileFieldLabel"
+                        android:text="User ID:" />
+                    <TextView
+                        android:id="@+id/tvUserId"
+                        style="@style/ProfileFieldValue"
+                        tools:text="Unity12345" />
+                    <View style="@style/ProfileDivider" />
+
+                    <TextView
+                        style="@style/ProfileFieldLabel"
+                        android:text="Email:" />
+                    <TextView
+                        android:id="@+id/tvEmail"
+                        style="@style/ProfileFieldValue"
+                        tools:text="johndoe@email.com" />
+                    <View style="@style/ProfileDivider" />
+
+                    <TextView
+                        style="@style/ProfileFieldLabel"
+                        android:text="Phone:" />
+                    <TextView
+                        android:id="@+id/tvPhone"
+                        style="@style/ProfileFieldValue"
+                        tools:text="+91 9876543210" />
+                    <View style="@style/ProfileDivider" />
+
+                    <TextView
+                        style="@style/ProfileFieldLabel"
+                        android:text="Gender:" />
+                    <TextView
+                        android:id="@+id/tvGender"
+                        style="@style/ProfileFieldValue"
+                        tools:text="Male" />
+                    <View style="@style/ProfileDivider" />
+
+                    <TextView
+                        style="@style/ProfileFieldLabel"
+                        android:text="Blood Group:" />
+                    <TextView
+                        android:id="@+id/tvBloodGroup"
+                        style="@style/ProfileFieldValue"
+                        tools:text="A+" />
+                    <View style="@style/ProfileDivider" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                style="@style/ProfileFieldLabel"
+                                android:text="State:" />
+                            <TextView
+                                android:id="@+id/tvState"
+                                style="@style/ProfileFieldValue"
+                                tools:text="Maharashtra" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="match_parent"
+                            android:background="#D0D0D0"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                style="@style/ProfileFieldLabel"
+                                android:text="City:" />
+                            <TextView
+                                android:id="@+id/tvCity"
+                                style="@style/ProfileFieldValue"
+                                tools:text="Nagpur" />
+                        </LinearLayout>
+                    </LinearLayout>
+                    <View style="@style/ProfileDivider" />
+
+                    <TextView
+                        style="@style/ProfileFieldLabel"
+                        android:text="Emergency Contact:" />
+                    <TextView
+                        android:id="@+id/tvEmergencyContactName"
+                        style="@style/ProfileFieldValue"
+                        tools:text="Jane Doe" />
+                    <View style="@style/ProfileDivider" />
+
+                    <TextView
+                        style="@style/ProfileFieldLabel"
+                        android:text="Emergency Phone:" />
+                    <TextView
+                        android:id="@+id/tvEmergencyContactPhone"
+                        style="@style/ProfileFieldValue"
+                        tools:text="+91 9988776655" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

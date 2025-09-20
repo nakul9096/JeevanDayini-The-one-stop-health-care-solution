@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#163D5AFE">
+    android:background="#F5F5F5"
+    tools:context=".MainActivity">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
@@ -17,584 +19,391 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingBottom="16dp">
 
-                <ImageView
-                    android:id="@+id/menuPlaceholder"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:contentDescription="More Options"
-                    android:onClick="openLeftMenuDrawer"
-                    android:src="@drawable/menu"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/helloTextView"
-                    android:layout_width="247dp"
-                    android:layout_height="84dp"
-                    android:layout_gravity="end"
-                    android:gravity="end"
-                    android:paddingTop="10dp"
-                    android:paddingRight="10dp"
-                    android:text="Hello, User"
-                    android:textSize="17dp"
-                    app:layout_constraintEnd_toStartOf="@+id/imageView14"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toEndOf="@+id/menuPlaceholder"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/imageView14"
-                    android:layout_width="33dp"
-                    android:layout_height="33dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="30dp"
-                    android:src="@drawable/profile"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/light_blue_A400" />
-
-                <!-- Down Arrow Icon -->
-                <ImageView
-                    android:layout_width="21dp"
-                    android:layout_height="39dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:clickable="true"
-                    android:onClick="showPopupMenu"
-                    android:src="@drawable/down_arrow"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/white" />
-                <View
-                    android:id="@+id/dividerView3new"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="15dp"
-                    android:background="@android:color/darker_gray"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/menuPlaceholder" />
-                <!-- Admin ID TextView -->
-                <TextView
-                    android:id="@+id/adminIdTextView4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="8dp"
-                    android:text="Admin ID:"
-                    android:textColor="#FFFFFF"
-                    android:textSize="17sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/dividerView3new" />
-
-                <!-- Hello Card -->
-                <LinearLayout
-                    android:id="@+id/cardHello"
-                    android:layout_width="match_parent"
-                    android:layout_height="120dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="40dp"
-                    android:layout_marginEnd="16dp"
-                    android:orientation="vertical"
-                    android:background="@drawable/rounded_white_background"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/adminIdTextView4">
-
-                <TextView
-                    android:id="@+id/organizationNameTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="Hello!"
-                    android:layout_marginTop="20dp"
-                    android:textColor="#000000"
-                    android:textSize="18sp" />
-
-                <!-- Button to set the clinic name -->
-                <Button
-                    android:id="@+id/setClinicNameButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="8dp"
-                    android:text="Set Clinic Name" />
-
-            </LinearLayout>
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:text="Ongoing Appointment:"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toStartOf="@+id/ongoingAppointmentEditText"
-                    app:layout_constraintHorizontal_bias="0.122"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cardHello" />
-
-                <EditText
-                    android:id="@+id/ongoingAppointmentEditText"
-                    android:layout_width="130dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="7dp"
-                    android:layout_marginRight="5dp"
-                    android:background="@drawable/edittext_background"
-                    android:hint="Enter Number"
-                    android:inputType="number"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cardHello" />
-
-                <!-- HorizontalScrollView for ImageViews -->
-                <HorizontalScrollView
-                    android:id="@+id/hsvimages"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/headerLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toTopOf="@+id/tableLayoutSchedule"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ongoingAppointmentEditText">
+                    android:paddingTop="24dp"
+                    android:paddingBottom="48dp"
+                    android:background="@drawable/header_gradient_background"
+                    app:layout_constraintTop_toTopOf="parent">
 
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <!-- ImageView18 and other ImageViews -->
-                        <ImageView
-                            android:id="@+id/imageView18"
-                            android:layout_width="120dp"
-                            android:layout_height="182dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="4dp"
-                            android:src="@drawable/vertical"
-                            app:layout_constraintWidth_default="percent"
-                            app:layout_constraintWidth_percent="0.25" />
-
-                        <ImageView
-                            android:id="@+id/imageView2"
-                            android:layout_width="120dp"
-                            android:layout_height="185dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="4dp"
-                            android:src="@drawable/horizontal"
-                            app:layout_constraintEnd_toStartOf="@+id/imageView3"
-                            app:layout_constraintStart_toEndOf="@+id/imageView18"
-                            app:layout_constraintTop_toBottomOf="@+id/imageView18"
-                            app:layout_constraintWidth_default="percent"
-                            app:layout_constraintWidth_percent="0.25" />
-
-                        <ImageView
-                            android:id="@+id/imageView3"
-                            android:layout_width="120dp"
-                            android:layout_height="185dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="4dp"
-                            android:src="@drawable/horizontal"
-                            app:layout_constraintEnd_toStartOf="@+id/imageView4"
-                            app:layout_constraintStart_toEndOf="@+id/imageView2"
-                            app:layout_constraintTop_toBottomOf="@+id/imageView18"
-                            app:layout_constraintWidth_default="percent"
-                            app:layout_constraintWidth_percent="0.25" />
-
-                        <ImageView
-                            android:id="@+id/imageView4"
-                            android:layout_width="120dp"
-                            android:layout_height="185dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginEnd="4dp"
-                            android:src="@drawable/horizontal"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/imageView3"
-                            app:layout_constraintTop_toBottomOf="@+id/imageView18"
-                            app:layout_constraintWidth_default="percent"
-                            app:layout_constraintWidth_percent="0.25" />
-
-                    </LinearLayout>
-                </HorizontalScrollView>
-
-                <TableLayout
-                    android:id="@+id/tableLayoutSchedule"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/hsvimages">
-
-                    <!-- Table header -->
-                    <TableRow android:background="@drawable/table_border">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="Day"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="Timings"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text="Action"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                    </TableRow>
-
-                    <!-- Days and timings rows -->
-                    <TableRow>
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="left"
-                            android:paddingLeft="10dp"
-                            android:text="Monday"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:id="@+id/textMondayTimings"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text=""
-                            android:textSize="13sp" />
-
-                        <Button
-                            android:id="@+id/buttonMonday"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:backgroundTint="@color/light_blue_900"
-                            android:gravity="center"
-                            android:onClick="setTimingButtonClick"
-                            android:text="Set" />
-                    </TableRow>
-                    <!-- Tuesday -->
-                    <TableRow>
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="left"
-                            android:paddingLeft="10dp"
-                            android:text="Tuesday"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:id="@+id/textTuesdayTimings"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text=""
-                            android:textSize="13sp" />
-
-                        <Button
-                            android:id="@+id/buttonTuesday"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:backgroundTint="@color/light_blue_900"
-                            android:gravity="center"
-                            android:onClick="setTimingButtonClick"
-                            android:text="Set" />
-                    </TableRow>
-
-                    <!-- Wednesday -->
-                    <TableRow>
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="left"
-                            android:paddingLeft="10dp"
-                            android:text="Wednesday"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:id="@+id/textWednesdayTimings"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text=""
-                            android:textSize="13sp" />
-
-                        <Button
-                            android:id="@+id/buttonWednesday"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:backgroundTint="@color/light_blue_900"
-                            android:onClick="setTimingButtonClick"
-                            android:text="Set" />
-                    </TableRow>
-
-                    <!-- Thursday -->
-                    <TableRow>
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="left"
-                            android:paddingLeft="10dp"
-                            android:text="Thursday"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:id="@+id/textThursdayTimings"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text=""
-                            android:textSize="13sp" />
-
-                        <Button
-                            android:id="@+id/buttonThursday"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:backgroundTint="@color/light_blue_900"
-                            android:onClick="setTimingButtonClick"
-                            android:text="Set" />
-                    </TableRow>
-
-                    <!-- Friday -->
-                    <TableRow>
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="left"
-                            android:paddingLeft="10dp"
-                            android:text="Friday"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:id="@+id/textFridayTimings"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text=""
-                            android:textSize="13sp" />
-
-                        <Button
-                            android:id="@+id/buttonFriday"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:backgroundTint="@color/light_blue_900"
-                            android:gravity="center"
-                            android:onClick="setTimingButtonClick"
-                            android:text="Set" />
-                    </TableRow>
-
-                    <!-- Saturday -->
-                    <TableRow>
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="left"
-                            android:paddingLeft="10dp"
-                            android:text="Saturday"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:id="@+id/textSaturdayTimings"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text=""
-                            android:textSize="13sp" />
-
-                        <Button
-                            android:id="@+id/buttonSaturday"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:backgroundTint="@color/light_blue_900"
-                            android:gravity="center"
-                            android:onClick="setTimingButtonClick"
-                            android:text="Set" />
-                    </TableRow>
-
-                    <!-- Sunday -->
-                    <TableRow>
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="left"
-                            android:paddingLeft="10dp"
-                            android:text="Sunday"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:id="@+id/textSundayTimings"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:text=""
-                            android:textSize="13sp" />
-
-                        <Button
-                            android:id="@+id/buttonSunday"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:backgroundTint="@color/light_blue_900"
-                            android:onClick="setTimingButtonClick"
-                            android:text="Set" />
-                    </TableRow>
-                </TableLayout>
+                    <ImageView
+                        android:id="@+id/menu_icon"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginStart="16dp"
+                        android:src="@drawable/menu"
+                        android:contentDescription="More Options"
+                        app:tint="#FFFFFF"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
 
                     <TextView
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/adminIdTextView4"
-                        app:layout_constraintVertical_bias="0.021"
-                        android:id="@+id/marqueeText"
+                        android:id="@+id/app_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:focusableInTouchMode="true"
-                        android:gravity="start"
-                        app:layout_constraintBottom_toTopOf="@+id/tableLayoutSchedule"
-                        android:scrollHorizontally="true"
-                        android:singleLine="true"
-                        android:text="Your clinic is not live! To go live, visit List clinic online section available in the More Options menu. Thank you for using JEEVANDAYINI App!"
-                        android:textColor="#F4511E"
-                        android:textSize="17sp" />
+                        android:text="Dashboard"
+                        android:textColor="#FFFFFF"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toEndOf="@+id/menu_icon"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginStart="16dp" />
 
-                <View
-                    android:id="@+id/dividerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="16dp"
-                    android:background="@android:color/darker_gray"
-                    app:layout_constraintTop_toBottomOf="@+id/tableLayoutSchedule" />
+                    <ImageView
+                        android:id="@+id/profile_image"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_marginEnd="16dp"
+                        android:src="@drawable/ic_profile"
+                        android:contentDescription="Profile Picture"
+                        app:tint="#FFFFFF"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
 
-                <TextView
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/infoCard"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="16dp"
-                    android:text="Map URL"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toStartOf="@+id/buttonSetMapUrl"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginTop="-30dp"
+                    app:cardBackgroundColor="#FFFFFF"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="8dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/dividerView" />
-
-                <!-- SET Map URL Button below the table -->
-                <Button
-                    android:id="@+id/buttonSetMapUrl"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginRight="10dp"
-                    android:backgroundTint="@color/light_blue_900"
-                    android:text="SET"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/dividerView" />
+                    app:layout_constraintTop_toBottomOf="@+id/headerLayout">
 
-                <View
-                    android:id="@+id/dividerView2"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="24dp">
+
+                        <TextView
+                            android:id="@+id/welcome_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Hello, User!"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            android:textColor="#212121" />
+
+                        <TextView
+                            android:id="@+id/adminIdTextView4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="Admin ID: 12345"
+                            android:textColor="#757575"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/organizationNameTV"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:text="Your Clinic Name"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="#212121" />
+
+                        <Button
+                            android:id="@+id/setClinicNameButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:text="Set Clinic Name"
+                            android:backgroundTint="#FFB300"
+                            android:textColor="#FFFFFF"
+                            style="?attr/materialButtonOutlinedStyle"
+                            app:cornerRadius="12dp" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <LinearLayout
+                    android:id="@+id/onGoingLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="90dp"
-                    android:background="@android:color/darker_gray"
-                    app:layout_constraintTop_toBottomOf="@+id/tableLayoutSchedule" />
-                <!-- Below the dividerView2 -->
-                <!-- Below the dividerView2 -->
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:gravity="center_vertical"
+                    app:layout_constraintTop_toBottomOf="@id/infoCard">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Ongoing Appointments"
+                        android:textColor="#212121"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/ongoingAppointmentEditText"
+                        android:layout_width="120dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/rounded_edittext_background_new"
+                        android:hint="Number"
+                        android:inputType="number"
+                        android:textColor="#000000"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:textColorHint="#000000"
+                        android:textSize="14sp"
+                        android:singleLine="true"/>
+                </LinearLayout>
+
                 <TextView
+                    android:id="@+id/marqueeText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
                     android:layout_marginTop="16dp"
-                    android:text="Blood Donation Facility"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toStartOf="@+id/buttonSetBloodDonation"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:text="Your clinic is not live! To go live, visit 'List clinic online' in the More Options menu. Thank you for using JEEVANDAYINI App!"
+                    android:textColor="#D32F2F"
+                    android:textSize="14sp"
+                    android:singleLine="true"
+                    android:ellipsize="marquee"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:scrollHorizontally="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/dividerView2" />
-
-                <Button
-                    android:id="@+id/buttonSetBloodDonation"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginRight="10dp"
-                    android:backgroundTint="@color/light_blue_900"
-                    android:text="SET"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/dividerView2" />
+                    app:layout_constraintTop_toBottomOf="@id/onGoingLayout" />
 
-                <View
-                    android:id="@+id/dividerView3"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="15dp"
-                    android:background="@android:color/darker_gray"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/buttonSetBloodDonation" />
-
-                <!-- Below the Blood Donation Facility -->
-                <TextView
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/imageCarouselCard"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="8dp"
-                    android:text="Other Information"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toStartOf="@+id/buttonSetOtherInformation"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    app:cardBackgroundColor="#FFFFFF"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="8dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/dividerView3" />
-
-                <Button
-                    android:id="@+id/buttonSetOtherInformation"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginRight="10dp"
-                    android:backgroundTint="@color/light_blue_900"
-                    android:text="SET"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/dividerView3" />
+                    app:layout_constraintTop_toBottomOf="@+id/marqueeText">
+
+                    <HorizontalScrollView
+                        android:id="@+id/hsvimages"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scrollbars="none">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="8dp">
+
+                            <ImageView
+                                android:id="@+id/image_carousel_1"
+                                android:layout_width="160dp"
+                                android:layout_height="220dp"
+                                android:layout_marginEnd="12dp"
+                                android:src="@drawable/vertical"
+                                android:scaleType="centerCrop"
+                                android:background="@drawable/image_item_rounded" />
+
+                            <ImageView
+                                android:id="@+id/image_carousel_2"
+                                android:layout_width="160dp"
+                                android:layout_height="220dp"
+                                android:layout_marginEnd="12dp"
+                                android:src="@drawable/horizontal"
+                                android:scaleType="centerCrop"
+                                android:background="@drawable/image_item_rounded" />
+
+                            <ImageView
+                                android:id="@+id/image_carousel_3"
+                                android:layout_width="160dp"
+                                android:layout_height="220dp"
+                                android:layout_marginEnd="12dp"
+                                android:src="@drawable/horizontal"
+                                android:scaleType="centerCrop"
+                                android:background="@drawable/image_item_rounded" />
+
+                            <ImageView
+                                android:id="@+id/image_carousel_4"
+                                android:layout_width="160dp"
+                                android:layout_height="220dp"
+                                android:layout_marginEnd="12dp"
+                                android:src="@drawable/horizontal"
+                                android:scaleType="centerCrop"
+                                android:background="@drawable/image_item_rounded" />
+
+                        </LinearLayout>
+                    </HorizontalScrollView>
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/scheduleTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Weekly Schedule"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#000000"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginStart="24dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageCarouselCard" />
+
+                <LinearLayout
+                    android:id="@+id/scheduleLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/scheduleTitle">
+
+                    <include layout="@layout/schedule_item_row" android:id="@+id/mondayRow" />
+                    <include layout="@layout/schedule_item_row" android:id="@+id/tuesdayRow" />
+                    <include layout="@layout/schedule_item_row" android:id="@+id/wednesdayRow" />
+                    <include layout="@layout/schedule_item_row" android:id="@+id/thursdayRow" />
+                    <include layout="@layout/schedule_item_row" android:id="@+id/fridayRow" />
+                    <include layout="@layout/schedule_item_row" android:id="@+id/saturdayRow" />
+                    <include layout="@layout/schedule_item_row" android:id="@+id/sundayRow" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/infoTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Clinic Information"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="#212121"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginStart="24dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/scheduleLayout" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/infoTitle">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="4dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="16dp"
+                            android:background="#A9000000"
+                            android:gravity="center_vertical">
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Map URL"
+                                android:textSize="16sp"
+                                android:textColor="#FFFFFF" />
+                            <Button
+                                android:id="@+id/buttonSetMapUrl"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="SET"
+                                android:backgroundTint="#008080"
+                                style="@style/ProfileActionButton"
+                                app:cornerRadius="12dp" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="4dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="16dp"
+                            android:background="#A9000000"
+                            android:gravity="center_vertical">
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Blood Donation Facility"
+                                android:textSize="16sp"
+                                android:textColor="#FFFFFF" />
+                            <Button
+                                android:id="@+id/buttonSetBloodDonation"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="SET"
+                                android:backgroundTint="#008080"
+                                style="@style/ProfileActionButton"
+                                app:cornerRadius="12dp" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="4dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:background="#A9000000"
+                            android:padding="16dp"
+                            android:gravity="center_vertical">
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Other Information"
+                                android:textSize="16sp"
+                                android:textColor="#FFFFFF" />
+                            <Button
+                                android:id="@+id/buttonSetOtherInformation"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="SET"
+                                android:backgroundTint="#008080"
+                                style="@style/ProfileActionButton"
+                                app:cornerRadius="12dp" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

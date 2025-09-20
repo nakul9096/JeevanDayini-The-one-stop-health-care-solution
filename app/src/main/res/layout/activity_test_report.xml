@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
     tools:context=".TestReport">
 
-    <!-- Linear layout at the top -->
+    <!-- Container for dynamically added prescription cards -->
     <LinearLayout
         android:id="@+id/linearlayoutcontainer"
         android:layout_width="match_parent"
@@ -14,40 +15,59 @@
         android:orientation="vertical">
     </LinearLayout>
 
+    <!-- Container for "no data found" message and progress bar -->
     <LinearLayout
+        android:id="@+id/emptyStateContainer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:gravity="center"
         android:layout_below="@id/linearlayoutcontainer"
         android:orientation="vertical">
 
-        <!-- ProgressBar -->
+        <!-- Initial loading indicator -->
         <ProgressBar
             android:id="@+id/progressBarTR"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:visibility="visible" />
+            android:visibility="visible" /> <!-- Initially visible -->
 
-        <!-- ImageView -->
-        <ImageView
-            android:id="@+id/imageViewTR"
+        <!-- Lottie Animation View - only visible when no data is found -->
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottieAnimationViewTR"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_gravity="center_horizontal"
+            app:lottie_rawRes="@raw/notfound"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            android:visibility="gone" /> <!-- Initially gone -->
+
+        <!-- Title for no prescription found message -->
+        <TextView
+            android:id="@+id/textViewTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="16dp"
-            android:src="@drawable/notfound"
-            android:visibility="gone" />
+            android:layout_marginTop="24dp"
+            android:text="No Prescription Found"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:textColor="#FF6F00"
+            android:fontFamily="sans-serif-medium"
+            android:visibility="gone" /> <!-- Initially gone -->
 
-        <!-- TextView -->
+        <!-- Subtitle for no prescription found message -->
         <TextView
-            android:id="@+id/textViewPrescription"
+            android:id="@+id/textViewSubtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="8dp"
-            android:text="No prescription found or not uploaded yet by the hospital/clinic!"
-            android:visibility="gone" />
+            android:text="It may not have been uploaded yet. \nPlease check again later."
+            android:textSize="22sp"
+            android:textColor="@android:color/darker_gray"
+            android:visibility="gone" /> <!-- Initially gone -->
     </LinearLayout>
 
 </RelativeLayout>

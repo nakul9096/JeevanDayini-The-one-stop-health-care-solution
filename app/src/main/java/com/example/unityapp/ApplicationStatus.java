@@ -12,6 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
+
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -109,7 +111,7 @@ public class ApplicationStatus extends AppCompatActivity {
         statusTextView.setText("Form status: " + status.toUpperCase());
         relationTypeTextView.setText("Relation Type: " + relationType);
         if ("approved".equals(status)) {
-            statusTextView.setTextColor(getResources().getColor(R.color.green));
+            statusTextView.setTextColor(ContextCompat.getColor(this, R.color.green));
             donationlocTextView.setVisibility(View.VISIBLE);
             statusTextView2.setVisibility(View.VISIBLE);
             Log.d("DataFinding", "Matching user ID and Aadhaar number found");

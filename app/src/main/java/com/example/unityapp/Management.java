@@ -186,7 +186,7 @@ public class Management extends AppCompatActivity {
         if (adminId != null) {
             adminIdTv.setText("ID: " + adminId);
             Hospital hosp = new Hospital();
-            hosp.setCreated_by(adminId);
+            //hosp.setCreated_by(adminId);
         }
         if (adminImage != null) {
             RequestOptions requestOptions = new RequestOptions()

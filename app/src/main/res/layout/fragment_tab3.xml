@@ -1,192 +1,207 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#85000000">
+    android:background="@color/background_dark">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:paddingBottom="40dp">
 
         <TextView
+            android:id="@+id/header_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="32dp"
             android:text="App Settings"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:textColor="@color/text_primary"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="#cccccc" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="General settings"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/btnbookings"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:backgroundTint="#ffffff"
-            android:textColor="#84FFFF"
-            android:background="@drawable/rounded_button_setting"
-            android:text="Your bookings" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:id="@+id/btnchangelang"
-            android:textColor="#84FFFF"
-            android:backgroundTint="#ffffff"
-            android:background="@drawable/rounded_button_setting"
-            android:text="Change language" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:backgroundTint="#ffffff"
-            android:id="@+id/btnApperance"
-            android:textColor="#84FFFF"
-            android:background="@drawable/rounded_button_setting"
-            android:text="Appearance setting" />
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#ffffff"
-            android:layout_marginBottom="8dp"
-            android:textColor="#84FFFF"
-            android:background="@drawable/rounded_button_setting"
-            android:text="transactions" />
-        <!-- Divider line between sections -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="#cccccc" />
-
-        <!-- Help Center Section -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="Help Center"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <!-- Options for Help Center -->
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:textColor="#84FFFF"
-            android:backgroundTint="#ffffff"
-            android:background="@drawable/rounded_button_setting"
-            android:text="Troubleshoot Issue" />
-
-        <Button
-            android:id="@+id/faqbtn"
-            android:layout_width="match_parent"
-            android:backgroundTint="#ffffff"
-            android:textColor="#84FFFF"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/rounded_button_setting"
-            android:text="FAQs" />
-
-        <Button
-            android:id="@+id/tubutton"
-            android:layout_width="match_parent"
-            android:backgroundTint="#ffffff"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:textColor="#84FFFF"
-            android:background="@drawable/rounded_button_setting"
-            android:text="Tutorial Videos" />
-
-        <Button
-            android:id="@+id/contactbtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#ffffff"
-            android:textColor="#84FFFF"
-            android:background="@drawable/rounded_button_setting"
-            android:text="Contact Us" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="#cccccc" />
-
-        <!-- Save button -->
-
-        <!-- Privacy & Policy, Terms, Copyright Information -->
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/general_settings_section"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:layout_marginTop="32dp"
+            android:layout_marginHorizontal="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header_title">
 
             <TextView
-                android:id="@+id/privacytv"
-                android:layout_width="0dp"
+                android:id="@+id/general_title"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Privacy &amp; Policy"
-                android:textColor="#FFFFFF" />
+                android:text="General"
+                android:textColor="@color/text_secondary"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp" />
 
-            <TextView
-                android:id="@+id/termstv"
-                android:layout_width="0dp"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/general_settings_card"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:text="Terms &amp; conditions"
-                android:textColor="#FFFFFF" />
+                app:cardBackgroundColor="@color/card_background"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:contentPadding="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/btnbookings"
+                        style="@style/SettingsActionButton"
+                        android:text="Your bookings"
+                        android:drawableStart="@drawable/ic_bookings" />
+
+                    <Button
+                        android:id="@+id/btnchangelang"
+                        style="@style/SettingsActionButton"
+                        android:text="Change language"
+                        android:drawableStart="@drawable/ic_language" />
+
+                    
+
+                    <Button
+                        android:id="@+id/btnApperance"
+                        style="@style/SettingsActionButton"
+                        android:text="Appearance"
+                        android:drawableStart="@drawable/ic_appearance" />
+
+                    
+
+                    <Button
+                        android:id="@+id/btntransactions"
+                        style="@style/SettingsActionButton"
+                        android:text="Transactions"
+                        android:drawableStart="@drawable/ic_transactions" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/help_center_section"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:layout_marginTop="24dp"
+            android:layout_marginHorizontal="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/general_settings_section">
 
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_weight="1"
-                android:text=""
-                android:textColor="#0000FF" />
-
-            <ImageView
+                android:id="@+id/help_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:contentDescription="Copyright Icon"
-                android:src="@drawable/cr" />
+                android:text="Help Center"
+                android:textColor="@color/text_secondary"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/help_center_card"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_weight="1"
-                android:padding="20dp"
-                android:text="Developed by Nakul Dhande \nPowered by Tanisha Choudhari" />
+                app:cardBackgroundColor="@color/card_background"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:contentPadding="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/btntroubleshoot"
+                        style="@style/SettingsActionButton"
+                        android:text="Troubleshoot Issue"
+                        android:drawableStart="@drawable/ic_troubleshoot" />
+
+                    
+
+                    <Button
+                        android:id="@+id/faqbtn"
+                        style="@style/SettingsActionButton"
+                        android:text="FAQs"
+                        android:drawableStart="@drawable/ic_faq" />
+
+                    
+
+                    <Button
+                        android:id="@+id/tubutton"
+                        style="@style/SettingsActionButton"
+                        android:text="Tutorial Videos"
+                        android:drawableStart="@drawable/ic_tutorial" />
+
+                    
+
+                    <Button
+                        android:id="@+id/contactbtn"
+                        style="@style/SettingsActionButton"
+                        android:text="Contact Us"
+                        android:drawableStart="@drawable/ic_contact" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
-    </LinearLayout>
-</ScrollView>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginHorizontal="24dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/help_center_section">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/privacytv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Privacy Policy"
+                    android:textColor="@color/accent_link" />
+
+                <TextView
+                    android:id="@+id/termstv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="Terms &amp; Conditions"
+                    android:textColor="@color/accent_link" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:drawableStart="@drawable/ic_copyright"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                android:textColor="@color/text_secondary"
+                android:text="Developed by Nakul Dhande\nPowered by Masud Laskar, \nShantanu Marathe &amp; Kartik Borekar" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

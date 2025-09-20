@@ -27,7 +27,6 @@ public class DonarType extends AppCompatActivity {
     private RadioGroup radioGroupDonationOptions;
     private RadioButton radioMyself, radioFamilyMember, radioFriend;
     private Spinner familyMemberSpinner;
-    private Button btnProceed;
     private CustomLoadingBar loadingBar;
     private DatabaseReference bloodDonationRef;
     private FirebaseUser currentUser;
@@ -42,7 +41,8 @@ public class DonarType extends AppCompatActivity {
         radioFamilyMember = findViewById(R.id.radioFamilyMember);
         radioFriend = findViewById(R.id.radioFriend);
         familyMemberSpinner = findViewById(R.id.familyMemberSpinner);
-        btnProceed = findViewById(R.id.btnProceed);
+        Button btnProceed = findViewById(R.id.btnProceed);
+        ViewUtils.addPressEffect(btnProceed);
         bloodDonationRef = FirebaseDatabase.getInstance().getReference("blooddonation");
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
         loadingBar = new CustomLoadingBar(this);

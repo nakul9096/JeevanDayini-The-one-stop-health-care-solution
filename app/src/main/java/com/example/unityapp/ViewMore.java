@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
@@ -27,33 +26,20 @@ import com.google.firebase.database.ValueEventListener;
 
 public class ViewMore extends AppCompatActivity {
     private ProgressBar progressBar;
-    private CardView cardClinic;
-    private Button btnViewMap;
-    private Button btnBookAppointment;
-    private TextView textMonday;
-    private TextView textTuesday;
-    private TextView textWednesday;
-    private TextView textThursday;
-    private TextView textFriday;
-    private TextView textSaturday;
-    private TextView textSunday;
     private TextView textRating;
+    private TextView textMondayTimings, textTuesdayTimings, textWednesdayTimings, textThursdayTimings, textFridayTimings, textSaturdayTimings, textSundayTimings;
+    private TextView textClinicName, textClinictype, textClinicAddress, textCliniclocation;
+    private ImageView imagePreview1, imagePreview2, imagePreview3, imagePreview4;
+    private Button btnViewMap, btnBookAppointment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_more);
-        progressBar = findViewById(R.id.progressBar);
-        cardClinic = findViewById(R.id.cardClinic);
-        cardClinic.setVisibility(View.GONE);
-        textRating = findViewById(R.id.textRating);
-        textMonday = findViewById(R.id.textMondayTimings);
-        textTuesday = findViewById(R.id.textTuesdayTimings);
-        textWednesday = findViewById(R.id.textWednesdayTimings);
-        textThursday = findViewById(R.id.textThursdayTimings);
-        textFriday = findViewById(R.id.textFridayTimings);
-        textSaturday = findViewById(R.id.textSaturdayTimings);
-        textSunday = findViewById(R.id.textSundayTimings);
-        btnBookAppointment = findViewById(R.id.buttonBookAppointment);
+
+        initializeViews();
+        ViewUtils.addPressEffect(btnBookAppointment);
+        ViewUtils.addPressEffect(btnViewMap);
         btnBookAppointment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,19 +53,52 @@ public class ViewMore extends AppCompatActivity {
                 startActivity(bookIntent);
             }
         });
-        btnViewMap = findViewById(R.id.buttonViewOnMap);
-        btnViewMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String mapUrl = getIntent().getStringExtra("mapurl");
+
+        btnViewMap.setOnClickListener(v -> {
+            String mapUrl = getIntent().getStringExtra("mapurl");
+            if (mapUrl != null && !mapUrl.isEmpty()) {
                 openMap(mapUrl);
+            } else {
+                Toast.makeText(ViewMore.this, "Map URL not available.", Toast.LENGTH_SHORT).show();
             }
         });
+
         String selectedUserEmail = getIntent().getStringExtra("selectedUser");
-        String sanitizedEmail = (selectedUserEmail != null) ? selectedUserEmail.replace("@", "").replace(".", "") : "";
-        Log.d("ViewMore", "email received: " + sanitizedEmail);
-        saveEmailToSharedPreferences(sanitizedEmail);
-        getUserDetailsByEmail(selectedUserEmail);
+        if (selectedUserEmail != null) {
+            String sanitizedEmail = selectedUserEmail.replace("@", "").replace(".", "");
+            Log.d("ViewMore", "Email received: " + selectedUserEmail);
+            saveEmailToSharedPreferences(selectedUserEmail);
+            getUserDetailsByEmail(selectedUserEmail);
+        } else {
+            Toast.makeText(this, "No user email provided.", Toast.LENGTH_SHORT).show();
+            Log.e("ViewMore", "Error: No user email was passed to this activity.");
+        }
+    }
+
+    // The rest of your code remains the same as the previous response...
+
+    private void initializeViews() {
+        progressBar = findViewById(R.id.progressBar);
+        textRating = findViewById(R.id.textRating);
+        textMondayTimings = findViewById(R.id.textMondayTimings);
+        textTuesdayTimings = findViewById(R.id.textTuesdayTimings);
+        textWednesdayTimings = findViewById(R.id.textWednesdayTimings);
+        textThursdayTimings = findViewById(R.id.textThursdayTimings);
+        textFridayTimings = findViewById(R.id.textFridayTimings);
+        textSaturdayTimings = findViewById(R.id.textSaturdayTimings);
+        textSundayTimings = findViewById(R.id.textSundayTimings);
+        btnBookAppointment = findViewById(R.id.buttonBookAppointment);
+        btnViewMap = findViewById(R.id.buttonViewOnMap);
+
+        textClinicName = findViewById(R.id.textClinicName);
+        textClinictype = findViewById(R.id.textClinictype);
+        textClinicAddress = findViewById(R.id.textClinicAddress);
+        textCliniclocation = findViewById(R.id.textCliniclocation);
+
+        imagePreview1 = findViewById(R.id.imagePreview1);
+        imagePreview2 = findViewById(R.id.imagePreview2);
+        imagePreview3 = findViewById(R.id.imagePreview3);
+        imagePreview4 = findViewById(R.id.imagePreview4);
     }
 
     private void getUserDetailsByEmail(String email) {
@@ -91,114 +110,110 @@ public class ViewMore extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 progressBar.setVisibility(View.GONE);
                 if (dataSnapshot.exists()) {
-                    for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                        String name = userSnapshot.child("name").getValue(String.class);
-                        String email = userSnapshot.child("email").getValue(String.class);
-                        String imageUrl1 = userSnapshot.child("imageUrlIdentity1").getValue(String.class);
-                        String imageUrl2 = userSnapshot.child("imageUrlHorizontal1").getValue(String.class);
-                        String imageUrl3 = userSnapshot.child("imageUrlHorizontal2").getValue(String.class);
-                        String imageUrl4 = userSnapshot.child("imageUrlHorizontal3").getValue(String.class);
-                        String state = userSnapshot.child("selectedState").getValue(String.class);
-                        String city = userSnapshot.child("selectedCity").getValue(String.class);
-                        String address = userSnapshot.child("address").getValue(String.class);
-                        String type = userSnapshot.child("adminType").getValue(String.class);
-                        String ratings = userSnapshot.child("ratings").getValue(String.class);
-                        DataSnapshot timingsSnapshot = userSnapshot.child("timings");
-                        if(ratings != null && !ratings.isEmpty())
-                        {
-                            textRating.setText(ratings+" / 5.0");
-                        }else {
-                            textRating.setText("Not rated yet!");
-                        }
-                        String mondaystart = timingsSnapshot.child("Monday_start").getValue(String.class);
-                        String mondayend = timingsSnapshot.child("Monday_end").getValue(String.class);
-                        String tuesdaystart = timingsSnapshot.child("Tuesday_start").getValue(String.class);
-                        String tuesdayend = timingsSnapshot.child("Tuesday_end").getValue(String.class);
-                        String wednesdaystart = timingsSnapshot.child("Wednesday_start").getValue(String.class);
-                        String wednesdayend = timingsSnapshot.child("Wednesday_end").getValue(String.class);
-                        String thursdaystart = timingsSnapshot.child("Thursday_start").getValue(String.class);
-                        String thursdayend = timingsSnapshot.child("Thursday_end").getValue(String.class);
-                        String fridaystart = timingsSnapshot.child("Friday_start").getValue(String.class);
-                        String fridayend = timingsSnapshot.child("Friday_end").getValue(String.class);
-                        String saturdaystart = timingsSnapshot.child("Saturday_start").getValue(String.class);
-                        String saturdaysend = timingsSnapshot.child("Saturday_end").getValue(String.class);
-                        String sundaystart = timingsSnapshot.child("Sunday_start").getValue(String.class);
-                        String sundayend = timingsSnapshot.child("Sunday_end").getValue(String.class);
-                        Log.d("ViewMore", "Name: " + name);
-                        String location = city + ", " + state;
-                        updateUI(name, type, imageUrl1, imageUrl2, imageUrl3, imageUrl4, address, location, mondaystart, mondayend, tuesdaystart, tuesdayend, wednesdaystart, wednesdayend, thursdaystart, thursdayend, fridaystart, fridayend, saturdaystart, saturdaysend, sundaystart, sundayend);
-                        cardClinic.setVisibility(View.VISIBLE);
-                    }
+                    DataSnapshot userSnapshot = dataSnapshot.getChildren().iterator().next();
+
+                    String name = userSnapshot.child("name").getValue(String.class);
+                    String type = userSnapshot.child("adminType").getValue(String.class);
+                    String address = userSnapshot.child("address").getValue(String.class);
+                    String state = userSnapshot.child("selectedState").getValue(String.class);
+                    String city = userSnapshot.child("selectedCity").getValue(String.class);
+                    String ratings = userSnapshot.child("ratings").getValue(String.class);
+
+                    DataSnapshot timingsSnapshot = userSnapshot.child("timings");
+
+                    String imageUrl1 = userSnapshot.child("imageUrlIdentity1").getValue(String.class);
+                    String imageUrl2 = userSnapshot.child("imageUrlHorizontal1").getValue(String.class);
+                    String imageUrl3 = userSnapshot.child("imageUrlHorizontal2").getValue(String.class);
+                    String imageUrl4 = userSnapshot.child("imageUrlHorizontal3").getValue(String.class);
+
+                    updateTextAndImages(name, type, address, city, state, ratings, imageUrl1, imageUrl2, imageUrl3, imageUrl4);
+                    updateTimings(timingsSnapshot);
                 } else {
-                    Helper.showToast(ViewMore.this, "error user not exist");
+                    Toast.makeText(ViewMore.this, "Hospital details not found.", Toast.LENGTH_SHORT).show();
+                    Log.d("ViewMore", "User with email " + email + " does not exist.");
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 progressBar.setVisibility(View.GONE);
-                Helper.showToast(ViewMore.this, "Database error: " + databaseError.getMessage());
+                Toast.makeText(ViewMore.this, "Database error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e("ViewMore", "Database error: ", databaseError.toException());
             }
         });
     }
 
     private String formatTiming(String start, String end) {
-        String[] startSplit = start.split(":");
-        String[] endSplit = end.split(":");
-        int startHour = Integer.parseInt(startSplit[0]);
-        int endHour = Integer.parseInt(endSplit[0]);
-        String startTimePeriod = (startHour < 12) ? "AM" : "PM";
-        String endTimePeriod = (endHour < 12) ? "AM" : "PM";
-
-        startHour = (startHour > 12) ? startHour - 12 : startHour;
-        endHour = (endHour > 12) ? endHour - 12 : endHour;
-
-        if (startHour == 0) {
-            startHour = 12;
+        if (start == null || end == null || start.isEmpty() || end.isEmpty()) {
+            return "Closed";
         }
-        if (endHour == 0) {
-            endHour = 12;
-        }
-        String formattedStart = String.format("%d:%s %s", startHour, startSplit[1], startTimePeriod);
-        String formattedEnd = String.format("%d:%s %s", endHour, endSplit[1], endTimePeriod);
+        try {
+            int startHour = Integer.parseInt(start.split(":")[0]);
+            int endHour = Integer.parseInt(end.split(":")[0]);
+            String startMinute = start.split(":")[1];
+            String endMinute = end.split(":")[1];
 
-        return formattedStart + " To " + formattedEnd;
+            String formattedStart = (startHour > 12) ? (startHour - 12) + ":" + startMinute + " PM" : startHour + ":" + startMinute + " AM";
+            String formattedEnd = (endHour > 12) ? (endHour - 12) + ":" + endMinute + " PM" : endHour + ":" + endMinute + " AM";
+
+            return formattedStart + " - " + formattedEnd;
+        } catch (NumberFormatException e) {
+            Log.e("ViewMore", "Error formatting time: " + e.getMessage());
+            return "Invalid Time";
+        }
     }
-    private void updateUI(String name, String type, String imageUrl1, String imageUrl2, String imageUrl3, String imageUrl4, String address, String location, String mondayStart, String mondayEnd, String tuesdayStart, String tuesdayEnd, String wednesdayStart, String wednesdayEnd, String thursdayStart, String thursdayEnd, String fridayStart, String fridayEnd, String saturdayStart, String saturdayEnd, String sundayStart, String sundayEnd) {
-        TextView nameTextView = findViewById(R.id.textClinicName1);
-        TextView typeTextView = findViewById(R.id.textClinictype);
-        TextView addressTextView = findViewById(R.id.textClinicAddress1);
-        TextView locationTextView = findViewById(R.id.textCliniclocation);
-        ImageView previewImageView1 = findViewById(R.id.imagePreview1);
-        ImageView previewImageView2 = findViewById(R.id.imagePreview2);
-        ImageView previewImageView3 = findViewById(R.id.imagePreview3);
-        ImageView previewImageView4 = findViewById(R.id.imagePreview4);
-        nameTextView.setText(name);
-        typeTextView.setText(type);
-        addressTextView.setText(address);
-        locationTextView.setText(location);
-        textMonday.setText(formatTiming(mondayStart, mondayEnd));
-        textTuesday.setText(formatTiming(tuesdayStart, tuesdayEnd));
-        textWednesday.setText(formatTiming(wednesdayStart, wednesdayEnd));
-        textThursday.setText(formatTiming(thursdayStart, thursdayEnd));
-        textFriday.setText(formatTiming(fridayStart, fridayEnd));
-        textSaturday.setText(formatTiming(saturdayStart, saturdayEnd));
-        textSunday.setText(formatTiming(sundayStart, sundayEnd));
-        Glide.with(this).load(imageUrl1).into(previewImageView1);
-        Glide.with(this).load(imageUrl2).into(previewImageView2);
-        Glide.with(this).load(imageUrl3).into(previewImageView3);
-        Glide.with(this).load(imageUrl4).into(previewImageView4);
+
+    private void updateTextAndImages(String name, String type, String address, String city, String state, String ratings, String url1, String url2, String url3, String url4) {
+        textClinicName.setText(name);
+        textClinictype.setText(type);
+        textClinicAddress.setText(address);
+        textCliniclocation.setText(city + ", " + state);
+
+        if (ratings != null && !ratings.isEmpty()) {
+            textRating.setText(ratings + " / 5.0");
+        } else {
+            textRating.setText("Not rated yet!");
+        }
+
+        loadImage(url1, imagePreview1);
+        loadImage(url2, imagePreview2);
+        loadImage(url3, imagePreview3);
+        loadImage(url4, imagePreview4);
     }
-  private void openMap(String mapUrl) {
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mapUrl));
-        startActivity(browserIntent);
+
+    private void updateTimings(DataSnapshot timingsSnapshot) {
+        textMondayTimings.setText(formatTiming(timingsSnapshot.child("Monday_start").getValue(String.class), timingsSnapshot.child("Monday_end").getValue(String.class)));
+        textTuesdayTimings.setText(formatTiming(timingsSnapshot.child("Tuesday_start").getValue(String.class), timingsSnapshot.child("Tuesday_end").getValue(String.class)));
+        textWednesdayTimings.setText(formatTiming(timingsSnapshot.child("Wednesday_start").getValue(String.class), timingsSnapshot.child("Wednesday_end").getValue(String.class)));
+        textThursdayTimings.setText(formatTiming(timingsSnapshot.child("Thursday_start").getValue(String.class), timingsSnapshot.child("Thursday_end").getValue(String.class)));
+        textFridayTimings.setText(formatTiming(timingsSnapshot.child("Friday_start").getValue(String.class), timingsSnapshot.child("Friday_end").getValue(String.class)));
+        textSaturdayTimings.setText(formatTiming(timingsSnapshot.child("Saturday_start").getValue(String.class), timingsSnapshot.child("Saturday_end").getValue(String.class)));
+        textSundayTimings.setText(formatTiming(timingsSnapshot.child("Sunday_start").getValue(String.class), timingsSnapshot.child("Sunday_end").getValue(String.class)));
+    }
+
+    private void loadImage(String url, ImageView imageView) {
+        if (url != null && !url.isEmpty()) {
+            Glide.with(this).load(url).into(imageView);
+        } else {
+            imageView.setImageResource(R.drawable.placeholder);
+            imageView.setVisibility(View.GONE);
+        }
+    }
+
+    private void openMap(String mapUrl) {
+        try {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mapUrl));
+            startActivity(browserIntent);
+        } catch (Exception e) {
+            Toast.makeText(this, "Could not open map.", Toast.LENGTH_SHORT).show();
+            Log.e("ViewMore", "Failed to open map URL: " + e.getMessage());
+        }
     }
 
     private void saveEmailToSharedPreferences(String email) {
-        String encodedEmail = email.replace("@", "").replace(".", "");
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("hospital_email", encodedEmail);
+        editor.putString("hospital_email", email);
         editor.apply();
     }
 }
